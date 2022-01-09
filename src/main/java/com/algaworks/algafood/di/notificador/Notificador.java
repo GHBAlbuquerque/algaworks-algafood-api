@@ -1,4 +1,4 @@
-package com.algaworks.algafood.di.notificacao;
+package com.algaworks.algafood.di.notificador;
 
 public interface Notificador {
 	

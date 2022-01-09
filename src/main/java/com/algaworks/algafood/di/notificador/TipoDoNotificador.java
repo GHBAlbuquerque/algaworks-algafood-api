@@ -1,4 +1,4 @@
-package com.algaworks.algafood.di.notificacao;
+package com.algaworks.algafood.di.notificador;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
