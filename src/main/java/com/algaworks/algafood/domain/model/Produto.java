@@ -12,9 +12,9 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Cozinha {
+public class Produto {
 	
-	@Id	
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
 	private Long id;
@@ -22,5 +22,10 @@ public class Cozinha {
 	@Column(nullable = false)
 	private String nome;
 	
+	private String descricao;
+	
+	private String contentType;
+	
+	private Long tamanho;
 
 }
