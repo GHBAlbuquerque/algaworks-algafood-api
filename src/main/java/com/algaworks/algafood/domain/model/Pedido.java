@@ -1,12 +1,14 @@
 package com.algaworks.algafood.domain.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,12 +24,34 @@ public class Pedido {
 	private Long id;
 	
 	@Column(nullable = false)
-	private String nome;
+	private String codigo;
 	
-	private String descricao;
+	private BigDecimal subtotal;
 	
-	private BigDecimal preco;
+	private BigDecimal taxaFrete;
 	
-	private Boolean ativo;
+	private BigDecimal valorTotal;
+	
+	private LocalDate dataCriacao;
+	
+	private LocalDate dataConfirmacao;
+	
+	private LocalDate dataEntrega;
+	
+	private LocalDate dataCancelamento;
+	
+	@OneToOne
+	private Restaurante restaurante;
+	
+	//private StatusPedidoEnum status;
+	
+	//private Usuario cliente;
+	
+	//private Endereco enderecoEntrega;
+	
+	//private List<ItemPedido> itens;
+	
+	
+	
 
 }

@@ -27,5 +27,7 @@ public class Produto {
 	private String contentType;
 	
 	private Long tamanho;
+	
+	//private FotoProduto foto;
 
 }

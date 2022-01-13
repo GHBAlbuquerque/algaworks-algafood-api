@@ -13,3 +13,12 @@ insert into restaurante (nome, taxa_frete, cozinha_id) values ('TukTuk Delivery'
 insert into restaurante (nome, taxa_frete, cozinha_id) values ('La Pururuca', 0.50, 7);
 insert into restaurante (nome, taxa_frete, cozinha_id) values ('Fish and Chips', 18.50, 2);
 
+insert into estado (id, nome, sigla) values (1, 'Amapá', 'AP');
+insert into estado (id, nome, sigla) values (2, 'Amazonas', 'AM');
+insert into estado (id, nome, sigla) values (3, 'Mato Grosso', 'MT');
+insert into estado (id, nome, sigla) values (4, 'Espírito Santo', 'ES');
+insert into estado (id, nome, sigla) values (5, 'São Paulo', 'SP');
+insert into estado (id, nome, sigla) values (6, 'Minas Gerais', 'MG');
+
+
+-- TODO: fazer inserções de outras entidades
