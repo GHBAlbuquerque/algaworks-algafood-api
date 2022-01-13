@@ -6,7 +6,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
@@ -36,8 +38,13 @@ public class CozinhaRepositoryImpl implements CozinhaRepository{
 	
 	@Transactional
 	@Override
-	public void remover(Cozinha cozinha) {
-		cozinha = buscar(cozinha.getId());
+	public void remover(long id) {
+		var cozinha = buscar(id);
+		
+		if(ObjectUtils.isEmpty(cozinha)) {
+			throw new EmptyResultDataAccessException(1);
+		}
+		
 		manager.remove(cozinha);
 	}
 
