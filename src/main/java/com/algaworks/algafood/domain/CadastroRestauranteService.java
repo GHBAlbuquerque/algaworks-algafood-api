@@ -1,15 +1,19 @@
 package com.algaworks.algafood.domain;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 public class CadastroRestauranteService {
@@ -33,7 +37,7 @@ public class CadastroRestauranteService {
 
 		return restauranteRepository.salvar(restaurante);
 	}
-	
+
 	public void remover(long id) {
 		try {
 			restauranteRepository.remover(id);
@@ -43,9 +47,35 @@ public class CadastroRestauranteService {
 					String.format("Restaurante de id %d não pode ser removida, pois está em uso!", id));
 
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format("Não existe um cadastro de restaurante com id %d!", id));
+			throw new EntidadeNaoEncontradaException(
+					String.format("Não existe um cadastro de restaurante com id %d!", id));
 		}
 	}
 
+	public Restaurante atualizarParcial(long id, Map<String, Object> campos) {
+		var restaurante = restauranteRepository.buscar(id);
+
+		if (restaurante == null) {
+			throw new EntidadeNaoEncontradaException(
+					String.format("Não existe um cadastro de restaurante com id %d!", id));
+		}
+
+		merge(campos, restaurante);
+		return salvar(restaurante);
+	}
+	
+
+	private void merge(Map<String, Object> campos, Restaurante restauranteDestino) {
+		 var objMapper = new ObjectMapper();
+		 var restauranteOrigem = objMapper.convertValue(campos, Restaurante.class);
+		 
+		 campos.forEach((prop, value) -> {
+			var field = ReflectionUtils.findField(Restaurante.class, prop);
+			field.setAccessible(true);
+			
+			var valorConvertido = ReflectionUtils.getField(field, restauranteOrigem);
+			ReflectionUtils.setField(field, restauranteDestino, valorConvertido); //não posso usar o value aqui, porque não está convertido e gerará erro
+		 });
+	}
 
 }

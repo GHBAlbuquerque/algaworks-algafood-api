@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -75,18 +77,27 @@ public class RestauranteController {
 
 		return ResponseEntity.notFound().build();
 	}
-	
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable long id) {
 		try {
 			cadastroRestauranteService.remover(id);
 			return ResponseEntity.noContent().build();
-			
+
 		} catch (EntidadeEmUsoException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
 
-		} catch (EntidadeNaoEncontradaException e) { 
+		} catch (EntidadeNaoEncontradaException e) {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	@PatchMapping("/{id}")
+	public ResponseEntity<?> atuaizarParcial(@PathVariable long id, @RequestBody Map<String, Object> campos) {
+		try {
+			var restaurante = cadastroRestauranteService.atualizarParcial(id, campos);
+			return ResponseEntity.ok(restaurante);
+		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
 	}
