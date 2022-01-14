@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,67 +16,71 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.domain.CadastroCozinhaService;
+import com.algaworks.algafood.domain.CadastroRestauranteService;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.RestauranteRepository;
 
 @RestController
-@RequestMapping("/cozinhas")
-public class CozinhaController {
+@RequestMapping("/restaurantes")
+public class RestauranteController {
 
 	@Autowired
-	private CozinhaRepository cozinhaRepository;
+	private RestauranteRepository restauranteRepository;
 
 	@Autowired
-	private CadastroCozinhaService cadastroCozinhaService;
+	private CadastroRestauranteService cadastroRestauranteService;
 
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
-	public List<Cozinha> listar() {
-		return cozinhaRepository.listar();
-	}
-
-	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-	public List<Cozinha> listarXML() {
-		return cozinhaRepository.listar();
+	public List<Restaurante> listar() {
+		return restauranteRepository.listar();
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Cozinha> buscar(@PathVariable long id) {
-		var cozinha = cozinhaRepository.buscar(id);
+	public ResponseEntity<Restaurante> buscar(@PathVariable long id) {
+		var restaurante = restauranteRepository.buscar(id);
 
-		if (cozinha != null) {
-			return ResponseEntity.ok(cozinha);
+		if (restaurante != null) {
+			return ResponseEntity.ok(restaurante);
 		}
 
 		return ResponseEntity.notFound().build();
 	}
 
-	@PostMapping()
-	@ResponseStatus(HttpStatus.CREATED)
-	public Cozinha salvar(@RequestBody Cozinha cozinha) {
-		return cadastroCozinhaService.salvar(cozinha);
+	@PostMapping
+	public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
+		try {
+			restaurante = cadastroRestauranteService.salvar(restaurante);
+			return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
+		} catch (EntidadeNaoEncontradaException e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Cozinha> atualizar(@PathVariable long id, @RequestBody Cozinha cozinha) {
-		var cozinhaExistente = cozinhaRepository.buscar(id);
+	public ResponseEntity<?> atualizar(@PathVariable long id, @RequestBody Restaurante restaurante) {
+		var restauranteExistente = restauranteRepository.buscar(id);
 
-		if (cozinhaExistente != null) {
-			BeanUtils.copyProperties(cozinha, cozinhaExistente, "id");
-			cozinha = cadastroCozinhaService.salvar(cozinhaExistente);
-			return ResponseEntity.ok(cozinha);
+		if (restauranteExistente != null) {
+			try {
+				BeanUtils.copyProperties(restaurante, restauranteExistente, "id");
+				restaurante = restauranteRepository.salvar(restauranteExistente);
+				return ResponseEntity.ok(restauranteExistente);
+			} catch (EntidadeNaoEncontradaException e) {
+				return ResponseEntity.badRequest().body(e.getMessage());
+			}
 		}
 
 		return ResponseEntity.notFound().build();
 	}
+	
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable long id) {
 		try {
-			cadastroCozinhaService.remover(id);
+			cadastroRestauranteService.remover(id);
 			return ResponseEntity.noContent().build();
 			
 		} catch (EntidadeEmUsoException e) {

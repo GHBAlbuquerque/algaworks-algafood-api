@@ -10,42 +10,43 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.algaworks.algafood.domain.model.Cidade;
+import com.algaworks.algafood.domain.repository.CidadeRepository;
 
 @Component
-public class RestauranteRepositoryImpl implements RestauranteRepository {
-	
+public class CidadeRepositoryImpl implements CidadeRepository {
 
 	@PersistenceContext
 	private EntityManager manager;
-
+	
 	@Override
-	public List<Restaurante> listar() {
-		return manager.createQuery("from Restaurante", Restaurante.class)
+	public List<Cidade> listar() {
+		return manager.createQuery("from Cidade", Cidade.class)
 				.getResultList();
 	}
-
+	
 	@Override
-	public Restaurante buscar(Long id) {
-		return manager.find(Restaurante.class, id);
+	public Cidade buscar(Long id) {
+		return manager.find(Cidade.class, id);
 	}
-
+	
 	@Transactional
 	@Override
-	public Restaurante salvar(Restaurante restaurante) {
-		return manager.merge(restaurante);
+	public Cidade salvar(Cidade cidade) {
+		return manager.merge(cidade);
 	}
-
+	
+	@Transactional
 	@Override
 	public void remover(long id) {
-		var restaurante = buscar(id);
+		var cidade = buscar(id);
 		
-		if(ObjectUtils.isEmpty(restaurante)) {
+		if(ObjectUtils.isEmpty(cidade)) {
 			throw new EmptyResultDataAccessException(1);
 		}
 		
-		manager.remove(restaurante);
+		manager.remove(cidade);
 	}
+
 
 }

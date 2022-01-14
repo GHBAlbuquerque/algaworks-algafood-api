@@ -7,6 +7,7 @@ import javax.persistence.Id;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 
 @Entity
 @Data
@@ -18,8 +19,10 @@ public class Estado {
 	@EqualsAndHashCode.Include
 	private Long id;
 	
+	@NonNull
 	private String nome;
 	
+	@NonNull
 	private String sigla;
 
 }
