@@ -18,12 +18,12 @@ public class CadastroCozinhaService {
 
 	public Cozinha salvar(Cozinha cozinha) {
 		// qualquer regra de negócio virá aqui
-		return cozinhaRepository.salvar(cozinha);
+		return cozinhaRepository.save(cozinha);
 	}
 
 	public void remover(long id) {
 		try {
-			cozinhaRepository.remover(id);
+			cozinhaRepository.deleteById(id);
 
 		} catch (DataIntegrityViolationException e) {
 			// tradução da exceção

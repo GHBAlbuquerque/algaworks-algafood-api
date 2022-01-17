@@ -26,21 +26,17 @@ public class CadastroRestauranteService {
 
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
-		var cozinha = cozinhaRepository.buscar(cozinhaId);
-
-		if (cozinha == null) {
-			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe um cadastro de cozinha com id %d!", cozinhaId));
-		}
+		var cozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new EntidadeNaoEncontradaException(
+					String.format("Não existe um cadastro de cozinha com id %d!", cozinhaId)));
 
 		restaurante.setCozinha(cozinha);
 
-		return restauranteRepository.salvar(restaurante);
+		return restauranteRepository.save(restaurante);
 	}
 
 	public void remover(long id) {
 		try {
-			restauranteRepository.remover(id);
+			restauranteRepository.deleteById(id);
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
@@ -53,12 +49,9 @@ public class CadastroRestauranteService {
 	}
 
 	public Restaurante atualizarParcial(long id, Map<String, Object> campos) {
-		var restaurante = restauranteRepository.buscar(id);
-
-		if (restaurante == null) {
-			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe um cadastro de restaurante com id %d!", id));
-		}
+		var restaurante = restauranteRepository.findById(id).orElseThrow(() -> 
+			new EntidadeNaoEncontradaException(
+					String.format("Não existe um cadastro de restaurante com id %d!", id)));
 
 		merge(campos, restaurante);
 		return salvar(restaurante);

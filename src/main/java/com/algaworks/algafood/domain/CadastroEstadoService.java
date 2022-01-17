@@ -18,12 +18,12 @@ public class CadastroEstadoService {
 
 	public Estado salvar(Estado estado) {
 		estado.setSigla(estado.getSigla().toUpperCase());
-		return estadoRepository.salvar(estado);
+		return estadoRepository.save(estado);
 	}
 
 	public void remover(long id) {
 		try {
-			estadoRepository.remover(id);
+			estadoRepository.deleteById(id);
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(

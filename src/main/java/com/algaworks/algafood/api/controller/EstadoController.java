@@ -34,16 +34,16 @@ public class EstadoController {
 	
 	@GetMapping
 	public List<Estado> listar(){
-		return estadoRepository.listar();
+		return estadoRepository.findAll();
 	}
 	
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<Estado> buscar(@PathVariable long id) {
-		var estado = estadoRepository.buscar(id);
+		var estado = estadoRepository.findById(id);
 
-		if (estado != null) {
-			return ResponseEntity.ok(estado);
+		if (estado.isPresent()) {
+			return ResponseEntity.ok(estado.get());
 		}
 
 		return ResponseEntity.notFound().build();
@@ -61,12 +61,12 @@ public class EstadoController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> atualizar(@PathVariable long id, @RequestBody Estado estado) {
-		var estadoExistente = estadoRepository.buscar(id);
+		var estadoExistente = estadoRepository.findById(id);
 
-		if (estadoExistente != null) {
+		if (estadoExistente.isPresent()) {
 			try {
 				BeanUtils.copyProperties(estado, estadoExistente, "id");
-				estado = estadoRepository.salvar(estadoExistente);
+				estado = estadoRepository.save(estadoExistente.get());
 				return ResponseEntity.ok(estadoExistente);
 			} catch (EntidadeNaoEncontradaException e) {
 				return ResponseEntity.badRequest().body(e.getMessage());

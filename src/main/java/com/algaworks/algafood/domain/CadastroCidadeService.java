@@ -17,12 +17,12 @@ public class CadastroCidadeService {
 	private CidadeRepository cidadeRepository;
 
 	public Cidade salvar(Cidade cidade) {
-		return cidadeRepository.salvar(cidade);
+		return cidadeRepository.save(cidade);
 	}
 
 	public void remover(long id) {
 		try {
-			cidadeRepository.remover(id);
+			cidadeRepository.deleteById(id);
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
