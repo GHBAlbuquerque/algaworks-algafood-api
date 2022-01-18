@@ -26,8 +26,6 @@ import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 
-import static com.algaworks.algafood.infrastructure.spec.RestauranteSpecs.*;
-
 @RestController
 @RequestMapping("/restaurantes")
 public class RestauranteController {
@@ -79,7 +77,7 @@ public class RestauranteController {
 	@GetMapping("/specification")
 	public List<Restaurante> queryPorSpecification(String nome){
 		
-		return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
+		return restauranteRepository.buscarComFreteGratis(nome);
 	}
 	
 

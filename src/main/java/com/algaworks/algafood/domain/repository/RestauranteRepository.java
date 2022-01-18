@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.algaworks.algafood.domain.model.Restaurante;
 
 @Repository
-public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, JpaSpecificationExecutor<Restaurante> {
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante>  {
 	
 	//query no arquivo orm.xml
 	List<Restaurante> consultarPorNomeECozinha(String nome, @Param("id") Long cozinha);
