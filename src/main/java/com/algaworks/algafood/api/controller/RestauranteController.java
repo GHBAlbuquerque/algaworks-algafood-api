@@ -3,6 +3,8 @@ package com.algaworks.algafood.api.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,8 @@ import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+
+import static com.algaworks.algafood.infrastructure.spec.RestauranteSpecs.*;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -50,6 +54,34 @@ public class RestauranteController {
 
 		return ResponseEntity.notFound().build();
 	}
+	
+	@GetMapping("/por-nome-e-id-cozinha") //query no orm.xml
+	public ResponseEntity<List<Restaurante>> buscarPorNomeECozinha(@PathParam(value = "nome") String nome, @PathParam(value = "cozinha_id") Long cozinhaId) {
+		var restaurante = restauranteRepository.consultarPorNomeECozinha(nome, cozinhaId);
+		return ResponseEntity.ok(restaurante);
+	}
+	
+	@GetMapping("/por-nome")
+	public ResponseEntity<Restaurante> buscarPorNome(@PathParam(value = "nome") String nome) {
+		var restaurante = restauranteRepository.findFirstRestauranteByNomeContaining(nome);
+		if(restaurante.isPresent()) {
+			return ResponseEntity.ok(restaurante.get());
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
+	@GetMapping("/count-por-cozinhaId")
+	public int quantidadePorCozinhaId(Long cozinhaId){
+		return restauranteRepository.countByCozinhaId(cozinhaId);
+	}
+	
+	//SPECIFICATION
+	@GetMapping("/specification")
+	public List<Restaurante> queryPorSpecification(String nome){
+		
+		return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
+	}
+	
 
 	@PostMapping
 	public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
@@ -93,7 +125,7 @@ public class RestauranteController {
 	}
 
 	@PatchMapping("/{id}")
-	public ResponseEntity<?> atuaizarParcial(@PathVariable long id, @RequestBody Map<String, Object> campos) {
+	public ResponseEntity<?> atualizarParcial(@PathVariable long id, @RequestBody Map<String, Object> campos) {
 		try {
 			var restaurante = cadastroRestauranteService.atualizarParcial(id, campos);
 			return ResponseEntity.ok(restaurante);
