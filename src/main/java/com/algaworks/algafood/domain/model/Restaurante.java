@@ -44,16 +44,18 @@ public class Restaurante {
 	@JoinColumn(nullable = false)
 	private Cozinha cozinha;
 	
+	@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataCadastro;
 	
+	@JsonIgnore
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataAtualizacao;
 	
-	@ManyToMany
 	@JsonIgnore
+	@ManyToMany
 	@JoinTable(name="restaurante_formas_pagamento",
 				joinColumns = @JoinColumn(name="restaurante_id"),
 				inverseJoinColumns = @JoinColumn(name="forma_pagamento_id")) //opcional, apenas usado para customizacao
@@ -62,8 +64,8 @@ public class Restaurante {
 	@OneToMany
 	private List<Produto> produtos;
 	
-	@Embedded
 	@JsonIgnore
+	@Embedded
 	private Endereco endereco;
 	
 	@ManyToMany
