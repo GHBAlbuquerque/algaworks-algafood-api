@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,6 +37,7 @@ public class Produto {
 	@ManyToOne
 	private Restaurante restaurante;
 	
-	//private FotoProduto foto;
+	@OneToOne
+	private FotoProduto foto;
 
 }
