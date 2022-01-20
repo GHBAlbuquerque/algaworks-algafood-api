@@ -44,7 +44,7 @@ insert into forma_pagamento (id, descricao) values (2, 'Cartão de débito');
 insert into forma_pagamento (id, descricao) values (3, 'Dinheiro');
 
 
-insert into restaurante_formas_pagamento (restaurante_id, forma_pagamento_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
-insert into grupo_permissoes (grupo_id, permissoes_id) values (1, 1), (1, 2), (1, 3), (1, 4), (2, 1), (2, 3);
-insert into usuario_grupos (usuario_id, grupos_id) values (1, 1), (1, 2), (2, 1), (2, 2);
-insert into restaurante_responsaveis (restaurante_id, responsaveis_id) values (1, 1), (1, 2), (2, 2), (3, 2), (4, 2), (5, 1);
+insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
+insert into grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (1, 3), (1, 4), (2, 1), (2, 3);
+insert into usuario_grupo (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 1), (2, 2);
+insert into restaurante_responsavel (restaurante_id, usuario_id) values (1, 1), (1, 2), (2, 2), (3, 2), (4, 2), (5, 1);
