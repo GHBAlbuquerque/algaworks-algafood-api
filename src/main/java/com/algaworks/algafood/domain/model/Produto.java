@@ -1,17 +1,22 @@
 package com.algaworks.algafood.domain.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 public class Produto {
 	
 	@Id
@@ -24,9 +29,12 @@ public class Produto {
 	
 	private String descricao;
 	
-	private String contentType;
+	private BigDecimal preco;
 	
-	private Long tamanho;
+	private Boolean ativo;
+	
+	@ManyToOne
+	private Restaurante restaurante;
 	
 	//private FotoProduto foto;
 

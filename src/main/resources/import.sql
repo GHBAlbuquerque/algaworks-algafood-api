@@ -20,6 +20,17 @@ insert into cidade (id, nome, estado_id) values (3, 'São Paulo', 5);
 insert into cidade (id, nome, estado_id) values (4, 'Campinas', 5);
 insert into cidade (id, nome, estado_id) values (5, 'Manaus', 2);
 
+insert into permissao (id, nome, descricao) values (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
+insert into permissao (id, nome, descricao) values (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
+insert into permissao (id, nome, descricao) values (3, 'CONSULTAR_RESTAURANTES', 'Permite consultar restaurantes');
+insert into permissao (id, nome, descricao) values (4, 'EDITAR_RESTAURANTES', 'Permite editar restaurantes');
+
+insert into grupo (id, nome) values (1, 'ADMIN_RESTAURANTE');
+insert into grupo (id, nome) values (2, 'FUNCIONARIO_RESTAURANTE');
+
+insert into usuario (id, nome, email, senha, data_cadastro) values (1, 'Lodun Iswil', 'lodun@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (2, 'Fuvain Iswil', 'fuvain@gmail.com', '12345aa', utc_timestamp);
+
 insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao) values ('Senhor Glutão', 12.50, 5, 1, '38400-999', 'Rua João Pinheiro', '1000', 'Centro', utc_timestamp, utc_timestamp);
 insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao) values ('Thai Gourmet', 15.50, 1, 2, '38400-999', 'Rua João Pinheiro', '1000', 'Centro', utc_timestamp, utc_timestamp);
 insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao) values ('Larica', 3.00, 5, 3, '38400-999', 'Rua João Pinheiro', '1000', 'Centro',  utc_timestamp, utc_timestamp);
@@ -32,7 +43,8 @@ insert into forma_pagamento (id, descricao) values (1, 'Cartão de crédito');
 insert into forma_pagamento (id, descricao) values (2, 'Cartão de débito');
 insert into forma_pagamento (id, descricao) values (3, 'Dinheiro');
 
-insert into permissao (id, nome, descricao) values (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
-insert into permissao (id, nome, descricao) values (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
 
 insert into restaurante_formas_pagamento (restaurante_id, forma_pagamento_id) values (1, 1), (1, 2), (1, 3), (2, 3), (3, 2), (3, 3);
+insert into grupo_permissoes (grupo_id, permissoes_id) values (1, 1), (1, 2), (1, 3), (1, 4), (2, 1), (2, 3);
+insert into usuario_grupos (usuario_id, grupos_id) values (1, 1), (1, 2), (2, 1), (2, 2);
+insert into restaurante_responsaveis (restaurante_id, responsaveis_id) values (1, 1), (1, 2), (2, 2), (3, 2), (4, 2), (5, 1);

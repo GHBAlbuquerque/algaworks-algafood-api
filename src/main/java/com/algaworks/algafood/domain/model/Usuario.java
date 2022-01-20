@@ -1,19 +1,25 @@
 package com.algaworks.algafood.domain.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 public class Usuario {
 	
 	@Id
@@ -28,6 +34,11 @@ public class Usuario {
 	
 	private String senha;
 	
-	private LocalDate dataCadastro;
+	@CreationTimestamp
+	@Column(nullable = false, columnDefinition = "datetime")
+	private LocalDateTime dataCadastro;
+	
+	@ManyToMany
+	private List<Grupo> grupos;
 
 }

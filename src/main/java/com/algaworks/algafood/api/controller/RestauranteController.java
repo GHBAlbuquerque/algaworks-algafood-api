@@ -100,7 +100,7 @@ public class RestauranteController {
 			try {
 				var restauranteExistente = optional.get();
 				BeanUtils.copyProperties(restaurante, restauranteExistente, 
-						"id", "formasPagamento", "endereco", "dataCadastro");
+						"id", "formasPagamento", "endereco", "dataCadastro", "produtos", "responsaveis");
 				restaurante = restauranteRepository.save(restauranteExistente);
 				return ResponseEntity.ok(restauranteExistente);
 			

@@ -1,10 +1,13 @@
 package com.algaworks.algafood.domain.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-public class Permissao {
+public class Grupo {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +27,7 @@ public class Permissao {
 	@Column(nullable = false)
 	private String nome;
 	
-	private String descricao;
+	@ManyToMany
+	private List<Permissao> permissoes;
 
 }

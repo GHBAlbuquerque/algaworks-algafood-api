@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +21,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -40,7 +42,9 @@ public class Restaurante {
 	@Column(name = "taxa_frete")
 	private BigDecimal taxaFrete;
 	
-	@ManyToOne
+	//@JsonIgnore
+	@JsonIgnoreProperties("hibernateLazyInitializer")
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private Cozinha cozinha;
 	
@@ -61,6 +65,7 @@ public class Restaurante {
 				inverseJoinColumns = @JoinColumn(name="forma_pagamento_id")) //opcional, apenas usado para customizacao
 	private List<FormaPagamento> formasPagamento;
 	
+	@JsonIgnore
 	@OneToMany
 	private List<Produto> produtos;
 	
@@ -68,6 +73,7 @@ public class Restaurante {
 	@Embedded
 	private Endereco endereco;
 	
+	@JsonIgnore
 	@ManyToMany
 	private List<Usuario> responsaveis;
 	
