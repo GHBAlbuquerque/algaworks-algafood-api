@@ -1,4 +1,4 @@
-package com.algaworks.algafood.domain;
+package com.algaworks.algafood.domain.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -13,8 +13,17 @@ import com.algaworks.algafood.domain.repository.CozinhaRepository;
 @Service
 public class CadastroCozinhaService {
 
+	private static final String MSG_COZINHA_EM_USO = "Cozinha de id %d não pode ser removida, pois está em uso!";
+	private static final String MSG_COZINHA_NAO_ENCONTRADA = "Não existe cozinha cadastrada para o id %s.";
+	
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
+	
+	public Cozinha buscar(long id) {
+		return cozinhaRepository.findById(id)
+		.orElseThrow(() -> new EntidadeNaoEncontradaException
+				(String.format(MSG_COZINHA_NAO_ENCONTRADA, id)));
+	}
 
 	public Cozinha salvar(Cozinha cozinha) {
 		// qualquer regra de negócio virá aqui
@@ -28,10 +37,10 @@ public class CadastroCozinhaService {
 		} catch (DataIntegrityViolationException e) {
 			// tradução da exceção
 			throw new EntidadeEmUsoException(
-					String.format("Cozinha de id %d não pode ser removida, pois está em uso!", id));
+					String.format(MSG_COZINHA_EM_USO, id));
 
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format("Não existe um cadastro de cozinha com id %d!", id));
+			throw new EntidadeNaoEncontradaException(String.format(MSG_COZINHA_NAO_ENCONTRADA, id));
 		}
 	}
 

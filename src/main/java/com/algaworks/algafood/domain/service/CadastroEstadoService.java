@@ -1,4 +1,4 @@
-package com.algaworks.algafood.domain;
+package com.algaworks.algafood.domain.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,6 +15,16 @@ public class CadastroEstadoService {
 	
 	@Autowired
 	private EstadoRepository estadoRepository;
+	
+	private static final String MSG_ESTADO_EM_USO = "Estado de id %d não pode ser removido, pois está em uso!";
+	private static final String MSG_ESTADO_NAO_ENCONTRADO = "Não existe estado cadastrada para o id %s.";
+	
+	
+	public Estado buscar(long id) {
+		return estadoRepository.findById(id)
+		.orElseThrow(() -> new EntidadeNaoEncontradaException
+				(String.format(MSG_ESTADO_NAO_ENCONTRADO, id)));
+	}
 
 	public Estado salvar(Estado estado) {
 		estado.setSigla(estado.getSigla().toUpperCase());
@@ -27,10 +37,10 @@ public class CadastroEstadoService {
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
-					String.format("Estado de id %d não pode ser removido, pois está em uso!", id));
+					String.format(MSG_ESTADO_EM_USO, id));
 
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format("Não existe um cadastro de estado com id %d!", id));
+			throw new EntidadeNaoEncontradaException(String.format(MSG_ESTADO_NAO_ENCONTRADO, id));
 		}
 	}
 }

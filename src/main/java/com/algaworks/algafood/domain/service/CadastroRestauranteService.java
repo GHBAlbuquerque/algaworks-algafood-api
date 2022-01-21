@@ -1,4 +1,4 @@
-package com.algaworks.algafood.domain;
+package com.algaworks.algafood.domain.service;
 
 import java.util.Map;
 
@@ -11,7 +11,6 @@ import org.springframework.util.ReflectionUtils;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,12 +21,21 @@ public class CadastroRestauranteService {
 	private RestauranteRepository restauranteRepository;
 
 	@Autowired
-	private CozinhaRepository cozinhaRepository;
+	private CadastroCozinhaService cadastroCozinhaService;
+	
+	private static final String MSG_RESTAURANTE_EM_USO = "Restaurante de id %d não pode ser removido, pois está em uso!";
+	private static final String MSG_RESTAURANTE_NAO_ENCONTRADO = "Não existe restaurante cadastrado para o id %s.";
+	
+	
+	public Restaurante buscar(long id) {
+		return restauranteRepository.findById(id)
+		.orElseThrow(() -> new EntidadeNaoEncontradaException
+				(String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, id)));
+	}
 
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
-		var cozinha = cozinhaRepository.findById(cozinhaId).orElseThrow(() -> new EntidadeNaoEncontradaException(
-					String.format("Não existe um cadastro de cozinha com id %d!", cozinhaId)));
+		var cozinha = cadastroCozinhaService.buscar(cozinhaId);
 
 		restaurante.setCozinha(cozinha);
 
@@ -40,18 +48,16 @@ public class CadastroRestauranteService {
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
-					String.format("Restaurante de id %d não pode ser removida, pois está em uso!", id));
+					String.format(MSG_RESTAURANTE_EM_USO, id));
 
 		} catch (EmptyResultDataAccessException e) {
 			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe um cadastro de restaurante com id %d!", id));
+					String.format(MSG_RESTAURANTE_NAO_ENCONTRADO, id));
 		}
 	}
 
 	public Restaurante atualizarParcial(long id, Map<String, Object> campos) {
-		var restaurante = restauranteRepository.findById(id).orElseThrow(() -> 
-			new EntidadeNaoEncontradaException(
-					String.format("Não existe um cadastro de restaurante com id %d!", id)));
+		var restaurante = buscar(id);
 
 		merge(campos, restaurante);
 		return salvar(restaurante);

@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.domain.CadastroCozinhaService;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 
 @RestController
 @RequestMapping("/cozinhas")
@@ -45,14 +45,9 @@ public class CozinhaController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Cozinha> buscar(@PathVariable long id) {
-		var cozinha = cozinhaRepository.findById(id);
+	public Cozinha buscar(@PathVariable long id) {
+		return cadastroCozinhaService.buscar(id);
 
-		if (cozinha.isPresent()) {
-			return ResponseEntity.ok(cozinha.get());
-		}
-
-		return ResponseEntity.notFound().build();
 	}
 	
 	@GetMapping("/por-nome")
@@ -69,21 +64,17 @@ public class CozinhaController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Cozinha> atualizar(@PathVariable long id, @RequestBody Cozinha cozinha) {
-		var cozinhaExistente = cozinhaRepository.findById(id);
+		var cozinhaExistente = cadastroCozinhaService.buscar(id);
 
-		if (cozinhaExistente.isPresent()) {
-			BeanUtils.copyProperties(cozinha, cozinhaExistente, "id");
-			cozinha = cadastroCozinhaService.salvar(cozinhaExistente.get());
-			return ResponseEntity.ok(cozinha);
-		}
-
-		return ResponseEntity.notFound().build();
+		BeanUtils.copyProperties(cozinha, cozinhaExistente, "id");
+		return ResponseEntity.ok(cozinha);
+	
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable long id) {
-			cadastroCozinhaService.remover(id);
-			return ResponseEntity.noContent().build();
+		cadastroCozinhaService.remover(id);
+		return ResponseEntity.noContent().build();
 			
 	}
 

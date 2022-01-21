@@ -1,4 +1,4 @@
-package com.algaworks.algafood.domain;
+package com.algaworks.algafood.domain.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,6 +15,16 @@ public class CadastroCidadeService {
 	
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	
+	private static final String MSG_CIDADE_EM_USO = "Cidade de id %d não pode ser removida, pois está em uso!";
+	private static final String MSG_CIDADE_NAO_ENCONTRADA = "Não existe cidade cadastrada para o id %s.";
+	
+	
+	public Cidade buscar(long id) {
+		return cidadeRepository.findById(id)
+		.orElseThrow(() -> new EntidadeNaoEncontradaException
+				(String.format(MSG_CIDADE_NAO_ENCONTRADA, id)));
+	}
 
 	public Cidade salvar(Cidade cidade) {
 		return cidadeRepository.save(cidade);
@@ -26,10 +36,10 @@ public class CadastroCidadeService {
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(
-					String.format("Cidade de id %d não pode ser removida, pois está em uso!", id));
+					String.format(MSG_CIDADE_EM_USO, id));
 
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException(String.format("Não existe um cadastro de cidade com id %d!", id));
+			throw new EntidadeNaoEncontradaException(String.format(MSG_CIDADE_NAO_ENCONTRADA, id));
 		}
 	}
 }

@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -65,8 +66,8 @@ public class Restaurante {
 	private List<FormaPagamento> formasPagamento;
 
 	@JsonIgnore
-	@OneToMany
-	private List<Produto> produtos;
+	@OneToMany(mappedBy = "restaurante")
+	private List<Produto> produtos = new ArrayList<>();
 
 	@JsonIgnore
 	@Embedded
