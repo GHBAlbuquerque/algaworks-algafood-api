@@ -2,13 +2,21 @@ package com.algaworks.algafood.domain.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,14 +32,16 @@ public class Pedido {
 	private Long id;
 	
 	@Column(nullable = false)
-	private String codigo;
-	
 	private BigDecimal subtotal;
 	
+	@Column(nullable = false)
 	private BigDecimal taxaFrete;
 	
+	@Column(nullable = false)
 	private BigDecimal valorTotal;
 	
+	@CreationTimestamp
+	@Column(nullable = false)
 	private LocalDate dataCriacao;
 	
 	private LocalDate dataConfirmacao;
@@ -40,16 +50,28 @@ public class Pedido {
 	
 	private LocalDate dataCancelamento;
 	
-	@OneToOne
+	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Restaurante restaurante;
 	
-	//private StatusPedidoEnum status;
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Usuario cliente;
 	
-	//private Usuario cliente;
+	@Embedded
+	@JoinColumn(nullable = false)
+	private Endereco enderecoEntrega;
 	
-	//private Endereco enderecoEntrega;
+	@Column(nullable = false)
+	private StatusPedidoEnum status;
 	
-	//private List<ItemPedido> itens;
+	@OneToMany
+	@JoinColumn(nullable = false)
+	private List<ItemPedido> itens;
+	
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private FormaPagamento formaPagamento;
 	
 	
 	

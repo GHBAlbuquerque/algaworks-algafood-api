@@ -1,5 +1,6 @@
 package com.algaworks.algafood.domain.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,10 +21,12 @@ public class FotoProduto {
 	@EqualsAndHashCode.Include
 	private Long id;
 	
+	@Column(nullable = false)
 	private String nome;
 	
 	private String descricao;
 	
+	@Column(nullable = false)
 	private String contentType;
 	
 	private Long tamanho;
