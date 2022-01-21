@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.service.CadastroCidadeService;
@@ -23,19 +25,18 @@ import com.algaworks.algafood.domain.service.CadastroCidadeService;
 @RestController
 @RequestMapping("/cidades")
 public class CidadeController {
-	
+
 	@Autowired
 	private CidadeRepository cidadeRepository;
-	
+
 	@Autowired
 	private CadastroCidadeService cadastroCidadeService;
-	
+
 	@GetMapping
-	public List<Cidade> listar(){
+	public List<Cidade> listar() {
 		return cidadeRepository.findAll();
 	}
-	
-	
+
 	@GetMapping("/{id}")
 	public Cidade buscar(@PathVariable long id) {
 		return cadastroCidadeService.buscar(id);
@@ -44,7 +45,11 @@ public class CidadeController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cidade adicionar(@RequestBody Cidade cidade) {
-		return cadastroCidadeService.salvar(cidade);
+		try {
+			return cadastroCidadeService.salvar(cidade);
+		} catch (EntidadeNaoEncontradaException ex) {
+			throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
+		}
 
 	}
 
@@ -53,11 +58,15 @@ public class CidadeController {
 		var cidadeExistente = cadastroCidadeService.buscar(id);
 
 		BeanUtils.copyProperties(cidade, cidadeExistente, "id");
-		cidade = cadastroCidadeService.salvar(cidadeExistente);
-		return ResponseEntity.ok(cidadeExistente);
-			
+
+		try {
+			cidade = cadastroCidadeService.salvar(cidadeExistente);
+			return ResponseEntity.ok(cidadeExistente);
+		} catch (EntidadeNaoEncontradaException ex) {
+			throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
+		}
+
 	}
-	
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable long id) {
@@ -65,7 +74,5 @@ public class CidadeController {
 		return ResponseEntity.noContent().build();
 
 	}
-	
-
 
 }

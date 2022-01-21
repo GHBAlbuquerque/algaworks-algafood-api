@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
@@ -44,51 +46,60 @@ public class RestauranteController {
 	public Restaurante buscar(@PathVariable long id) {
 		return cadastroRestauranteService.buscar(id);
 	}
-	
-	@GetMapping("/por-nome-e-id-cozinha") //query no orm.xml
-	public ResponseEntity<List<Restaurante>> buscarPorNomeECozinha(@PathParam(value = "nome") String nome, @PathParam(value = "cozinha_id") Long cozinhaId) {
+
+	@GetMapping("/por-nome-e-id-cozinha") // query no orm.xml
+	public ResponseEntity<List<Restaurante>> buscarPorNomeECozinha(@PathParam(value = "nome") String nome,
+			@PathParam(value = "cozinha_id") Long cozinhaId) {
 		var restaurante = restauranteRepository.consultarPorNomeECozinha(nome, cozinhaId);
 		return ResponseEntity.ok(restaurante);
 	}
-	
+
 	@GetMapping("/por-nome")
 	public ResponseEntity<Restaurante> buscarPorNome(@PathParam(value = "nome") String nome) {
 		var restaurante = restauranteRepository.findFirstRestauranteByNomeContaining(nome);
-		if(restaurante.isPresent()) {
+		if (restaurante.isPresent()) {
 			return ResponseEntity.ok(restaurante.get());
 		}
 		return ResponseEntity.notFound().build();
 	}
-	
+
 	@GetMapping("/count-por-cozinhaId")
-	public int quantidadePorCozinhaId(Long cozinhaId){
+	public int quantidadePorCozinhaId(Long cozinhaId) {
 		return restauranteRepository.countByCozinhaId(cozinhaId);
 	}
-	
-	//SPECIFICATION
+
+	// SPECIFICATION
 	@GetMapping("/specification")
-	public List<Restaurante> queryPorSpecification(String nome){
+	public List<Restaurante> queryPorSpecification(String nome) {
 		return restauranteRepository.buscarComFreteGratis(nome);
 	}
-	
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Restaurante adicionar(@RequestBody Restaurante restaurante) {
-		return cadastroRestauranteService.salvar(restaurante);
-		
+		try {
+			return cadastroRestauranteService.salvar(restaurante);
+		} catch (EntidadeNaoEncontradaException ex) {
+			throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
+		}
+
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<?> atualizar(@PathVariable long id, @RequestBody Restaurante restaurante) {
-		
+
 		var restauranteExistente = cadastroRestauranteService.buscar(id);
 
-		BeanUtils.copyProperties(restaurante, restauranteExistente, 
-				"id", "formasPagamento", "endereco", "dataCadastro", "produtos", "responsaveis");
-		restaurante = cadastroRestauranteService.salvar(restauranteExistente);
-		return ResponseEntity.ok(restauranteExistente);
-			
+		BeanUtils.copyProperties(restaurante, restauranteExistente, "id", "formasPagamento", "endereco", "dataCadastro",
+				"produtos", "responsaveis");
+
+		try {
+			restaurante = cadastroRestauranteService.salvar(restauranteExistente);
+			return ResponseEntity.ok(restauranteExistente);
+		} catch (EntidadeNaoEncontradaException ex) {
+			throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
+		}
+
 	}
 
 	@DeleteMapping("/{id}")
