@@ -54,9 +54,8 @@ public class EstadoController {
 		var estadoExistente = cadastroEstadoService.buscar(id);
 
 		BeanUtils.copyProperties(estado, estadoExistente, "id");
-		estado = estadoRepository.save(estadoExistente);
-		return ResponseEntity.ok(estadoExistente);
-			
+		estado = cadastroEstadoService.salvar(estadoExistente);
+		return ResponseEntity.ok(estado);	
 	}
 	
 
