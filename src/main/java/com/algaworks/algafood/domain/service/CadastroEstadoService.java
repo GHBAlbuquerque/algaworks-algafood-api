@@ -17,7 +17,7 @@ public class CadastroEstadoService {
 	private EstadoRepository estadoRepository;
 	
 	private static final String MSG_ESTADO_EM_USO = "Estado de id %d não pode ser removido, pois está em uso!";
-	private static final String MSG_ESTADO_NAO_ENCONTRADO = "Não existe estado cadastrada para o id %s.";
+	private static final String MSG_ESTADO_NAO_ENCONTRADO = "Não existe estado cadastrado para o id %s.";
 	
 	
 	public Estado buscar(long id) {

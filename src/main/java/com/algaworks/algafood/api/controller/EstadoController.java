@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import com.algaworks.algafood.domain.service.CadastroEstadoService;
@@ -43,13 +43,10 @@ public class EstadoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> adicionar(@RequestBody Estado estado) {
-		try {
-			estado = cadastroEstadoService.salvar(estado);
-			return ResponseEntity.status(HttpStatus.CREATED).body(estado);
-		} catch (EntidadeNaoEncontradaException e) {
-			return ResponseEntity.badRequest().body(e.getMessage());
-		}
+	@ResponseStatus(HttpStatus.CREATED)
+	public Estado adicionar(@RequestBody Estado estado) {
+		return cadastroEstadoService.salvar(estado);
+
 	}
 
 	@PutMapping("/{id}")

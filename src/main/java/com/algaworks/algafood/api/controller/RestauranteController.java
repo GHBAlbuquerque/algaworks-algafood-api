@@ -73,9 +73,10 @@ public class RestauranteController {
 	
 
 	@PostMapping
-	public ResponseEntity<?> adicionar(@RequestBody Restaurante restaurante) {
-		restaurante = cadastroRestauranteService.salvar(restaurante);
-		return ResponseEntity.status(HttpStatus.CREATED).body(restaurante);
+	@ResponseStatus(HttpStatus.CREATED)
+	public Restaurante adicionar(@RequestBody Restaurante restaurante) {
+		return cadastroRestauranteService.salvar(restaurante);
+		
 	}
 
 	@PutMapping("/{id}")
@@ -85,7 +86,7 @@ public class RestauranteController {
 
 		BeanUtils.copyProperties(restaurante, restauranteExistente, 
 				"id", "formasPagamento", "endereco", "dataCadastro", "produtos", "responsaveis");
-		restaurante = restauranteRepository.save(restauranteExistente);
+		restaurante = cadastroRestauranteService.salvar(restauranteExistente);
 		return ResponseEntity.ok(restauranteExistente);
 			
 	}
