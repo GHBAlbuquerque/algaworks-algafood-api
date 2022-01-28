@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.exception.ProblemTypeEnum;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 
 @ControllerAdvice
@@ -21,35 +22,56 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body,
 			org.springframework.http.HttpHeaders headers, HttpStatus status, WebRequest request) {
-		
-		if(ObjectUtils.isEmpty(body)) {
-			body = GenericProblem.builder()
-					.dataHora(LocalDateTime.now())
-					.mensagem(status.getReasonPhrase())
-					.build();
-		} else if (body instanceof String) {
-			body = GenericProblem.builder()
-					.dataHora(LocalDateTime.now())
-					.mensagem((String) body)
-					.build();
-		}
-		
 		return super.handleExceptionInternal(ex, body, headers, status, request);
 	}
 	
 	@ExceptionHandler(EntidadeNaoEncontradaException.class)
-	public ResponseEntity<?> tratarEntidadeNaoEncontradaException(EntidadeNaoEncontradaException ex, WebRequest request){
-		return handleExceptionInternal(ex, ex.getMessage(), null, HttpStatus.NOT_FOUND, request);
+	public ResponseEntity<?> handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException ex, WebRequest request){
+		var status = HttpStatus.NOT_FOUND;
+		var problem = genericProblemBuilder(status, ProblemTypeEnum.ENTIDADE_NAO_ENCONTRADA, ex.getMessage()).build();
+			
+		return handleExceptionInternal(ex, problem, null, status, request);
 	}
 	
 	@ExceptionHandler(EntidadeEmUsoException.class)
-	public ResponseEntity<?> tratarEntidadeEmUsoException(EntidadeEmUsoException ex, WebRequest request){
-		return handleExceptionInternal(ex, ex.getMessage(), null, HttpStatus.CONFLICT, request);
+	public ResponseEntity<?> handleEntidadeEmUsoException(EntidadeEmUsoException ex, WebRequest request){
+		var status = HttpStatus.CONFLICT;
+		var problem = genericProblemBuilder(status, ProblemTypeEnum.ENTIDADE_EM_USO, ex.getMessage()).build();
+			
+		return handleExceptionInternal(ex, problem, null, status, request);
 	}
 	
 	@ExceptionHandler(NegocioException.class)
-	public ResponseEntity<?> tratarNegocioException(NegocioException ex, WebRequest request){
-		return handleExceptionInternal(ex, ex.getMessage(), null, HttpStatus.BAD_REQUEST, request);
+	public ResponseEntity<?> handleNegocioException(NegocioException ex, WebRequest request){
+		var status = HttpStatus.BAD_REQUEST;
+		var problem = genericProblemBuilder(status, ProblemTypeEnum.ERRO_DE_NEGOCICO, ex.getMessage()).build();
+			
+		return handleExceptionInternal(ex, problem, null, status, request);
 	}
-
+	
+	private GenericProblem.GenericProblemBuilder genericProblemBuilder(HttpStatus status, ProblemTypeEnum problemTypeEnum, String detail) {
+		return 	GenericProblem.builder()
+				.status(status.value())
+				.type(problemTypeEnum.getUri())
+				.title(problemTypeEnum.getTitle())
+				.detail(detail);
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
