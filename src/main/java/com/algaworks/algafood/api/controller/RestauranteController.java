@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.BeanUtils;
@@ -109,13 +110,11 @@ public class RestauranteController {
 	}
 
 	@PatchMapping("/{id}")
-	public ResponseEntity<?> atualizarParcial(@PathVariable long id, @RequestBody Map<String, Object> campos) {
-		try {
-			var restaurante = cadastroRestauranteService.atualizarParcial(id, campos);
-			return ResponseEntity.ok(restaurante);
-		} catch (Exception e) {
-			return ResponseEntity.notFound().build();
-		}
+	public ResponseEntity<?> atualizarParcial(@PathVariable long id, @RequestBody Map<String, Object> campos, HttpServletRequest request) {
+
+		var restaurante = cadastroRestauranteService.atualizarParcial(id, campos, request);
+		return ResponseEntity.ok(restaurante);
+
 	}
 
 }

@@ -2,9 +2,15 @@ package com.algaworks.algafood.domain.service;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -12,7 +18,9 @@ import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 @Service
 public class CadastroRestauranteService {
@@ -52,25 +60,36 @@ public class CadastroRestauranteService {
 		}
 	}
 
-	public Restaurante atualizarParcial(long id, Map<String, Object> campos) {
+	public Restaurante atualizarParcial(long id, Map<String, Object> campos, HttpServletRequest request) {
 		var restaurante = buscar(id);
 
-		merge(campos, restaurante);
+		merge(campos, restaurante, request);
 		return salvar(restaurante);
 	}
 	
 
-	private void merge(Map<String, Object> campos, Restaurante restauranteDestino) {
-		 var objMapper = new ObjectMapper();
-		 var restauranteOrigem = objMapper.convertValue(campos, Restaurante.class);
-		 
-		 campos.forEach((prop, value) -> {
-			var field = ReflectionUtils.findField(Restaurante.class, prop);
-			field.setAccessible(true);
-			
-			var valorConvertido = ReflectionUtils.getField(field, restauranteOrigem);
-			ReflectionUtils.setField(field, restauranteDestino, valorConvertido); //não posso usar o value aqui, porque não está convertido e gerará erro
-		 });
+	private void merge(Map<String, Object> campos, Restaurante restauranteDestino, HttpServletRequest request) {
+		
+		var serverHttpRequest = new ServletServerHttpRequest(request);
+		
+		try { 
+			var objMapper = new ObjectMapper();
+			 objMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
+			 objMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+			 
+			 var restauranteOrigem = objMapper.convertValue(campos, Restaurante.class);
+			 
+			 campos.forEach((prop, value) -> {
+				var field = ReflectionUtils.findField(Restaurante.class, prop);
+				field.setAccessible(true);
+				
+				var valorConvertido = ReflectionUtils.getField(field, restauranteOrigem);
+				ReflectionUtils.setField(field, restauranteDestino, valorConvertido); //não posso usar o value aqui, porque não está convertido e gerará erro
+			 });
+		} catch (IllegalArgumentException ex) {
+			var rootCause = ExceptionUtils.getRootCause(ex);
+			throw new HttpMessageNotReadableException(ex.getMessage(), rootCause, serverHttpRequest); //cairá no exception handler
+		}
 	}
 
 }
