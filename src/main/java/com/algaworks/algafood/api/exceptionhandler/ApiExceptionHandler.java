@@ -1,11 +1,9 @@
 package com.algaworks.algafood.api.exceptionhandler;
 
-import java.net.http.HttpHeaders;
-import java.time.LocalDateTime;
-
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ObjectUtils;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -55,6 +53,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				.type(problemTypeEnum.getUri())
 				.title(problemTypeEnum.getTitle())
 				.detail(detail);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		
+		var problem = genericProblemBuilder(status, ProblemTypeEnum.MENSAGEM_INCOMPREENSIVEL, 
+				"O corpo da mensagem está inválido. Verifique erro de sintaxe.").build();
+		
+		return handleExceptionInternal(ex, problem, null, status, request);
 	}
 }
 
