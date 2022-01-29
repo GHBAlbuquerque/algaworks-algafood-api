@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
@@ -31,6 +32,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body,
 			org.springframework.http.HttpHeaders headers, HttpStatus status, WebRequest request) {
+		
+		if (body == null) {
+			body = GenericProblem.builder()
+				.title(status.getReasonPhrase())
+				.status(status.value())
+				.build();
+		} else if (body instanceof String) {
+			body = GenericProblem.builder()
+				.title((String) body)
+				.status(status.value())
+				.build();
+		}
+		
 		return super.handleExceptionInternal(ex, body, headers, status, request);
 	}
 	
@@ -41,7 +55,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<?> handleEntidadeNaoEncontradaException(EntidadeNaoEncontradaException ex,
 			WebRequest request) {
 		var status = HttpStatus.NOT_FOUND;
-		var problem = genericProblemBuilder(status, ProblemTypeEnum.ENTIDADE_NAO_ENCONTRADA, ex.getMessage()).build();
+		var problem = genericProblemBuilder(status, ProblemTypeEnum.RECURSO_NAO_ENCONTRADO, ex.getMessage()).build();
 
 		return handleExceptionInternal(ex, problem, null, status, request);
 	}
@@ -84,6 +98,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 
+	//  **** EXCEPTION PARA LIDAR COM PROPRIEDADES INEXISTENTES OU IGNORADAS NO JSON ****
 	private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
 
@@ -100,6 +115,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 
+	// **** EXCEPTION PARA LIDAR COM TIPOS ERRADOS PASSADOS NO JSON ****
 	// MÉTODO RECUPERANDO PROPRIEDADE, VALOR E TIPO PASSADOS ERRADOS NA SERIALIZAÇÃO!
 	private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
@@ -114,7 +130,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	
-	
+	//  **** EXCEPTION PARA LIDAR COM PARÂMETRO PASSADO ERRADO NA URL (PAI) ****
 	@Override
 	public ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
@@ -128,7 +144,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 
-	public ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex,
+	//  **** EXCEPTION PARA LIDAR COM PARÂMETRO PASSADO ERRADO NA URL  ****
+	private ResponseEntity<Object> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
 		var problem = genericProblemBuilder(status, ProblemTypeEnum.PARAMETRO_INVALIDO, String.format(
@@ -136,6 +153,20 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				ex.getName(), ex.getValue(), ex.getRequiredType())).build();
 
 		return handleExceptionInternal(ex, problem, null, status, request);
+	}
+	
+	//  **** EXCEPTION PARA LIDAR COM URLS INEXISTENTES  ****
+	// necessario habilitar lancamento da exception no properties!
+	@Override
+	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, 
+	        HttpHeaders headers, HttpStatus status, WebRequest request) {
+	    
+	    var problemType = ProblemTypeEnum.RECURSO_NAO_ENCONTRADO;
+	    String detail = String.format("O recurso %s, que você tentou acessar, é inexistente.", ex.getRequestURL());
+	    
+	    var problem = genericProblemBuilder(status, problemType, detail).build();
+	    
+	    return handleExceptionInternal(ex, problem, headers, status, request);
 	}
 	
 	
