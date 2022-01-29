@@ -17,6 +17,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -77,6 +78,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return handleExceptionInternal(ex, problem, null, status, request);
 	}
+	
+	@ExceptionHandler(EntidadeReferenciadaInexistenteException.class)
+	public ResponseEntity<?> handleEntidadeReferenciadaInexistenteException(EntidadeReferenciadaInexistenteException ex, WebRequest request) {
+		var status = HttpStatus.BAD_REQUEST;
+		var problem = genericProblemBuilder(status, ProblemTypeEnum.RECURSO_NAO_ENCONTRADO, ex.getMessage()).build();
+
+		return handleExceptionInternal(ex, problem, null, status, request);
+	}
+	
 	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleUncaughtException(Exception ex, WebRequest request) {

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontradaException;
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
@@ -81,7 +82,8 @@ public class RestauranteController {
 		try {
 			return cadastroRestauranteService.salvar(restaurante);
 		} catch (CozinhaNaoEncontradaException ex) {
-			throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
+			var idCozinha = restaurante.getCozinha().getId();
+			throw new EntidadeReferenciadaInexistenteException(Cozinha.class, idCozinha);
 		}
 
 	}
