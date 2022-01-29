@@ -49,7 +49,7 @@ public class CidadeController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cidade adicionar(@RequestBody @Validated(Groups.CadastroCidade.class) Cidade cidade) {
+	public Cidade adicionar(@RequestBody @Valid Cidade cidade) {
 		try {
 			return cadastroCidadeService.salvar(cidade);
 		} catch (EstadoNaoEncontradoException ex) {

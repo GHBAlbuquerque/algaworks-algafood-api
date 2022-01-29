@@ -21,6 +21,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 import com.algaworks.algafood.validation.Groups;
 import org.hibernate.annotations.CreationTimestamp;
@@ -42,16 +44,17 @@ public class Restaurante {
 	@EqualsAndHashCode.Include
 	private Long id;
 
-	@NotBlank(groups = {Groups.CadastroRestaurante.class})
+	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 
-	@PositiveOrZero(groups = {Groups.CadastroRestaurante.class})
+	@PositiveOrZero
 	@Column(name = "taxa_frete")
 	private BigDecimal taxaFrete;
 
 	@Valid
-	@NotNull(groups = {Groups.CadastroRestaurante.class})
+	@ConvertGroup(from = Default.class, to = Groups.CadastroRestaurante.class)
+	@NotNull
 	@JsonIgnoreProperties("hibernateLazyInitializer")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
@@ -79,7 +82,7 @@ public class Restaurante {
 
 	@JsonIgnore
 	@Embedded
-	@Valid
+	//@NotNull @Valid @ConvertGroup(from = Default.class, to = Groups.CadastroRestaurante.class)
 	private Endereco endereco;
 
 	@JsonIgnore

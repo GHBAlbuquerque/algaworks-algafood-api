@@ -6,7 +6,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
+import com.algaworks.algafood.validation.Groups;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -32,6 +35,7 @@ public class Endereco {
 	private String bairro;
 
 	@Valid
+	@ConvertGroup(from = Default.class, to = Groups.CadastroRestaurante.class)
 	@ManyToOne
 	@JoinColumn(name = "endereco_cidade_id", nullable=false)
 	private Cidade cidade;

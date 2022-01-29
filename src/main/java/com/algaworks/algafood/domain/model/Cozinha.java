@@ -30,7 +30,7 @@ public class Cozinha {
 	@NotNull(groups = {Groups.CadastroRestaurante.class})
 	private Long id;
 
-	@NotBlank(groups = {Groups.CadastroCozinha.class})
+	@NotBlank
 	@JsonProperty("titulo")
 	@Column(nullable = false)
 	private String nome;

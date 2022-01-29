@@ -21,11 +21,11 @@ public class Estado {
 	@NotNull(groups = {Groups.CadastroCidade.class})
 	private Long id;
 
-	@NotNull(groups = {Groups.CadastroEstado.class})
+	@NotNull
 	@Column(nullable = false)
 	private String nome;
 
-	@NotNull(groups = {Groups.CadastroEstado.class})
+	@NotNull
 	@Column(nullable = false)
 	private String sigla;
 
