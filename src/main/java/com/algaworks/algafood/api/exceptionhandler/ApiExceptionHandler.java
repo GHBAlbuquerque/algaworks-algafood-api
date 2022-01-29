@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.exceptionhandler;
 
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -80,7 +81,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleUncaughtException(Exception ex, WebRequest request) {
 		var status = HttpStatus.INTERNAL_SERVER_ERROR;
-		var problem = genericProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, MSG_ERRO_GENERICA).build();
+		var problem = customProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, ex.getMessage(), MSG_ERRO_GENERICA, LocalDateTime.now()).build();
 		
 	    ex.printStackTrace();
 
@@ -188,8 +189,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				.status(status.value())
 				.type(problemTypeEnum.getUri())
 				.title(problemTypeEnum.getTitle())
+				.detail(detail);
+	}
+	
+	private CustomProblem.CustomProblemBuilder customProblemBuilder(HttpStatus status,
+			ProblemTypeEnum problemTypeEnum, String detail, String userMessage, LocalDateTime dataHora) {
+		return CustomProblem.customProblemBuilder()
+				.status(status.value())
+				.type(problemTypeEnum.getUri())
+				.title(problemTypeEnum.getTitle())
 				.detail(detail)
-				.userMessage(MSG_ERRO_GENERICA);
+				.userMessage(userMessage)
+				.dataHora(dataHora);
 	}
 	
 	private String pathBuilder(JsonMappingException ex) {
