@@ -5,6 +5,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
@@ -19,18 +20,18 @@ import lombok.NoArgsConstructor;
 
 public class Endereco {
 
-	@NotNull
+	@NotBlank
 	@Column(name = "endereco_logradouro", nullable=false)
 	private String logradouro;
 
-	@NotNull
+	@NotBlank
 	@Column(name = "endereco_numero", nullable=false)
 	private String numero;
 
 	@Column(name = "endereco_complemento")
 	private String complemento;
 
-	@NotNull
+	@NotBlank
 	@Column(name = "endereco_bairro", nullable=false)
 	private String bairro;
 
@@ -40,7 +41,7 @@ public class Endereco {
 	@JoinColumn(name = "endereco_cidade_id", nullable=false)
 	private Cidade cidade;
 
-	@NotNull
+	@NotBlank
 	@Column(name = "endereco_cep", nullable=false)
 	private String cep;
 }

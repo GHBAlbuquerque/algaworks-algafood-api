@@ -2,6 +2,7 @@ package com.algaworks.algafood.domain.model;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
@@ -23,7 +24,7 @@ public class Cidade {
 	@NotNull(groups = {Groups.CadastroRestaurante.class})
 	private Long id;
 
-	@NotNull
+	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 

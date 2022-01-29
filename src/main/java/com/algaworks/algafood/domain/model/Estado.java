@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.algaworks.algafood.validation.Groups;
@@ -21,11 +22,11 @@ public class Estado {
 	@NotNull(groups = {Groups.CadastroCidade.class})
 	private Long id;
 
-	@NotNull
+	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 
-	@NotNull
+	@NotBlank
 	@Column(nullable = false)
 	private String sigla;
 
