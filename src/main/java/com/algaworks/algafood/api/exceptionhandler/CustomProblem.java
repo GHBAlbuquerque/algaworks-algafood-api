@@ -21,6 +21,4 @@ public class CustomProblem extends GenericProblem{
 	}
 	
 
-	
-
 }
