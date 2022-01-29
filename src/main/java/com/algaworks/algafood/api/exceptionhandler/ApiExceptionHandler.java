@@ -76,6 +76,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, problem, null, status, request);
 	}
 	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<?> handleUncaughtException(Exception ex, WebRequest request) {
+		var status = HttpStatus.INTERNAL_SERVER_ERROR;
+		var problem = genericProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, 
+				"Ocorreu um erro interno inesperado no sistema. Tente novamente e se o problema persistir, entre em contato com o administrador.").build();
+		
+	    ex.printStackTrace();
+
+		return handleExceptionInternal(ex, problem, null, status, request);
+	}
+	
 	
     // ------------ OVERRIDE DE EXCEÇÕES DO SPRING PARA CUSTOMIZAÇÃO ---------------------
 
@@ -168,7 +179,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	    
 	    return handleExceptionInternal(ex, problem, headers, status, request);
 	}
-	
 	
     // ------------ BUILDERS ---------------------
 
