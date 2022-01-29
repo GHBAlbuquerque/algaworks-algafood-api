@@ -17,8 +17,12 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
+import com.algaworks.algafood.validation.Groups;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -38,14 +42,16 @@ public class Restaurante {
 	@EqualsAndHashCode.Include
 	private Long id;
 
-	@NotNull
+	@NotBlank(groups = {Groups.CadastroRestaurante.class})
 	@Column(nullable = false)
 	private String nome;
 
+	@PositiveOrZero(groups = {Groups.CadastroRestaurante.class})
 	@Column(name = "taxa_frete")
 	private BigDecimal taxaFrete;
 
-	// @JsonIgnore
+	@Valid
+	@NotNull(groups = {Groups.CadastroRestaurante.class})
 	@JsonIgnoreProperties("hibernateLazyInitializer")
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
@@ -73,6 +79,7 @@ public class Restaurante {
 
 	@JsonIgnore
 	@Embedded
+	@Valid
 	private Endereco endereco;
 
 	@JsonIgnore
