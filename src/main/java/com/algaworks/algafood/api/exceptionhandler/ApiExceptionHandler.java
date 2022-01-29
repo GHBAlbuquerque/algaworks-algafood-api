@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.exceptionhandler;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -91,7 +93,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleUncaughtException(Exception ex, WebRequest request) {
 		var status = HttpStatus.INTERNAL_SERVER_ERROR;
-		var problem = customProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, ex.getMessage(), MSG_ERRO_GENERICA, LocalDateTime.now()).build();
+		var problem = customProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, ex.getMessage(), MSG_ERRO_GENERICA, LocalDateTime.now(), null).build();
 		
 	    ex.printStackTrace();
 
@@ -190,8 +192,29 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	    
 	    return handleExceptionInternal(ex, problem, headers, status, request);
 	}
-	
-    // ------------ BUILDERS ---------------------
+
+	//  **** EXCEPTION PARA LIDAR COM VIOLAÇÕES DE BEAN VALIDATION (@Valid)  ****
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+		// armazena todas as constraints de violacao do request
+		var bindingResult = ex.getBindingResult();
+
+		List<CustomProblem.Field> fields = bindingResult.getFieldErrors().stream()
+						.map(fieldError -> CustomProblem.Field.builder()
+							.nome(fieldError.getField())
+							.userMessage(fieldError.getDefaultMessage())
+							.build())
+						.collect(Collectors.toList());
+
+		var problem = customProblemBuilder(status, ProblemTypeEnum.DADOS_INVALIDOS,
+				"Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.",
+				null, LocalDateTime.now(), fields).build();
+
+		return handleExceptionInternal(ex, problem, headers, status, request);
+	}
+
+	// ------------ BUILDERS ---------------------
 
 	private GenericProblem.GenericProblemBuilder genericProblemBuilder(HttpStatus status,
 			ProblemTypeEnum problemTypeEnum, String detail) {
@@ -203,14 +226,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	private CustomProblem.CustomProblemBuilder customProblemBuilder(HttpStatus status,
-			ProblemTypeEnum problemTypeEnum, String detail, String userMessage, LocalDateTime dataHora) {
+			ProblemTypeEnum problemTypeEnum, String detail, String userMessage, LocalDateTime dataHora, List<CustomProblem.Field> fields) {
+
 		return CustomProblem.customProblemBuilder()
 				.status(status.value())
 				.type(problemTypeEnum.getUri())
 				.title(problemTypeEnum.getTitle())
 				.detail(detail)
 				.userMessage(userMessage)
-				.dataHora(dataHora);
+				.dataHora(dataHora)
+				.fields(fields);
+
 	}
 	
 	private String pathBuilder(JsonMappingException ex) {
