@@ -26,9 +26,10 @@ import com.fasterxml.jackson.databind.exc.PropertyBindingException;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	
+	private static final String MSG_ERRO_GENERICA = "Ocorreu um erro interno inesperado no sistema. Tente novamente e, se o problema persistir, entre em contato com o administrador.";
 	
     // ------------ OVERRIDE DO EXCEPTION INTERNAL ---------------------
-	
+
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body,
 			org.springframework.http.HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -79,8 +80,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleUncaughtException(Exception ex, WebRequest request) {
 		var status = HttpStatus.INTERNAL_SERVER_ERROR;
-		var problem = genericProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, 
-				"Ocorreu um erro interno inesperado no sistema. Tente novamente e se o problema persistir, entre em contato com o administrador.").build();
+		var problem = genericProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, MSG_ERRO_GENERICA).build();
 		
 	    ex.printStackTrace();
 
@@ -184,8 +184,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private GenericProblem.GenericProblemBuilder genericProblemBuilder(HttpStatus status,
 			ProblemTypeEnum problemTypeEnum, String detail) {
-		return GenericProblem.builder().status(status.value()).type(problemTypeEnum.getUri())
-				.title(problemTypeEnum.getTitle()).detail(detail);
+		return GenericProblem.builder()
+				.status(status.value())
+				.type(problemTypeEnum.getUri())
+				.title(problemTypeEnum.getTitle())
+				.detail(detail)
+				.userMessage(MSG_ERRO_GENERICA);
 	}
 	
 	private String pathBuilder(JsonMappingException ex) {
