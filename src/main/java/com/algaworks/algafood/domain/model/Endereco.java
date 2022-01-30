@@ -1,18 +1,17 @@
 package com.algaworks.algafood.domain.model;
 
+import com.algaworks.algafood.validation.Groups;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
-
-import com.algaworks.algafood.validation.Groups;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Embeddable

@@ -1,8 +1,8 @@
 package com.algaworks.algafood.domain.repository;
 
-import java.util.List;
-
 import com.algaworks.algafood.domain.model.Restaurante;
+
+import java.util.List;
 
 public interface RestauranteRepositoryQueries {
 	

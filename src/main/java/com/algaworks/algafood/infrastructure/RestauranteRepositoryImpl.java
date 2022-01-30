@@ -1,17 +1,16 @@
 package com.algaworks.algafood.infrastructure;
 
-import static com.algaworks.algafood.infrastructure.spec.RestauranteSpecs.comFreteGratis;
-import static com.algaworks.algafood.infrastructure.spec.RestauranteSpecs.comNomeSemelhante;
-
-import java.util.List;
-
+import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.RestauranteRepository;
+import com.algaworks.algafood.domain.repository.RestauranteRepositoryQueries;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 
-import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.repository.RestauranteRepository;
-import com.algaworks.algafood.domain.repository.RestauranteRepositoryQueries;
+import java.util.List;
+
+import static com.algaworks.algafood.infrastructure.spec.RestauranteSpecs.comFreteGratis;
+import static com.algaworks.algafood.infrastructure.spec.RestauranteSpecs.comNomeSemelhante;
 
 @Repository
 public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {

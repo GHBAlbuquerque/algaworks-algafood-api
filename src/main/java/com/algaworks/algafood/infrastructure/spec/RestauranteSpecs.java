@@ -1,10 +1,9 @@
 package com.algaworks.algafood.infrastructure.spec;
 
-import java.math.BigDecimal;
-
+import com.algaworks.algafood.domain.model.Restaurante;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.algaworks.algafood.domain.model.Restaurante;
+import java.math.BigDecimal;
 
 public class RestauranteSpecs {
 	
