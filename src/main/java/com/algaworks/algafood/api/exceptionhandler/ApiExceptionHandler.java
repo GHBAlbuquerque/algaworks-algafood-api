@@ -25,6 +25,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.ValidationException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -93,20 +94,33 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return handleExceptionInternal(ex, problem, null, status, request);
 	}
-	
-	
+
+
+	// ------------ OVERRIDE DE EXCEÇÕES DO SPRING PARA CUSTOMIZAÇÃO ---------------------
+
+	@ExceptionHandler(ValidationException.class)
+	public ResponseEntity<?> handleUncaughtException(ValidationException ex, WebRequest request) {
+		var status = HttpStatus.BAD_REQUEST;
+		var root = ExceptionUtils.getRootCause(ex);
+		var problem = customProblemBuilder(status, ProblemTypeEnum.ERRO_AO_VALIDAR, root.getCause().toString(), "Houve um erro ao validar os dados da requisição.",
+				LocalDateTime.now(), null).build();
+
+
+		return handleExceptionInternal(ex, problem, null, status, request);
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleUncaughtException(Exception ex, WebRequest request) {
 		var status = HttpStatus.INTERNAL_SERVER_ERROR;
 		var problem = customProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, ex.getMessage(), MSG_ERRO_GENERICA, LocalDateTime.now(), null).build();
-		
-	    ex.printStackTrace();
+
+		ex.printStackTrace();
 
 		return handleExceptionInternal(ex, problem, null, status, request);
 	}
 	
 	
-    // ------------ OVERRIDE DE EXCEÇÕES DO SPRING PARA CUSTOMIZAÇÃO ---------------------
+    // ------------ OVERRIDE DE TRATAMENTO DE EXCEÇÕES DO SPRING PARA CUSTOMIZAÇÃO ---------------------
 
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
@@ -218,6 +232,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
+
+
 
 	// ------------ BUILDERS ---------------------
 
