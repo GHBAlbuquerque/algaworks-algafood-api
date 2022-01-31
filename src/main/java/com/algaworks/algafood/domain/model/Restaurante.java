@@ -37,8 +37,8 @@ public class Restaurante {
 	@Column(nullable = false)
 	private String nome;
 
-	@TaxaFrete(groups = Groups.TaxaFrete1.class)
-	@Multiplo(numero = 2, groups = Groups.TaxaFrete2.class)
+	@TaxaFrete(groups = {Groups.TaxaFrete1.class, Default.class})
+	@Multiplo(numero = 2, groups = {Groups.TaxaFrete2.class, Default.class})
 	@Column(name = "taxa_frete")
 	private BigDecimal taxaFrete;
 

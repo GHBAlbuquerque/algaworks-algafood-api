@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.exceptionhandler;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.exception.ValidacaoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
@@ -17,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -92,6 +94,20 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	public ResponseEntity<?> handleEntidadeReferenciadaInexistenteException(EntidadeReferenciadaInexistenteException ex, WebRequest request) {
 		var status = HttpStatus.BAD_REQUEST;
 		var problem = genericProblemBuilder(status, ProblemTypeEnum.RECURSO_NAO_ENCONTRADO, ex.getMessage()).build();
+
+		return handleExceptionInternal(ex, problem, null, status, request);
+	}
+
+	@ExceptionHandler(ValidacaoException.class)
+	public ResponseEntity<?> handleValidacaoException(ValidacaoException ex, WebRequest request) {
+		var status = HttpStatus.BAD_REQUEST;
+		List<CustomProblem.Field> fields = fieldListBuilder(ex.getBindingResult());
+
+		var problem = customProblemBuilder(status,
+				ProblemTypeEnum.DADOS_INVALIDOS,
+				"Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.",
+				"Houve um erro ao validar os dados da requisição.",
+				LocalDateTime.now(), fields).build();
 
 		return handleExceptionInternal(ex, problem, null, status, request);
 	}
@@ -220,21 +236,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		// armazena todas as constraints de violacao do request
 		var bindingResult = ex.getBindingResult();
 
-		List<CustomProblem.Field> fields = bindingResult.getAllErrors().stream()
-						.map(objectError -> {
-							var message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
-							String nome = objectError.getObjectName();
-
-							if(objectError instanceof FieldError) { //para o caso de serem validações de atributos
-								 nome = ((FieldError) objectError).getField();
-							} //sem isso, o nome do campo será sempre o da classe.
-
-							return CustomProblem.Field.builder()
-									.nome(nome)
-									.userMessage(message)
-									.build();
-						})
-							.collect(Collectors.toList());
+		List<CustomProblem.Field> fields = fieldListBuilder(bindingResult);
 
 		var problem = customProblemBuilder(status, ProblemTypeEnum.DADOS_INVALIDOS,
 				"Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.",
@@ -272,6 +274,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	private String pathBuilder(JsonMappingException ex) {
 		return ex.getPath().stream().map(ref -> ref.getFieldName()).collect(Collectors.joining("."));
+	}
+	private List<CustomProblem.Field> fieldListBuilder(BindingResult bindingResult){
+		return bindingResult.getAllErrors().stream()
+				.map(objectError -> {
+					var message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
+					String nome = objectError.getObjectName();
+
+					if(objectError instanceof FieldError) { //para o caso de serem validações de atributos
+						nome = ((FieldError) objectError).getField();
+					} //sem isso, o nome do campo será sempre o da classe.
+
+					return CustomProblem.Field.builder()
+							.nome(nome)
+							.userMessage(message)
+							.build();
+				})
+				.collect(Collectors.toList());
 	}
 
 
