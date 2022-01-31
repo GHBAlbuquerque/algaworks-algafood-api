@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.ValidacaoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
@@ -14,6 +15,8 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.SmartValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -26,6 +29,9 @@ public class CadastroRestauranteService {
 
 	@Autowired
 	private CadastroCozinhaService cadastroCozinhaService;
+
+	@Autowired
+	private SmartValidator validator;
 	
 	private static final String MSG_RESTAURANTE_EM_USO = "Restaurante de id %d não pode ser removido, pois está em uso!";
 	
@@ -60,7 +66,18 @@ public class CadastroRestauranteService {
 		var restaurante = buscar(id);
 
 		merge(campos, restaurante, request);
+		validate(restaurante, "restaurante");
 		return salvar(restaurante);
+	}
+
+	private void validate(Restaurante restaurante, String objectName) {
+		//object name é o nome que vai aparecer na validacao
+		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurante, objectName);
+		validator.validate(restaurante, bindingResult);
+
+		if (bindingResult.hasErrors()) {
+			throw new ValidacaoException(bindingResult);
+		}
 	}
 	
 

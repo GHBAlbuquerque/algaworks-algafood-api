@@ -1,8 +1,9 @@
 package com.algaworks.algafood.domain.model;
 
 import com.algaworks.algafood.validation.Groups;
-import com.algaworks.algafood.validation.Multiplo;
-import com.algaworks.algafood.validation.TaxaFrete;
+import com.algaworks.algafood.validation.annotations.Hamburgueria;
+import com.algaworks.algafood.validation.annotations.Multiplo;
+import com.algaworks.algafood.validation.annotations.TaxaFrete;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
@@ -14,7 +15,6 @@ import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PositiveOrZero;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
@@ -25,6 +25,7 @@ import java.util.List;
 @Entity
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Hamburgueria(idField = "cozinha.id", nomeField="nome", nomeObrigatorio="- Hamburgueria")
 public class Restaurante {
 
 	@Id

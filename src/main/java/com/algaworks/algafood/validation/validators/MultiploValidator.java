@@ -1,4 +1,6 @@
-package com.algaworks.algafood.validation;
+package com.algaworks.algafood.validation.validators;
+
+import com.algaworks.algafood.validation.annotations.Multiplo;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

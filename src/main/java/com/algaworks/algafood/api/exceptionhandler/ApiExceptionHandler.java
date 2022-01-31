@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -219,12 +220,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		// armazena todas as constraints de violacao do request
 		var bindingResult = ex.getBindingResult();
 
-		List<CustomProblem.Field> fields = bindingResult.getFieldErrors().stream()
-						.map(fieldError -> CustomProblem.Field.builder()
-							.nome(fieldError.getField())
-							.userMessage(messageSource.getMessage(fieldError, LocaleContextHolder.getLocale()))
-							.build())
-						.collect(Collectors.toList());
+		List<CustomProblem.Field> fields = bindingResult.getAllErrors().stream()
+						.map(objectError -> {
+							var message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
+							String nome = objectError.getObjectName();
+
+							if(objectError instanceof FieldError) { //para o caso de serem validações de atributos
+								 nome = ((FieldError) objectError).getField();
+							} //sem isso, o nome do campo será sempre o da classe.
+
+							return CustomProblem.Field.builder()
+									.nome(nome)
+									.userMessage(message)
+									.build();
+						})
+							.collect(Collectors.toList());
 
 		var problem = customProblemBuilder(status, ProblemTypeEnum.DADOS_INVALIDOS,
 				"Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.",
@@ -264,5 +274,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return ex.getPath().stream().map(ref -> ref.getFieldName()).collect(Collectors.joining("."));
 	}
 
+
+	/*		List<CustomProblem.Field> fields = bindingResult.getFieldErrors().stream()
+						.map(fieldError -> CustomProblem.Field.builder()
+							.nome(fieldError.getField())
+							.userMessage(messageSource.getMessage(fieldError, LocaleContextHolder.getLocale()))
+							.build())
+						.collect(Collectors.toList()); */
 
 }

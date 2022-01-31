@@ -82,7 +82,7 @@ public class RestauranteController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> atualizar(@PathVariable long id, @RequestBody Restaurante restaurante) {
+	public ResponseEntity<?> atualizar(@PathVariable long id, @RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) Restaurante restaurante) {
 
 		var restauranteExistente = cadastroRestauranteService.buscar(id);
 
