@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @SpringBootTest
-public class CadastroRestauranteIntegrationTests {
+public class CadastroRestauranteIntegrationTestsIT {
 
     @Autowired
     private CadastroRestauranteService service;

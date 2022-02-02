@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.validation.ConstraintViolationException;
 
 @SpringBootTest
-public class CadastroCozinhaIntegrationTests {
+public class CadastroCozinhaIntegrationTestsIT {
 
     @Autowired
     private CadastroCozinhaService service;

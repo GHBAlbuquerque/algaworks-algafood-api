@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class CadastroEstadoIntegrationTests {
+public class CadastroEstadoIntegrationTestsIT {
     
     @Autowired
     private CadastroEstadoService service;
