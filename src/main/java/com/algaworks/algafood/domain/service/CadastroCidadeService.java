@@ -1,13 +1,17 @@
 package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.ValidacaoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cidade;
+import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.SmartValidator;
 
 @Service
 public class CadastroCidadeService {
@@ -17,6 +21,9 @@ public class CadastroCidadeService {
 	
 	@Autowired
 	private CadastroEstadoService cadastroEstadoService;
+
+	@Autowired
+	private SmartValidator validator;
 	
 	private static final String MSG_CIDADE_EM_USO = "Cidade de id %d não pode ser removida, pois está em uso!";
 	
@@ -26,7 +33,7 @@ public class CadastroCidadeService {
 	}
 
 	public Cidade salvar(Cidade cidade) {
-		
+		validate(cidade, "cidade");
 		Long estadoId = cidade.getEstado().getId();
 		var estado = cadastroEstadoService.buscar(estadoId);
 
@@ -45,6 +52,15 @@ public class CadastroCidadeService {
 
 		} catch (EmptyResultDataAccessException e) {
 			throw new CozinhaNaoEncontradaException(id);
+		}
+	}
+
+	private void validate(Cidade cidade, String objectName) {
+		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(cidade, objectName);
+		validator.validate(cidade, bindingResult);
+
+		if (bindingResult.hasErrors()) {
+			throw new ValidacaoException(bindingResult);
 		}
 	}
 }

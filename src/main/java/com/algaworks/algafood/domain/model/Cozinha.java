@@ -3,6 +3,7 @@ package com.algaworks.algafood.domain.model;
 import com.algaworks.algafood.validation.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -24,7 +25,7 @@ public class Cozinha {
 	private Long id;
 
 	@NotBlank
-	@JsonProperty("titulo")
+	//@JsonProperty("titulo")
 	@Column(nullable = false)
 	private String nome;
 	
