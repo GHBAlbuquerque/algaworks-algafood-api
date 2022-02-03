@@ -3,24 +3,31 @@ package com.algaworks.algafood.api.controller;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
+import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
+import com.algaworks.algafood.util.DatabaseCleaner;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource("/application-test.properties")
 public class CozinhaControllerTest {
 
     @LocalServerPort
     private int port;
 
     @Autowired
-    private Flyway flyway;
+    private DatabaseCleaner databaseCleaner;
+
+    @Autowired
+    private CozinhaRepository cozinhaRepository;
 
     @BeforeEach
     public void setUp(){
@@ -28,7 +35,8 @@ public class CozinhaControllerTest {
         RestAssured.port = port;
         RestAssured.basePath = "/cozinhas";
 
-        flyway.migrate();
+        databaseCleaner.clearTables();
+        prepararDados();
     }
 
     @Test
@@ -48,7 +56,7 @@ public class CozinhaControllerTest {
             .when()
                 .get()
             .then()
-                    .body("", hasSize(8))
+                    .body("", hasSize(2))
                     .body("nome", hasItems("Tailandesa", "Indiana"))
                     .statusCode(HttpStatus.OK.value());
     }
@@ -76,5 +84,15 @@ public class CozinhaControllerTest {
                 .post()
             .then()
                 .statusCode(HttpStatus.CREATED.value());
+    }
+
+    private void prepararDados(){
+        var cozinha = new Cozinha();
+        cozinha.setNome("Tailandesa");
+        cozinhaRepository.save(cozinha);
+
+        var cozinha2 = new Cozinha();
+        cozinha2.setNome("Indiana");
+        cozinhaRepository.save(cozinha2);
     }
 }
