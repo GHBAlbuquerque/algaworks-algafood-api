@@ -64,10 +64,10 @@ public class CozinhaControllerTest {
     @Test
     public void buscar_Cozinha_Retorna200(){
             given()
-                .basePath("/cozinhas/1")
+                .pathParam("id", 1)
                 .accept(ContentType.JSON)
             .when()
-                .get()
+                .get("/{id}")
             .then()
                 .body("id", equalTo(1))
                 .body("nome", equalTo("Tailandesa"))
