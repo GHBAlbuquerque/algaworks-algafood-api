@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 import com.algaworks.algafood.validation.Groups;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +17,7 @@ import javax.validation.groups.Default;
 @Data
 @Embeddable
 @NoArgsConstructor
-
+@AllArgsConstructor
 public class Endereco {
 
 	@NotBlank
