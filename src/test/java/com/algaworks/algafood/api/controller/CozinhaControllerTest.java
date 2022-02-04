@@ -68,9 +68,8 @@ public class CozinhaControllerTest {
         var cozinhas = scenarioFactory.COZINHAS;
         cozinhasCadastradas = cozinhas.size();
 
-        Cozinha cozinhaSalva = null;
         for(var cozinha : cozinhas) {
-            cozinhaSalva = cozinhaRepository.save(cozinha);
+            cozinhaRepository.save(cozinha);
         }
 
         estadoRepository.save(scenarioFactory.ESTADO);
