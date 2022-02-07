@@ -29,7 +29,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ValidationException;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -107,7 +107,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				ProblemTypeEnum.DADOS_INVALIDOS,
 				"Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.",
 				"Houve um erro ao validar os dados da requisição.",
-				LocalDateTime.now(), fields).build();
+				OffsetDateTime.now(), fields).build();
 
 		return handleExceptionInternal(ex, problem, null, status, request);
 	}
@@ -120,7 +120,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		var status = HttpStatus.BAD_REQUEST;
 		var root = ExceptionUtils.getRootCause(ex);
 		var problem = customProblemBuilder(status, ProblemTypeEnum.ERRO_AO_VALIDAR, root.getCause().toString(), "Houve um erro ao validar os dados da requisição.",
-				LocalDateTime.now(), null).build();
+				OffsetDateTime.now(), null).build();
 
 
 		return handleExceptionInternal(ex, problem, null, status, request);
@@ -129,7 +129,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleUncaughtException(Exception ex, WebRequest request) {
 		var status = HttpStatus.INTERNAL_SERVER_ERROR;
-		var problem = customProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, ex.getMessage(), MSG_ERRO_GENERICA, LocalDateTime.now(), null).build();
+		var problem = customProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, ex.getMessage(),
+				MSG_ERRO_GENERICA, OffsetDateTime.now(), null).build();
 
 		ex.printStackTrace();
 
@@ -240,7 +241,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 		var problem = customProblemBuilder(status, ProblemTypeEnum.DADOS_INVALIDOS,
 				"Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.",
-				null, LocalDateTime.now(), fields).build();
+				null, OffsetDateTime.now(), fields).build();
 
 		return handleExceptionInternal(ex, problem, headers, status, request);
 	}
@@ -259,7 +260,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	private CustomProblem.CustomProblemBuilder customProblemBuilder(HttpStatus status,
-			ProblemTypeEnum problemTypeEnum, String detail, String userMessage, LocalDateTime dataHora, List<CustomProblem.Field> fields) {
+																	ProblemTypeEnum problemTypeEnum, String detail, String userMessage, OffsetDateTime dataHora, List<CustomProblem.Field> fields) {
 
 		return CustomProblem.customProblemBuilder()
 				.status(status.value())

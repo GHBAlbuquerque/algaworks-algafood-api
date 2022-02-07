@@ -1,11 +1,9 @@
 package com.algaworks.algafood.scenario;
 
 import com.algaworks.algafood.domain.model.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.*;
 
 public class ScenarioFactory {
@@ -33,8 +31,8 @@ public class ScenarioFactory {
                 .nome("Restaurante Tailandês")
                 .cozinha(getCozinhas().get(0))
                 .taxaFrete(BigDecimal.TEN)
-                .dataCadastro(LocalDateTime.now())
-                .dataAtualizacao(LocalDateTime.now())
+                .dataCadastro(OffsetDateTime.now())
+                .dataAtualizacao(OffsetDateTime.now())
                 .endereco(new Endereco("Logradouro", "numero", "100", "bairro", getCidade(), "98706758" ))
                 .build();
     }

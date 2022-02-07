@@ -11,7 +11,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 
 import javax.validation.ConstraintViolationException;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @SpringBootTest
 public class CadastroRestauranteIntegrationTestsIT {
@@ -29,8 +28,8 @@ public class CadastroRestauranteIntegrationTestsIT {
         novoRestaurante.setNome("China In Box");
         novoRestaurante.setTaxaFrete(BigDecimal.TEN);
         novoRestaurante.setCozinha(cozinha);
-        novoRestaurante.setDataCadastro(LocalDateTime.now());
-        novoRestaurante.setDataAtualizacao(LocalDateTime.now());
+        novoRestaurante.setDataCadastro(OffsetDateTime.now());
+        novoRestaurante.setDataAtualizacao(OffsetDateTime.now());
 
         // 2. Ação
         novoRestaurante = service.salvar(novoRestaurante);
