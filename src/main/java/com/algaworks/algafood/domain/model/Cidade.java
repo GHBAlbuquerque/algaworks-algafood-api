@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 import com.algaworks.algafood.validation.Groups;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +34,7 @@ public class Cidade {
 	@ConvertGroup(from = Default.class, to = Groups.CadastroCidade.class)
 	@ManyToOne
 	@JoinColumn(nullable = false)
+	@JsonIgnoreProperties(value = {"nome", "sigla"}, allowGetters = true)
 	private Estado estado;
 
 }

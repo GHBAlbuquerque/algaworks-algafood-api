@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
 
+import javax.transaction.Transactional;
+
 @Service
 public class CadastroEstadoService {
 	
@@ -29,6 +31,7 @@ public class CadastroEstadoService {
 		.orElseThrow(() -> new EstadoNaoEncontradoException(id));
 	}
 
+	@Transactional
 	public Estado salvar(Estado estado) {
 		validate(estado, "estado");
 
@@ -36,6 +39,7 @@ public class CadastroEstadoService {
 		return estadoRepository.save(estado);
 	}
 
+	@Transactional
 	public void remover(long id) {
 		try {
 			estadoRepository.deleteById(id);

@@ -19,6 +19,7 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.util.Map;
 
 @Service
@@ -40,6 +41,7 @@ public class CadastroRestauranteService {
 		.orElseThrow(() -> new RestauranteNaoEncontradoException(id));
 	}
 
+	@Transactional
 	public Restaurante salvar(Restaurante restaurante) {
 		Long cozinhaId = restaurante.getCozinha().getId();
 		var cozinha = cadastroCozinhaService.buscar(cozinhaId);
@@ -49,6 +51,7 @@ public class CadastroRestauranteService {
 		return restauranteRepository.save(restaurante);
 	}
 
+	@Transactional
 	public void remover(long id) {
 		try {
 			restauranteRepository.deleteById(id);
@@ -62,6 +65,7 @@ public class CadastroRestauranteService {
 		}
 	}
 
+	@Transactional
 	public Restaurante atualizarParcial(long id, Map<String, Object> campos, HttpServletRequest request) {
 		var restaurante = buscar(id);
 

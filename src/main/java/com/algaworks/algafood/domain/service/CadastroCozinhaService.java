@@ -9,6 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
 public class CadastroCozinhaService {
 
@@ -22,11 +24,13 @@ public class CadastroCozinhaService {
 		.orElseThrow(() -> new CozinhaNaoEncontradaException(id));
 	}
 
+	@Transactional
 	public Cozinha salvar(Cozinha cozinha) {
 		// qualquer regra de negócio virá aqui
 		return cozinhaRepository.save(cozinha);
 	}
 
+	@Transactional
 	public void remover(long id) {
 		try {
 			cozinhaRepository.deleteById(id);

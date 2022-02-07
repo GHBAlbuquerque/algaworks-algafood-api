@@ -4,8 +4,6 @@ import com.algaworks.algafood.validation.Groups;
 import com.algaworks.algafood.validation.annotations.Hamburgueria;
 import com.algaworks.algafood.validation.annotations.Multiplo;
 import com.algaworks.algafood.validation.annotations.TaxaFrete;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -47,37 +45,30 @@ public class Restaurante {
 	@Valid
 	@ConvertGroup(from = Default.class, to = Groups.CadastroRestaurante.class)
 	@NotNull
-	@JsonIgnoreProperties("hibernateLazyInitializer")
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Cozinha cozinha;
 
-	@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataCadastro;
 
-	@JsonIgnore
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataAtualizacao;
 
-	@JsonIgnore
 	@ManyToMany
 	// opcional, apenas usado para customizacao
 	@JoinTable(name = "restaurante_forma_pagamento", joinColumns = @JoinColumn(name = "restaurante_id"), inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
 	private List<FormaPagamento> formasPagamento;
 
-	@JsonIgnore
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos = new ArrayList<>();
-
-	@JsonIgnore
+	
 	@Embedded
 	//@NotNull @Valid @ConvertGroup(from = Default.class, to = Groups.CadastroRestaurante.class)
 	private Endereco endereco;
 
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "restaurante_responsavel", joinColumns = @JoinColumn(name = "restaurante_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
 	private List<Usuario> responsaveis;
