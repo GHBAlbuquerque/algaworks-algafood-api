@@ -17,7 +17,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = {})
 @PositiveOrZero
 @NotNull
-//@Multiplo(numero = ???)
 public @interface TaxaFrete {
 
     @OverridesAttribute(constraint = PositiveOrZero.class, name="message")

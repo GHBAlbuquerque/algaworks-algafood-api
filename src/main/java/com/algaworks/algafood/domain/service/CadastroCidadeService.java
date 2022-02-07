@@ -2,9 +2,9 @@ package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.ValidacaoException;
+import com.algaworks.algafood.domain.exception.entitynotfound.CidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cidade;
-import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,54 +17,56 @@ import javax.transaction.Transactional;
 
 @Service
 public class CadastroCidadeService {
-	
-	@Autowired
-	private CidadeRepository cidadeRepository;
-	
-	@Autowired
-	private CadastroEstadoService cadastroEstadoService;
 
-	@Autowired
-	private SmartValidator validator;
-	
-	private static final String MSG_CIDADE_EM_USO = "Cidade de id %d não pode ser removida, pois está em uso!";
-	
-	public Cidade buscar(long id) {
-		return cidadeRepository.findById(id)
-		.orElseThrow(() -> new CozinhaNaoEncontradaException(id));
-	}
+    @Autowired
+    private CidadeRepository cidadeRepository;
 
-	@Transactional
-	public Cidade salvar(Cidade cidade) {
-		validate(cidade, "cidade");
-		Long estadoId = cidade.getEstado().getId();
-		var estado = cadastroEstadoService.buscar(estadoId);
+    @Autowired
+    private CadastroEstadoService cadastroEstadoService;
 
-		cidade.setEstado(estado);
+    @Autowired
+    private SmartValidator validator;
 
-		return cidadeRepository.save(cidade);
-	}
+    private static final String MSG_CIDADE_EM_USO = "Cidade de id %d não pode ser removida, pois está em uso!";
 
-	@Transactional
-	public void remover(long id) {
-		try {
-			cidadeRepository.deleteById(id);
+    public Cidade buscar(long id) {
+        return cidadeRepository.findById(id)
+                .orElseThrow(() -> new CidadeNaoEncontradaException(id));
+    }
 
-		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(
-					String.format(MSG_CIDADE_EM_USO, id));
+    @Transactional
+    public Cidade salvar(Cidade cidade) {
+        validate(cidade, "cidade");
+        Long estadoId = cidade.getEstado().getId();
+        var estado = cadastroEstadoService.buscar(estadoId);
 
-		} catch (EmptyResultDataAccessException e) {
-			throw new CozinhaNaoEncontradaException(id);
-		}
-	}
+        cidade.setEstado(estado);
 
-	private void validate(Cidade cidade, String objectName) {
-		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(cidade, objectName);
-		validator.validate(cidade, bindingResult);
+        return cidadeRepository.save(cidade);
+    }
 
-		if (bindingResult.hasErrors()) {
-			throw new ValidacaoException(bindingResult);
-		}
-	}
+    @Transactional
+    public void remover(long id) {
+        try {
+            cidadeRepository.deleteById(id);
+
+        } catch (DataIntegrityViolationException e) {
+            throw new EntidadeEmUsoException(
+                    String.format(MSG_CIDADE_EM_USO, id));
+
+        } catch (EmptyResultDataAccessException e) {
+            throw new CidadeNaoEncontradaException(id);
+        }
+    }
+
+    private void validate(Cidade cidade, String objectName) {
+        BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(cidade, objectName);
+        validator.validate(cidade, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            throw new ValidacaoException(bindingResult);
+        }
+    }
+
+
 }

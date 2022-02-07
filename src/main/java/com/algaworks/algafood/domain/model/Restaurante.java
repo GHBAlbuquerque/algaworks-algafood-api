@@ -1,30 +1,23 @@
 package com.algaworks.algafood.domain.model;
 
-import com.algaworks.algafood.validation.Groups;
 import com.algaworks.algafood.validation.annotations.Hamburgueria;
-import com.algaworks.algafood.validation.annotations.Multiplo;
-import com.algaworks.algafood.validation.annotations.TaxaFrete;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Hamburgueria(idField = "cozinha.id", nomeField="nome", nomeObrigatorio="- Hamburgueria")
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class Restaurante {
 
@@ -33,18 +26,12 @@ public class Restaurante {
 	@EqualsAndHashCode.Include
 	private Long id;
 
-	@NotBlank
 	@Column(nullable = false)
 	private String nome;
 
-	@TaxaFrete(groups = {Groups.TaxaFrete1.class, Default.class})
-	@Multiplo(numero = 2, groups = {Groups.TaxaFrete2.class, Default.class})
 	@Column(name = "taxa_frete")
 	private BigDecimal taxaFrete;
 
-	@Valid
-	@ConvertGroup(from = Default.class, to = Groups.CadastroRestaurante.class)
-	@NotNull
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Cozinha cozinha;

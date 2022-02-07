@@ -20,28 +20,22 @@ import javax.validation.groups.Default;
 @AllArgsConstructor
 public class Endereco {
 
-	@NotBlank
 	@Column(name = "endereco_logradouro", nullable=false)
 	private String logradouro;
 
-	@NotBlank
 	@Column(name = "endereco_numero", nullable=false)
 	private String numero;
 
 	@Column(name = "endereco_complemento")
 	private String complemento;
 
-	@NotBlank
 	@Column(name = "endereco_bairro", nullable=false)
 	private String bairro;
 
-	@Valid
-	@ConvertGroup(from = Default.class, to = Groups.CadastroRestaurante.class)
 	@ManyToOne
 	@JoinColumn(name = "endereco_cidade_id", nullable=false)
 	private Cidade cidade;
 
-	@NotBlank
 	@Column(name = "endereco_cep", nullable=false)
 	private String cep;
 }

@@ -1,12 +1,18 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.model.entrada.RestauranteEntradaDTO;
+import com.algaworks.algafood.api.model.saida.RestauranteDTO;
+import com.algaworks.algafood.api.model.saida.RestauranteDTO;
+import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontradaException;
+import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import com.algaworks.algafood.validation.OrderedChecksTaxaFrete;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +26,7 @@ import javax.validation.groups.Default;
 import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/restaurantes")
@@ -33,27 +40,32 @@ public class RestauranteController {
 
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
-	public List<Restaurante> listar() {
-		return restauranteRepository.findAll();
+	public List<RestauranteDTO> listar() {
+		var restaurantes = restauranteRepository.findAll();
+		return restaurantes.stream().map(this::convert).collect(Collectors.toList());
 	}
 
 	@GetMapping("/{id}")
-	public Restaurante buscar(@PathVariable long id) {
-		return cadastroRestauranteService.buscar(id);
+	public RestauranteDTO buscar(@PathVariable long id) {
+		var restaurante = cadastroRestauranteService.buscar(id);
+		return convert(restaurante);
 	}
 
 	@GetMapping("/por-nome-e-id-cozinha") // query no orm.xml
-	public ResponseEntity<List<Restaurante>> buscarPorNomeECozinha(@PathParam(value = "nome") String nome,
+	public ResponseEntity<List<RestauranteDTO>> buscarPorNomeECozinha(@PathParam(value = "nome") String nome,
 			@PathParam(value = "cozinha_id") Long cozinhaId) {
-		var restaurante = restauranteRepository.consultarPorNomeECozinha(nome, cozinhaId);
-		return ResponseEntity.ok(restaurante);
+		var restaurantes = restauranteRepository.consultarPorNomeECozinha(nome, cozinhaId);
+		return ResponseEntity.ok(
+				restaurantes.stream().map(this::convert)
+						.collect(Collectors.toList()));
 	}
 
 	@GetMapping("/por-nome")
-	public ResponseEntity<Restaurante> buscarPorNome(@PathParam(value = "nome") String nome) {
+	public ResponseEntity<RestauranteDTO> buscarPorNome(@PathParam(value = "nome") String nome) {
 		var restaurante = restauranteRepository.findFirstRestauranteByNomeContaining(nome);
 		if (restaurante.isPresent()) {
-			return ResponseEntity.ok(restaurante.get());
+			var restauranteDTO= convert(restaurante.get());
+			return ResponseEntity.ok(restauranteDTO);
 		}
 		return ResponseEntity.notFound().build();
 	}
@@ -65,15 +77,18 @@ public class RestauranteController {
 
 	// SPECIFICATION
 	@GetMapping("/specification")
-	public List<Restaurante> queryPorSpecification(String nome) {
-		return restauranteRepository.buscarComFreteGratis(nome);
+	public List<RestauranteDTO> queryPorSpecification(String nome) {
+		var restaurantes = restauranteRepository.buscarComFreteGratis(nome);
+		return restaurantes.stream().map(this::convert).collect(Collectors.toList());
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Restaurante adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) Restaurante restaurante) {
+	public RestauranteDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteEntradaDTO restauranteEntrada) {
+		var restaurante = convert(restauranteEntrada);
 		try {
-			return cadastroRestauranteService.salvar(restaurante);
+			var restauranteSalvo = cadastroRestauranteService.salvar(restaurante);
+			return convert(restauranteSalvo);
 		} catch (CozinhaNaoEncontradaException ex) {
 			var idCozinha = restaurante.getCozinha().getId();
 			throw new EntidadeReferenciadaInexistenteException(Cozinha.class, idCozinha);
@@ -82,16 +97,16 @@ public class RestauranteController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> atualizar(@PathVariable long id, @RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) Restaurante restaurante) {
-
+	public ResponseEntity<RestauranteDTO> atualizar(@PathVariable long id, @RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteEntradaDTO restauranteEntrada) {
+		var restaurante = convert(restauranteEntrada);
 		var restauranteExistente = cadastroRestauranteService.buscar(id);
 
-		BeanUtils.copyProperties(restaurante, restauranteExistente, "id", "formasPagamento", "endereco", "dataCadastro",
+		BeanUtils.copyProperties(restaurante, restauranteExistente, "id", "formasPagamento", "dataCadastro",
 				"produtos", "responsaveis");
 
 		try {
-			restaurante = cadastroRestauranteService.salvar(restauranteExistente);
-			return ResponseEntity.ok(restauranteExistente);
+			var restauranteSalvo = cadastroRestauranteService.salvar(restauranteExistente);
+			return ResponseEntity.ok(convert(restauranteSalvo));
 		} catch (CozinhaNaoEncontradaException ex) {
 			throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
 		}
@@ -105,11 +120,31 @@ public class RestauranteController {
 	}
 
 	@PatchMapping("/{id}")
-	public ResponseEntity<?> atualizarParcial(@PathVariable long id, @RequestBody Map<String, Object> campos, HttpServletRequest request) {
+	public ResponseEntity<RestauranteDTO> atualizarParcial(@PathVariable long id, @RequestBody Map<String, Object> campos, HttpServletRequest request) {
 
 		var restaurante = cadastroRestauranteService.atualizarParcial(id, campos, request);
-		return ResponseEntity.ok(restaurante);
+		return ResponseEntity.ok(convert(restaurante));
 
+	}
+
+	public RestauranteDTO convert(Restaurante restaurante) {
+		try {
+			var objectMapper = new ObjectMapper();
+			objectMapper.findAndRegisterModules();
+			return objectMapper.convertValue(restaurante, RestauranteDTO.class);
+		} catch (IllegalArgumentException ex) {
+			throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.", ex.getCause());
+		}
+	}
+
+	public Restaurante convert(RestauranteEntradaDTO restaurante) {
+		try {
+			var objectMapper = new ObjectMapper();
+			objectMapper.findAndRegisterModules();
+			return objectMapper.convertValue(restaurante, Restaurante.class);
+		} catch (IllegalArgumentException ex) {
+			throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.",  ex.getCause());
+		}
 	}
 
 }
