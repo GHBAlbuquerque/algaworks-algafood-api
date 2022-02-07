@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.assembler.EstadoAssembler;
 import com.algaworks.algafood.api.model.entrada.EstadoEntradaDTO;
 import com.algaworks.algafood.api.model.saida.EstadoDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
@@ -25,6 +26,9 @@ public class EstadoController {
 	
 	@Autowired
 	private CadastroEstadoService cadastroEstadoService;
+
+	@Autowired
+	private EstadoAssembler assembler;
 	
 	@GetMapping
 	public List<Estado> listar(){
@@ -35,26 +39,26 @@ public class EstadoController {
 	@GetMapping("/{id}")
 	public EstadoDTO buscar(@PathVariable long id) {
 		var estado = cadastroEstadoService.buscar(id);
-		return convert(estado);
+		return assembler.convert(estado);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public EstadoDTO adicionar(@RequestBody @Valid EstadoEntradaDTO estadoEntrada) {
-		var estado = convert(estadoEntrada);
+		var estado = assembler.convert(estadoEntrada);
 		var estadoSalvo = cadastroEstadoService.salvar(estado);
-		return convert(estadoSalvo);
+		return assembler.convert(estadoSalvo);
 
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<EstadoDTO> atualizar(@PathVariable long id, @RequestBody EstadoEntradaDTO estadoEntrada) {
-		var estado = convert(estadoEntrada);
+		var estado = assembler.convert(estadoEntrada);
 		var estadoExistente = cadastroEstadoService.buscar(id);
 
 		BeanUtils.copyProperties(estado, estadoExistente, "id");
 		estado = cadastroEstadoService.salvar(estadoExistente);
-		return ResponseEntity.ok(convert(estado));
+		return ResponseEntity.ok(assembler.convert(estado));
 	}
 	
 
@@ -64,22 +68,6 @@ public class EstadoController {
 		return ResponseEntity.noContent().build();
 	}
 
-	public EstadoDTO convert(Estado estado) {
-		try {
-			var objectMapper = new ObjectMapper();
-			return objectMapper.convertValue(estado, EstadoDTO.class);
-		} catch (IllegalArgumentException ex) {
-			throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
-		}
-	}
 
-	public Estado convert(EstadoEntradaDTO estado) {
-		try {
-			var objectMapper = new ObjectMapper();
-			return objectMapper.convertValue(estado, Estado.class);
-		} catch (IllegalArgumentException ex) {
-			throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.");
-		}
-	}
 
 }

@@ -1,5 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.assembler.CidadeAssembler;
+import com.algaworks.algafood.api.assembler.CozinhaAssembler;
 import com.algaworks.algafood.api.model.entrada.CozinhaEntradaDTO;
 import com.algaworks.algafood.api.model.saida.CozinhaDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
@@ -29,24 +31,27 @@ public class CozinhaController {
 	@Autowired
 	private CadastroCozinhaService cadastroCozinhaService;
 
+	@Autowired
+	private CozinhaAssembler assembler;
+
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
 	public List<CozinhaDTO> listar() {
 		var cozinhas = cozinhaRepository.findAll();
 
-		return cozinhas.stream().map(this::convert).collect(Collectors.toList());
+		return cozinhas.stream().map(cozinha -> assembler.convert(cozinha)).collect(Collectors.toList());
 	}
 
 	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
 	public List<CozinhaDTO> listarXML() {
 		var cozinhas = cozinhaRepository.findAll();
-		return cozinhas.stream().map(this::convert).collect(Collectors.toList());
+		return cozinhas.stream().map(cozinha -> assembler.convert(cozinha)).collect(Collectors.toList());
 	}
 
 	@GetMapping("/{id}")
 	public CozinhaDTO buscar(@PathVariable long id) {
 		var cozinha = cadastroCozinhaService.buscar(id);
-		return convert(cozinha);
+		return assembler.convert(cozinha);
 
 	}
 	
@@ -54,7 +59,7 @@ public class CozinhaController {
 	public ResponseEntity<List<CozinhaDTO>> buscarPorNome(@PathParam(value = "nome") String nome) {
 		var cozinhas = cozinhaRepository.findByNomeContaining(nome);
 		var cozinhaModels = cozinhas.stream()
-				.map(this::convert)
+				.map(cozinha -> assembler.convert(cozinha))
 				.collect(Collectors.toList());
 		return ResponseEntity.ok(cozinhaModels);
 	}
@@ -62,19 +67,19 @@ public class CozinhaController {
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public CozinhaDTO salvar(@RequestBody @Valid CozinhaEntradaDTO cozinhaEntrada) {
-		var cozinhaRecebida = convert(cozinhaEntrada);
+		var cozinhaRecebida = assembler.convert(cozinhaEntrada);
 		var cozinha = cadastroCozinhaService.salvar(cozinhaRecebida);
-		return convert(cozinha);
+		return assembler.convert(cozinha);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<CozinhaDTO> atualizar(@PathVariable long id, @RequestBody CozinhaEntradaDTO cozinhaEntrada) {
-		var cozinhaRecebida = convert(cozinhaEntrada);
+		var cozinhaRecebida = assembler.convert(cozinhaEntrada);
 		var cozinhaExistente = cadastroCozinhaService.buscar(id);
 
 		BeanUtils.copyProperties(cozinhaRecebida, cozinhaExistente, "id");
 		var cozinha = cadastroCozinhaService.salvar(cozinhaExistente);
-		return ResponseEntity.ok(convert(cozinha));
+		return ResponseEntity.ok(assembler.convert(cozinha));
 	
 	}
 
@@ -83,24 +88,6 @@ public class CozinhaController {
 		cadastroCozinhaService.remover(id);
 		return ResponseEntity.noContent().build();
 			
-	}
-
-	public CozinhaDTO convert(Cozinha cozinha) {
-		try {
-			var objectMapper = new ObjectMapper();
-			return objectMapper.convertValue(cozinha, CozinhaDTO.class);
-		} catch (IllegalArgumentException ex) {
-			throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
-		}
-	}
-
-	public Cozinha convert(CozinhaEntradaDTO cozinha) {
-		try {
-			var objectMapper = new ObjectMapper();
-			return objectMapper.convertValue(cozinha, Cozinha.class);
-		} catch (IllegalArgumentException ex) {
-			throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.");
-		}
 	}
 
 }

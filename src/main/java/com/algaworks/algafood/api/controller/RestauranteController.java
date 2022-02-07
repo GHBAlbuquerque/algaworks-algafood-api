@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.assembler.RestauranteAssembler;
 import com.algaworks.algafood.api.model.entrada.RestauranteEntradaDTO;
 import com.algaworks.algafood.api.model.saida.RestauranteDTO;
 import com.algaworks.algafood.api.model.saida.RestauranteDTO;
@@ -38,17 +39,20 @@ public class RestauranteController {
 	@Autowired
 	private CadastroRestauranteService cadastroRestauranteService;
 
+	@Autowired
+	private RestauranteAssembler assembler;
+
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
 	public List<RestauranteDTO> listar() {
 		var restaurantes = restauranteRepository.findAll();
-		return restaurantes.stream().map(this::convert).collect(Collectors.toList());
+		return restaurantes.stream().map(restaurante -> assembler.convert(restaurante)).collect(Collectors.toList());
 	}
 
 	@GetMapping("/{id}")
 	public RestauranteDTO buscar(@PathVariable long id) {
 		var restaurante = cadastroRestauranteService.buscar(id);
-		return convert(restaurante);
+		return assembler.convert(restaurante);
 	}
 
 	@GetMapping("/por-nome-e-id-cozinha") // query no orm.xml
@@ -56,7 +60,7 @@ public class RestauranteController {
 			@PathParam(value = "cozinha_id") Long cozinhaId) {
 		var restaurantes = restauranteRepository.consultarPorNomeECozinha(nome, cozinhaId);
 		return ResponseEntity.ok(
-				restaurantes.stream().map(this::convert)
+				restaurantes.stream().map(restaurante -> assembler.convert(restaurante))
 						.collect(Collectors.toList()));
 	}
 
@@ -64,7 +68,7 @@ public class RestauranteController {
 	public ResponseEntity<RestauranteDTO> buscarPorNome(@PathParam(value = "nome") String nome) {
 		var restaurante = restauranteRepository.findFirstRestauranteByNomeContaining(nome);
 		if (restaurante.isPresent()) {
-			var restauranteDTO= convert(restaurante.get());
+			var restauranteDTO= assembler.convert(restaurante.get());
 			return ResponseEntity.ok(restauranteDTO);
 		}
 		return ResponseEntity.notFound().build();
@@ -79,16 +83,16 @@ public class RestauranteController {
 	@GetMapping("/specification")
 	public List<RestauranteDTO> queryPorSpecification(String nome) {
 		var restaurantes = restauranteRepository.buscarComFreteGratis(nome);
-		return restaurantes.stream().map(this::convert).collect(Collectors.toList());
+		return restaurantes.stream().map(restaurante -> assembler.convert(restaurante)).collect(Collectors.toList());
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public RestauranteDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteEntradaDTO restauranteEntrada) {
-		var restaurante = convert(restauranteEntrada);
+		var restaurante = assembler.convert(restauranteEntrada);
 		try {
 			var restauranteSalvo = cadastroRestauranteService.salvar(restaurante);
-			return convert(restauranteSalvo);
+			return assembler.convert(restauranteSalvo);
 		} catch (CozinhaNaoEncontradaException ex) {
 			var idCozinha = restaurante.getCozinha().getId();
 			throw new EntidadeReferenciadaInexistenteException(Cozinha.class, idCozinha);
@@ -98,7 +102,7 @@ public class RestauranteController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<RestauranteDTO> atualizar(@PathVariable long id, @RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteEntradaDTO restauranteEntrada) {
-		var restaurante = convert(restauranteEntrada);
+		var restaurante = assembler.convert(restauranteEntrada);
 		var restauranteExistente = cadastroRestauranteService.buscar(id);
 
 		BeanUtils.copyProperties(restaurante, restauranteExistente, "id", "formasPagamento", "dataCadastro",
@@ -106,7 +110,7 @@ public class RestauranteController {
 
 		try {
 			var restauranteSalvo = cadastroRestauranteService.salvar(restauranteExistente);
-			return ResponseEntity.ok(convert(restauranteSalvo));
+			return ResponseEntity.ok(assembler.convert(restauranteSalvo));
 		} catch (CozinhaNaoEncontradaException ex) {
 			throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
 		}
@@ -123,28 +127,8 @@ public class RestauranteController {
 	public ResponseEntity<RestauranteDTO> atualizarParcial(@PathVariable long id, @RequestBody Map<String, Object> campos, HttpServletRequest request) {
 
 		var restaurante = cadastroRestauranteService.atualizarParcial(id, campos, request);
-		return ResponseEntity.ok(convert(restaurante));
+		return ResponseEntity.ok(assembler.convert(restaurante));
 
-	}
-
-	public RestauranteDTO convert(Restaurante restaurante) {
-		try {
-			var objectMapper = new ObjectMapper();
-			objectMapper.findAndRegisterModules();
-			return objectMapper.convertValue(restaurante, RestauranteDTO.class);
-		} catch (IllegalArgumentException ex) {
-			throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.", ex.getCause());
-		}
-	}
-
-	public Restaurante convert(RestauranteEntradaDTO restaurante) {
-		try {
-			var objectMapper = new ObjectMapper();
-			objectMapper.findAndRegisterModules();
-			return objectMapper.convertValue(restaurante, Restaurante.class);
-		} catch (IllegalArgumentException ex) {
-			throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.",  ex.getCause());
-		}
 	}
 
 }
