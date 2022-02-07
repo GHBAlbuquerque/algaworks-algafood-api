@@ -34,22 +34,22 @@ public class CidadeController {
     @GetMapping
     public List<CidadeDTO> listar() {
         var cidades = cidadeRepository.findAll();
-        return cidades.stream().map(cidade -> assembler.convert(cidade)).collect(Collectors.toList());
+        return cidades.stream().map(cidade -> assembler.convertToModel(cidade)).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public CidadeDTO buscar(@PathVariable long id) {
         var cidade = cadastroCidadeService.buscar(id);
-        return assembler.convert(cidade);
+        return assembler.convertToModel(cidade);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CidadeDTO adicionar(@RequestBody @Valid CidadeEntradaDTO cidadeEntrada) {
-        var cidade = assembler.convert(cidadeEntrada);
+        var cidade = assembler.convertToEntity(cidadeEntrada);
         try {
             var cidadeSalva = cadastroCidadeService.salvar(cidade);
-            return assembler.convert(cidadeSalva);
+            return assembler.convertToModel(cidadeSalva);
         } catch (EstadoNaoEncontradoException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }
@@ -58,14 +58,14 @@ public class CidadeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CidadeDTO> atualizar(@PathVariable long id, @RequestBody CidadeEntradaDTO cidadeEntrada) {
-        var cidade = assembler.convert(cidadeEntrada);
+        var cidade = assembler.convertToEntity(cidadeEntrada);
         var cidadeExistente = cadastroCidadeService.buscar(id);
 
         BeanUtils.copyProperties(cidade, cidadeExistente, "id");
 
         try {
             cidade = cadastroCidadeService.salvar(cidadeExistente);
-            return ResponseEntity.ok(assembler.convert(cidadeExistente));
+            return ResponseEntity.ok(assembler.convertToModel(cidadeExistente));
         } catch (EstadoNaoEncontradoException ex) {
             var idEstado = cidade.getEstado().getId();
             throw new EntidadeReferenciadaInexistenteException(Estado.class, idEstado);

@@ -1,14 +1,10 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.assembler.CidadeAssembler;
 import com.algaworks.algafood.api.assembler.CozinhaAssembler;
 import com.algaworks.algafood.api.model.entrada.CozinhaEntradaDTO;
 import com.algaworks.algafood.api.model.saida.CozinhaDTO;
-import com.algaworks.algafood.domain.exception.ConversaoException;
-import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,19 +35,19 @@ public class CozinhaController {
 	public List<CozinhaDTO> listar() {
 		var cozinhas = cozinhaRepository.findAll();
 
-		return cozinhas.stream().map(cozinha -> assembler.convert(cozinha)).collect(Collectors.toList());
+		return cozinhas.stream().map(cozinha -> assembler.convertToModel(cozinha)).collect(Collectors.toList());
 	}
 
 	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
 	public List<CozinhaDTO> listarXML() {
 		var cozinhas = cozinhaRepository.findAll();
-		return cozinhas.stream().map(cozinha -> assembler.convert(cozinha)).collect(Collectors.toList());
+		return cozinhas.stream().map(cozinha -> assembler.convertToModel(cozinha)).collect(Collectors.toList());
 	}
 
 	@GetMapping("/{id}")
 	public CozinhaDTO buscar(@PathVariable long id) {
 		var cozinha = cadastroCozinhaService.buscar(id);
-		return assembler.convert(cozinha);
+		return assembler.convertToModel(cozinha);
 
 	}
 	
@@ -59,7 +55,7 @@ public class CozinhaController {
 	public ResponseEntity<List<CozinhaDTO>> buscarPorNome(@PathParam(value = "nome") String nome) {
 		var cozinhas = cozinhaRepository.findByNomeContaining(nome);
 		var cozinhaModels = cozinhas.stream()
-				.map(cozinha -> assembler.convert(cozinha))
+				.map(cozinha -> assembler.convertToModel(cozinha))
 				.collect(Collectors.toList());
 		return ResponseEntity.ok(cozinhaModels);
 	}
@@ -67,19 +63,19 @@ public class CozinhaController {
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public CozinhaDTO salvar(@RequestBody @Valid CozinhaEntradaDTO cozinhaEntrada) {
-		var cozinhaRecebida = assembler.convert(cozinhaEntrada);
+		var cozinhaRecebida = assembler.convertToEntity(cozinhaEntrada);
 		var cozinha = cadastroCozinhaService.salvar(cozinhaRecebida);
-		return assembler.convert(cozinha);
+		return assembler.convertToModel(cozinha);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<CozinhaDTO> atualizar(@PathVariable long id, @RequestBody CozinhaEntradaDTO cozinhaEntrada) {
-		var cozinhaRecebida = assembler.convert(cozinhaEntrada);
+		var cozinhaRecebida = assembler.convertToEntity(cozinhaEntrada);
 		var cozinhaExistente = cadastroCozinhaService.buscar(id);
 
 		BeanUtils.copyProperties(cozinhaRecebida, cozinhaExistente, "id");
 		var cozinha = cadastroCozinhaService.salvar(cozinhaExistente);
-		return ResponseEntity.ok(assembler.convert(cozinha));
+		return ResponseEntity.ok(assembler.convertToModel(cozinha));
 	
 	}
 

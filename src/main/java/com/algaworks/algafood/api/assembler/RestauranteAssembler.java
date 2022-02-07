@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RestauranteAssembler {
 
-    public RestauranteDTO convert(Restaurante restaurante) {
+    public RestauranteDTO convertToModel(Restaurante restaurante) {
         try {
             var objectMapper = new ObjectMapper();
             objectMapper.findAndRegisterModules();
@@ -20,7 +20,7 @@ public class RestauranteAssembler {
         }
     }
 
-    public Restaurante convert(RestauranteEntradaDTO restaurante) {
+    public Restaurante convertToEntity(RestauranteEntradaDTO restaurante) {
         try {
             var objectMapper = new ObjectMapper();
             objectMapper.findAndRegisterModules();

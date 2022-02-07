@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CozinhaAssembler {
 
-    public CozinhaDTO convert(Cozinha cozinha) {
+    public CozinhaDTO convertToModel(Cozinha cozinha) {
         try {
             var objectMapper = new ObjectMapper();
             return objectMapper.convertValue(cozinha, CozinhaDTO.class);
@@ -19,7 +19,7 @@ public class CozinhaAssembler {
         }
     }
 
-    public Cozinha convert(CozinhaEntradaDTO cozinha) {
+    public Cozinha convertToEntity(CozinhaEntradaDTO cozinha) {
         try {
             var objectMapper = new ObjectMapper();
             return objectMapper.convertValue(cozinha, Cozinha.class);

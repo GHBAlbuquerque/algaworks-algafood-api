@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class EstadoAssembler {
 
-    public EstadoDTO convert(Estado estado) {
+    public EstadoDTO convertToModel(Estado estado) {
         try {
             var objectMapper = new ObjectMapper();
             return objectMapper.convertValue(estado, EstadoDTO.class);
@@ -19,7 +19,7 @@ public class EstadoAssembler {
         }
     }
 
-    public Estado convert(EstadoEntradaDTO estado) {
+    public Estado convertToEntity(EstadoEntradaDTO estado) {
         try {
             var objectMapper = new ObjectMapper();
             return objectMapper.convertValue(estado, Estado.class);
