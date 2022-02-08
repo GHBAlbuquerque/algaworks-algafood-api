@@ -23,13 +23,13 @@ import javax.transaction.Transactional;
 import java.util.Map;
 
 @Service
-public class CadastroRestauranteService {
+public class RestauranteService {
 
     @Autowired
     private RestauranteRepository restauranteRepository;
 
     @Autowired
-    private CadastroCozinhaService cadastroCozinhaService;
+    private CozinhaService cozinhaService;
 
     @Autowired
     private SmartValidator validator;
@@ -44,7 +44,7 @@ public class CadastroRestauranteService {
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
         Long cozinhaId = restaurante.getCozinha().getId();
-        var cozinha = cadastroCozinhaService.buscar(cozinhaId);
+        var cozinha = cozinhaService.buscar(cozinhaId);
 
         restaurante.setCozinha(cozinha);
 

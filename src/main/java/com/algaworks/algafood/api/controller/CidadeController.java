@@ -7,8 +7,7 @@ import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteEx
 import com.algaworks.algafood.domain.exception.entitynotfound.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
-import com.algaworks.algafood.domain.service.CadastroCidadeService;
-import org.springframework.beans.BeanUtils;
+import com.algaworks.algafood.domain.service.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,7 @@ public class CidadeController {
     private CidadeRepository cidadeRepository;
 
     @Autowired
-    private CadastroCidadeService cadastroCidadeService;
+    private CidadeService cidadeService;
 
     @Autowired
     private CidadeAssembler assembler;
@@ -39,7 +38,7 @@ public class CidadeController {
 
     @GetMapping("/{id}")
     public CidadeDTO buscar(@PathVariable long id) {
-        var cidade = cadastroCidadeService.buscar(id);
+        var cidade = cidadeService.buscar(id);
         return assembler.convertToModel(cidade);
     }
 
@@ -48,7 +47,7 @@ public class CidadeController {
     public CidadeDTO adicionar(@RequestBody @Valid CidadeEntradaDTO cidadeEntrada) {
         var cidade = assembler.convertToEntity(cidadeEntrada);
         try {
-            var cidadeSalva = cadastroCidadeService.salvar(cidade);
+            var cidadeSalva = cidadeService.salvar(cidade);
             return assembler.convertToModel(cidadeSalva);
         } catch (EstadoNaoEncontradoException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
@@ -58,11 +57,11 @@ public class CidadeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CidadeDTO> atualizar(@PathVariable long id, @RequestBody CidadeEntradaDTO cidadeEntrada) {
-        var cidadeExistente = cadastroCidadeService.buscar(id);
+        var cidadeExistente = cidadeService.buscar(id);
         assembler.copyToInstance(cidadeEntrada, cidadeExistente);
 
         try {
-            var cidade = cadastroCidadeService.salvar(cidadeExistente);
+            var cidade = cidadeService.salvar(cidadeExistente);
             return ResponseEntity.ok(assembler.convertToModel(cidadeExistente));
         } catch (EstadoNaoEncontradoException ex) {
             var idEstado = cidadeEntrada.getEstadoId();
@@ -72,7 +71,7 @@ public class CidadeController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable long id) {
-        cadastroCidadeService.remover(id);
+        cidadeService.remover(id);
         return ResponseEntity.noContent().build();
     }
 }

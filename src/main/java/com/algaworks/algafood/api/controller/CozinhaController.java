@@ -4,8 +4,7 @@ import com.algaworks.algafood.api.assembler.CozinhaAssembler;
 import com.algaworks.algafood.api.model.entrada.CozinhaEntradaDTO;
 import com.algaworks.algafood.api.model.saida.CozinhaDTO;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
-import com.algaworks.algafood.domain.service.CadastroCozinhaService;
-import org.springframework.beans.BeanUtils;
+import com.algaworks.algafood.domain.service.CozinhaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,7 +24,7 @@ public class CozinhaController {
 	private CozinhaRepository cozinhaRepository;
 
 	@Autowired
-	private CadastroCozinhaService cadastroCozinhaService;
+	private CozinhaService cozinhaService;
 
 	@Autowired
 	private CozinhaAssembler assembler;
@@ -46,7 +45,7 @@ public class CozinhaController {
 
 	@GetMapping("/{id}")
 	public CozinhaDTO buscar(@PathVariable long id) {
-		var cozinha = cadastroCozinhaService.buscar(id);
+		var cozinha = cozinhaService.buscar(id);
 		return assembler.convertToModel(cozinha);
 
 	}
@@ -64,22 +63,22 @@ public class CozinhaController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public CozinhaDTO salvar(@RequestBody @Valid CozinhaEntradaDTO cozinhaEntrada) {
 		var cozinhaRecebida = assembler.convertToEntity(cozinhaEntrada);
-		var cozinha = cadastroCozinhaService.salvar(cozinhaRecebida);
+		var cozinha = cozinhaService.salvar(cozinhaRecebida);
 		return assembler.convertToModel(cozinha);
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<CozinhaDTO> atualizar(@PathVariable long id, @RequestBody CozinhaEntradaDTO cozinhaEntrada) {
-		var cozinhaExistente = cadastroCozinhaService.buscar(id);
+		var cozinhaExistente = cozinhaService.buscar(id);
 		assembler.copyToInstance(cozinhaEntrada, cozinhaExistente);
 
-		var cozinha = cadastroCozinhaService.salvar(cozinhaExistente);
+		var cozinha = cozinhaService.salvar(cozinhaExistente);
 		return ResponseEntity.ok(assembler.convertToModel(cozinha));
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable long id) {
-		cadastroCozinhaService.remover(id);
+		cozinhaService.remover(id);
 		return ResponseEntity.noContent().build();
 			
 	}

@@ -3,7 +3,6 @@ package com.algaworks.algafood.domain.service;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.ValidacaoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +15,13 @@ import org.springframework.validation.SmartValidator;
 import javax.transaction.Transactional;
 
 @Service
-public class CadastroCidadeService {
+public class CidadeService {
 
     @Autowired
     private CidadeRepository cidadeRepository;
 
     @Autowired
-    private CadastroEstadoService cadastroEstadoService;
+    private EstadoService estadoService;
 
     @Autowired
     private SmartValidator validator;
@@ -38,7 +37,7 @@ public class CadastroCidadeService {
     public Cidade salvar(Cidade cidade) {
         validate(cidade, "cidade");
         Long estadoId = cidade.getEstado().getId();
-        var estado = cadastroEstadoService.buscar(estadoId);
+        var estado = estadoService.buscar(estadoId);
 
         cidade.setEstado(estado);
 

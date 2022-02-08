@@ -1,22 +1,14 @@
 package com.algaworks.algafood.integration;
 
-import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.service.CadastroRestauranteService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import com.algaworks.algafood.domain.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.i18n.LocaleContextHolder;
-
-import javax.validation.ConstraintViolationException;
-import java.math.BigDecimal;
 
 @SpringBootTest
 public class CadastroRestauranteIntegrationTestsIT {
 
     @Autowired
-    private CadastroRestauranteService service;
+    private RestauranteService service;
 
     /*
     @Test

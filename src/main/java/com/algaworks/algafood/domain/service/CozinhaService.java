@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
 @Service
-public class CadastroCozinhaService {
+public class CozinhaService {
 
     private static final String MSG_COZINHA_EM_USO = "Cozinha de id %d não pode ser removida, pois está em uso!";
 

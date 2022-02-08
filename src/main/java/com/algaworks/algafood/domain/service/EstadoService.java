@@ -16,7 +16,7 @@ import org.springframework.validation.SmartValidator;
 import javax.transaction.Transactional;
 
 @Service
-public class CadastroEstadoService {
+public class EstadoService {
 	
 	@Autowired
 	private EstadoRepository estadoRepository;

@@ -3,7 +3,7 @@ package com.algaworks.algafood.integration;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
-import com.algaworks.algafood.domain.service.CadastroCozinhaService;
+import com.algaworks.algafood.domain.service.CozinhaService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import javax.validation.ConstraintViolationException;
 public class CadastroCozinhaIntegrationTestsIT {
 
     @Autowired
-    private CadastroCozinhaService service;
+    private CozinhaService service;
 
     @Test
     public void salvar_cozinhaCorreta_retornaSucesso(){

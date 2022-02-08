@@ -3,7 +3,7 @@ package com.algaworks.algafood.integration;
 import com.algaworks.algafood.domain.exception.ValidacaoException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
-import com.algaworks.algafood.domain.service.CadastroCidadeService;
+import com.algaworks.algafood.domain.service.CidadeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class CadastroCidadeIntegrationTestsIT {
 
     @Autowired
-    private CadastroCidadeService service;
+    private CidadeService service;
 
     private Estado estado = new Estado(1L, "Amapá", "AM");
 

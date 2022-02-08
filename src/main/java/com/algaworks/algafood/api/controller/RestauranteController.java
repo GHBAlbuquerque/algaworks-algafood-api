@@ -7,7 +7,7 @@ import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteEx
 import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
-import com.algaworks.algafood.domain.service.CadastroRestauranteService;
+import com.algaworks.algafood.domain.service.RestauranteService;
 import com.algaworks.algafood.validation.OrderedChecksTaxaFrete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class RestauranteController {
 	private RestauranteRepository restauranteRepository;
 
 	@Autowired
-	private CadastroRestauranteService cadastroRestauranteService;
+	private RestauranteService restauranteService;
 
 	@Autowired
 	private RestauranteAssembler assembler;
@@ -44,7 +44,7 @@ public class RestauranteController {
 
 	@GetMapping("/{id}")
 	public RestauranteDTO buscar(@PathVariable long id) {
-		var restaurante = cadastroRestauranteService.buscar(id);
+		var restaurante = restauranteService.buscar(id);
 		return assembler.convertToModel(restaurante);
 	}
 
@@ -84,7 +84,7 @@ public class RestauranteController {
 	public RestauranteDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteEntradaDTO restauranteEntrada) {
 		var restaurante = assembler.convertToEntity(restauranteEntrada);
 		try {
-			var restauranteSalvo = cadastroRestauranteService.salvar(restaurante);
+			var restauranteSalvo = restauranteService.salvar(restaurante);
 			return assembler.convertToModel(restauranteSalvo);
 		} catch (CozinhaNaoEncontradaException ex) {
 			var idCozinha = restauranteEntrada.getCozinhaId();
@@ -95,10 +95,10 @@ public class RestauranteController {
 	@PutMapping("/{id}")
 	public ResponseEntity<RestauranteDTO> atualizar(@PathVariable long id, @RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteEntradaDTO restauranteEntrada) {
 		try {
-		var restauranteExistente = cadastroRestauranteService.buscar(id);
+		var restauranteExistente = restauranteService.buscar(id);
 		assembler.copyToInstance(restauranteEntrada, restauranteExistente);
 
-			var restauranteSalvo = cadastroRestauranteService.salvar(restauranteExistente);
+			var restauranteSalvo = restauranteService.salvar(restauranteExistente);
 			return ResponseEntity.ok(assembler.convertToModel(restauranteSalvo));
 		} catch (CozinhaNaoEncontradaException ex) {
 			throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
@@ -108,26 +108,26 @@ public class RestauranteController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable long id) {
-		cadastroRestauranteService.remover(id);
+		restauranteService.remover(id);
 		return ResponseEntity.noContent().build();
 	}
 
 	@PatchMapping("/{id}")
 	public ResponseEntity<RestauranteDTO> atualizarParcial(@PathVariable long id, @RequestBody Map<String, Object> campos, HttpServletRequest request) {
 
-		var restaurante = cadastroRestauranteService.atualizarParcial(id, campos, request);
+		var restaurante = restauranteService.atualizarParcial(id, campos, request);
 		return ResponseEntity.ok(assembler.convertToModel(restaurante));
 	}
 
 	@PutMapping("/{id}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void ativar(@PathVariable long id) {
-		cadastroRestauranteService.ativar(id);
+		restauranteService.ativar(id);
 	}
 
 	@PutMapping("/{id}/inativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void desativar(@PathVariable long id) {
-		cadastroRestauranteService.desativar(id);
+		restauranteService.desativar(id);
 	}
 }

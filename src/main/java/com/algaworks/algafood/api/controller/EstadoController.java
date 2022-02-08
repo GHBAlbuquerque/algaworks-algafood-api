@@ -5,8 +5,7 @@ import com.algaworks.algafood.api.model.entrada.EstadoEntradaDTO;
 import com.algaworks.algafood.api.model.saida.EstadoDTO;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
-import com.algaworks.algafood.domain.service.CadastroEstadoService;
-import org.springframework.beans.BeanUtils;
+import com.algaworks.algafood.domain.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,7 @@ public class EstadoController {
 	private EstadoRepository estadoRepository;
 	
 	@Autowired
-	private CadastroEstadoService cadastroEstadoService;
+	private EstadoService estadoService;
 
 	@Autowired
 	private EstadoAssembler assembler;
@@ -36,7 +35,7 @@ public class EstadoController {
 	
 	@GetMapping("/{id}")
 	public EstadoDTO buscar(@PathVariable long id) {
-		var estado = cadastroEstadoService.buscar(id);
+		var estado = estadoService.buscar(id);
 		return assembler.convertToModel(estado);
 	}
 
@@ -44,24 +43,24 @@ public class EstadoController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public EstadoDTO adicionar(@RequestBody @Valid EstadoEntradaDTO estadoEntrada) {
 		var estado = assembler.convertToEntity(estadoEntrada);
-		var estadoSalvo = cadastroEstadoService.salvar(estado);
+		var estadoSalvo = estadoService.salvar(estado);
 		return assembler.convertToModel(estadoSalvo);
 
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<EstadoDTO> atualizar(@PathVariable long id, @RequestBody EstadoEntradaDTO estadoEntrada) {
-		var estadoExistente = cadastroEstadoService.buscar(id);
+		var estadoExistente = estadoService.buscar(id);
 		assembler.copyToInstance(estadoEntrada, estadoExistente);
 
-		var estado = cadastroEstadoService.salvar(estadoExistente);
+		var estado = estadoService.salvar(estadoExistente);
 		return ResponseEntity.ok(assembler.convertToModel(estado));
 	}
 	
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletar(@PathVariable long id) {
-		cadastroEstadoService.remover(id);
+		estadoService.remover(id);
 		return ResponseEntity.noContent().build();
 	}
 
