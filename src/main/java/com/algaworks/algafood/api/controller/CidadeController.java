@@ -58,16 +58,14 @@ public class CidadeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CidadeDTO> atualizar(@PathVariable long id, @RequestBody CidadeEntradaDTO cidadeEntrada) {
-        var cidade = assembler.convertToEntity(cidadeEntrada);
         var cidadeExistente = cadastroCidadeService.buscar(id);
-
-        BeanUtils.copyProperties(cidade, cidadeExistente, "id");
+        assembler.copyToInstance(cidadeEntrada, cidadeExistente);
 
         try {
-            cidade = cadastroCidadeService.salvar(cidadeExistente);
+            var cidade = cadastroCidadeService.salvar(cidadeExistente);
             return ResponseEntity.ok(assembler.convertToModel(cidadeExistente));
         } catch (EstadoNaoEncontradoException ex) {
-            var idEstado = cidade.getEstado().getId();
+            var idEstado = cidadeEntrada.getEstadoId();
             throw new EntidadeReferenciadaInexistenteException(Estado.class, idEstado);
         }
     }

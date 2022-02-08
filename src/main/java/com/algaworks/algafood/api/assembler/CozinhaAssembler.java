@@ -1,7 +1,6 @@
 package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.model.entrada.CozinhaEntradaDTO;
-import com.algaworks.algafood.api.model.saida.CidadeDTO;
 import com.algaworks.algafood.api.model.saida.CozinhaDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Cozinha;
@@ -28,6 +27,15 @@ public class CozinhaAssembler {
             return modelMapper.map(cozinha, Cozinha.class);
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.");
+        }
+    }
+
+
+    public void copyToInstance(CozinhaEntradaDTO cozinhaEntrada, Cozinha cozinha) {
+        try {
+            modelMapper.map(cozinhaEntrada, cozinha);
+        } catch (IllegalArgumentException ex) {
+            throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.",  ex.getCause());
         }
     }
 }

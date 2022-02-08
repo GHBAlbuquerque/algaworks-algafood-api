@@ -1,9 +1,6 @@
 package com.algaworks.algafood.api.exceptionhandler;
 
-import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
-import com.algaworks.algafood.domain.exception.NegocioException;
-import com.algaworks.algafood.domain.exception.ValidacaoException;
+import com.algaworks.algafood.domain.exception.*;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
@@ -112,6 +109,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, problem, null, status, request);
 	}
 
+	@ExceptionHandler(ConversaoException.class)
+	public ResponseEntity<?> handleConversaoException(ConversaoException ex, WebRequest request) {
+		var status = HttpStatus.BAD_REQUEST;
+		var problem = genericProblemBuilder(status, ProblemTypeEnum.ERRO_AO_CONVERTER, ex.getMessage()).build();
+
+		return handleExceptionInternal(ex, problem, null, status, request);
+	}
 
 	// ------------ OVERRIDE DE EXCEÇÕES DO SPRING PARA CUSTOMIZAÇÃO ---------------------
 

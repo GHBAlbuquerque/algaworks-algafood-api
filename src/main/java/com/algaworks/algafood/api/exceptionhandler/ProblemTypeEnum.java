@@ -12,7 +12,8 @@ public enum ProblemTypeEnum {
 	PARAMETRO_INVALIDO("Parâmetro inválido", "/parametro-invalido"),
 	ERRO_DE_SISTEMA("Erro de Sistema", "/erro-de-sistema"),
 	DADOS_INVALIDOS("Dados Inválidos", "/dados-invalidos"),
-	ERRO_AO_VALIDAR("Erro ao validar", "/erro-ao-validar");
+	ERRO_AO_VALIDAR("Erro ao validar", "/erro-ao-validar"),
+	ERRO_AO_CONVERTER("Erro ao converter", "/erro-ao-converter");
 	
 	private final String title;
 	private final String uri;

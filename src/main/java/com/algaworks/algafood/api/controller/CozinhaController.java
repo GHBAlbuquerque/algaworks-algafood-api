@@ -70,13 +70,11 @@ public class CozinhaController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<CozinhaDTO> atualizar(@PathVariable long id, @RequestBody CozinhaEntradaDTO cozinhaEntrada) {
-		var cozinhaRecebida = assembler.convertToEntity(cozinhaEntrada);
 		var cozinhaExistente = cadastroCozinhaService.buscar(id);
+		assembler.copyToInstance(cozinhaEntrada, cozinhaExistente);
 
-		BeanUtils.copyProperties(cozinhaRecebida, cozinhaExistente, "id");
 		var cozinha = cadastroCozinhaService.salvar(cozinhaExistente);
 		return ResponseEntity.ok(assembler.convertToModel(cozinha));
-	
 	}
 
 	@DeleteMapping("/{id}")

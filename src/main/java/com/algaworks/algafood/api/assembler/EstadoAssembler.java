@@ -29,4 +29,13 @@ public class EstadoAssembler {
             throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.");
         }
     }
+
+
+    public void copyToInstance(EstadoEntradaDTO estadoEntrada, Estado estado) {
+        try {
+            modelMapper.map(estadoEntrada, estado);
+        } catch (IllegalArgumentException ex) {
+            throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.",  ex.getCause());
+        }
+    }
 }

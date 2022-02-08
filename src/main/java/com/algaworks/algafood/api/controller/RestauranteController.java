@@ -9,7 +9,6 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import com.algaworks.algafood.validation.OrderedChecksTaxaFrete;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -88,20 +87,17 @@ public class RestauranteController {
 			var restauranteSalvo = cadastroRestauranteService.salvar(restaurante);
 			return assembler.convertToModel(restauranteSalvo);
 		} catch (CozinhaNaoEncontradaException ex) {
-			var idCozinha = restaurante.getCozinha().getId();
+			var idCozinha = restauranteEntrada.getCozinhaId();
 			throw new EntidadeReferenciadaInexistenteException(Cozinha.class, idCozinha);
 		}
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<RestauranteDTO> atualizar(@PathVariable long id, @RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteEntradaDTO restauranteEntrada) {
-		var restaurante = assembler.convertToEntity(restauranteEntrada);
-		var restauranteExistente = cadastroRestauranteService.buscar(id);
-
-		BeanUtils.copyProperties(restaurante, restauranteExistente, "id", "formasPagamento", "dataCadastro",
-				"produtos", "responsaveis");
-
 		try {
+		var restauranteExistente = cadastroRestauranteService.buscar(id);
+		assembler.copyToInstance(restauranteEntrada, restauranteExistente);
+
 			var restauranteSalvo = cadastroRestauranteService.salvar(restauranteExistente);
 			return ResponseEntity.ok(assembler.convertToModel(restauranteSalvo));
 		} catch (CozinhaNaoEncontradaException ex) {

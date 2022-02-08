@@ -51,11 +51,10 @@ public class EstadoController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<EstadoDTO> atualizar(@PathVariable long id, @RequestBody EstadoEntradaDTO estadoEntrada) {
-		var estado = assembler.convertToEntity(estadoEntrada);
 		var estadoExistente = cadastroEstadoService.buscar(id);
+		assembler.copyToInstance(estadoEntrada, estadoExistente);
 
-		BeanUtils.copyProperties(estado, estadoExistente, "id");
-		estado = cadastroEstadoService.salvar(estadoExistente);
+		var estado = cadastroEstadoService.salvar(estadoExistente);
 		return ResponseEntity.ok(assembler.convertToModel(estado));
 	}
 	
