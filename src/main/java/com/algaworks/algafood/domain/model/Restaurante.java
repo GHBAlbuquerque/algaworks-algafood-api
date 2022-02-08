@@ -20,42 +20,53 @@ import java.util.List;
 @Builder
 public class Restaurante {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@EqualsAndHashCode.Include
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Long id;
 
-	@Column(nullable = false)
-	private String nome;
+    @Column(nullable = false)
+    private String nome;
 
-	@Column(name = "taxa_frete")
-	private BigDecimal taxaFrete;
+    @Column(name = "taxa_frete")
+    private BigDecimal taxaFrete;
 
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private Cozinha cozinha;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Cozinha cozinha;
 
-	@CreationTimestamp
-	@Column(nullable = false, columnDefinition = "datetime")
-	private OffsetDateTime dataCadastro;
+    @Column(nullable = false)
+    private boolean ativo;
 
-	@UpdateTimestamp
-	@Column(nullable = false, columnDefinition = "datetime")
-	private OffsetDateTime dataAtualizacao;
+    @CreationTimestamp
+    @Column(nullable = false, columnDefinition = "datetime")
+    private OffsetDateTime dataCadastro;
 
-	@ManyToMany
-	// opcional, apenas usado para customizacao
-	@JoinTable(name = "restaurante_forma_pagamento", joinColumns = @JoinColumn(name = "restaurante_id"), inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
-	private List<FormaPagamento> formasPagamento;
+    @UpdateTimestamp
+    @Column(nullable = false, columnDefinition = "datetime")
+    private OffsetDateTime dataAtualizacao;
 
-	@OneToMany(mappedBy = "restaurante")
-	private List<Produto> produtos = new ArrayList<>();
-	
-	@Embedded
-	private Endereco endereco;
+    @ManyToMany
+    @JoinTable(name = "restaurante_forma_pagamento", joinColumns = @JoinColumn(name = "restaurante_id"), inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
+    // opcional, apenas usado para customizacao
+    private List<FormaPagamento> formasPagamento;
 
-	@ManyToMany
-	@JoinTable(name = "restaurante_responsavel", joinColumns = @JoinColumn(name = "restaurante_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
-	private List<Usuario> responsaveis;
+    @OneToMany(mappedBy = "restaurante")
+    private List<Produto> produtos = new ArrayList<>();
+
+    @Embedded
+    private Endereco endereco;
+
+    @ManyToMany
+    @JoinTable(name = "restaurante_responsavel", joinColumns = @JoinColumn(name = "restaurante_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
+    private List<Usuario> responsaveis;
+
+    public void ativar() {
+        setAtivo(true);
+    }
+
+    public void desativar() {
+        setAtivo(false);
+    }
 
 }

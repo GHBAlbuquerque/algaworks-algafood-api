@@ -25,89 +25,103 @@ import java.util.Map;
 @Service
 public class CadastroRestauranteService {
 
-	@Autowired
-	private RestauranteRepository restauranteRepository;
+    @Autowired
+    private RestauranteRepository restauranteRepository;
 
-	@Autowired
-	private CadastroCozinhaService cadastroCozinhaService;
+    @Autowired
+    private CadastroCozinhaService cadastroCozinhaService;
 
-	@Autowired
-	private SmartValidator validator;
-	
-	private static final String MSG_RESTAURANTE_EM_USO = "Restaurante de id %d não pode ser removido, pois está em uso!";
-	
-	public Restaurante buscar(long id) {
-		return restauranteRepository.findById(id)
-		.orElseThrow(() -> new RestauranteNaoEncontradoException(id));
-	}
+    @Autowired
+    private SmartValidator validator;
 
-	@Transactional
-	public Restaurante salvar(Restaurante restaurante) {
-		Long cozinhaId = restaurante.getCozinha().getId();
-		var cozinha = cadastroCozinhaService.buscar(cozinhaId);
+    private static final String MSG_RESTAURANTE_EM_USO = "Restaurante de id %d não pode ser removido, pois está em uso!";
 
-		restaurante.setCozinha(cozinha);
+    public Restaurante buscar(long id) {
+        return restauranteRepository.findById(id)
+                .orElseThrow(() -> new RestauranteNaoEncontradoException(id));
+    }
 
-		return restauranteRepository.save(restaurante);
-	}
+    @Transactional
+    public Restaurante salvar(Restaurante restaurante) {
+        Long cozinhaId = restaurante.getCozinha().getId();
+        var cozinha = cadastroCozinhaService.buscar(cozinhaId);
 
-	@Transactional
-	public void remover(long id) {
-		try {
-			restauranteRepository.deleteById(id);
-			restauranteRepository.flush();
+        restaurante.setCozinha(cozinha);
 
-		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(
-					String.format(MSG_RESTAURANTE_EM_USO, id));
+        return restauranteRepository.save(restaurante);
+    }
 
-		} catch (EmptyResultDataAccessException e) {
-			throw new RestauranteNaoEncontradoException(id);
-		}
-	}
+    @Transactional
+    public void remover(long id) {
+        try {
+            restauranteRepository.deleteById(id);
+            restauranteRepository.flush();
 
-	@Transactional
-	public Restaurante atualizarParcial(long id, Map<String, Object> campos, HttpServletRequest request) {
-		var restaurante = buscar(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new EntidadeEmUsoException(
+                    String.format(MSG_RESTAURANTE_EM_USO, id));
 
-		merge(campos, restaurante, request);
-		validate(restaurante, "restaurante");
-		return salvar(restaurante);
-	}
+        } catch (EmptyResultDataAccessException e) {
+            throw new RestauranteNaoEncontradoException(id);
+        }
+    }
 
-	private void validate(Restaurante restaurante, String objectName) {
-		//object name é o nome que vai aparecer na validacao
-		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurante, objectName);
-		validator.validate(restaurante, bindingResult);
+    @Transactional
+    public Restaurante atualizarParcial(long id, Map<String, Object> campos, HttpServletRequest request) {
+        var restaurante = buscar(id);
 
-		if (bindingResult.hasErrors()) {
-			throw new ValidacaoException(bindingResult);
-		}
-	}
-	
+        merge(campos, restaurante, request);
+        validate(restaurante, "restaurante");
+        return salvar(restaurante);
+    }
 
-	private void merge(Map<String, Object> campos, Restaurante restauranteDestino, HttpServletRequest request) {
-		
-		var serverHttpRequest = new ServletServerHttpRequest(request);
-		
-		try { 
-			var objMapper = new ObjectMapper();
-			 objMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
-			 objMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-			 
-			 var restauranteOrigem = objMapper.convertValue(campos, Restaurante.class);
-			 
-			 campos.forEach((prop, value) -> {
-				var field = ReflectionUtils.findField(Restaurante.class, prop);
-				field.setAccessible(true);
-				
-				var valorConvertido = ReflectionUtils.getField(field, restauranteOrigem);
-				ReflectionUtils.setField(field, restauranteDestino, valorConvertido); //não posso usar o value aqui, porque não está convertido e gerará erro
-			 });
-		} catch (IllegalArgumentException ex) {
-			var rootCause = ExceptionUtils.getRootCause(ex);
-			throw new HttpMessageNotReadableException(ex.getMessage(), rootCause, serverHttpRequest); //cairá no exception handler
-		}
-	}
+    private void validate(Restaurante restaurante, String objectName) {
+        //object name é o nome que vai aparecer na validacao
+        BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(restaurante, objectName);
+        validator.validate(restaurante, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            throw new ValidacaoException(bindingResult);
+        }
+    }
+
+
+    private void merge(Map<String, Object> campos, Restaurante restauranteDestino, HttpServletRequest request) {
+
+        var serverHttpRequest = new ServletServerHttpRequest(request);
+
+        try {
+            var objMapper = new ObjectMapper();
+            objMapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, true);
+            objMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+
+            var restauranteOrigem = objMapper.convertValue(campos, Restaurante.class);
+
+            campos.forEach((prop, value) -> {
+                var field = ReflectionUtils.findField(Restaurante.class, prop);
+                field.setAccessible(true);
+
+                var valorConvertido = ReflectionUtils.getField(field, restauranteOrigem);
+                ReflectionUtils.setField(field, restauranteDestino, valorConvertido); //não posso usar o value aqui, porque não está convertido e gerará erro
+            });
+        } catch (IllegalArgumentException ex) {
+            var rootCause = ExceptionUtils.getRootCause(ex);
+            throw new HttpMessageNotReadableException(ex.getMessage(), rootCause, serverHttpRequest); //cairá no exception handler
+        }
+    }
+
+    @Transactional
+    public void ativar(Long id) {
+        var restaurante = buscar(id);
+        restaurante.ativar();
+        restauranteRepository.save(restaurante);
+    }
+
+    @Transactional
+    public void desativar(Long id) {
+        var restaurante = buscar(id);
+        restaurante.desativar();
+        restauranteRepository.save(restaurante);
+    }
 
 }

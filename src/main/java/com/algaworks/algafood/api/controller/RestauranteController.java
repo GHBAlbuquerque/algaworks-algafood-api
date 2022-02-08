@@ -117,7 +117,17 @@ public class RestauranteController {
 
 		var restaurante = cadastroRestauranteService.atualizarParcial(id, campos, request);
 		return ResponseEntity.ok(assembler.convertToModel(restaurante));
-
 	}
 
+	@PutMapping("/{id}/ativo")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void ativar(@PathVariable long id) {
+		cadastroRestauranteService.ativar(id);
+	}
+
+	@PutMapping("/{id}/inativo")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void desativar(@PathVariable long id) {
+		cadastroRestauranteService.desativar(id);
+	}
 }
