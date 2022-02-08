@@ -1,38 +1,39 @@
 package com.algaworks.algafood.api.assembler;
 
-import com.algaworks.algafood.api.model.entrada.FormaPagamentoEntradaDTO;
-import com.algaworks.algafood.api.model.saida.FormaPagamentoDTO;
+import com.algaworks.algafood.api.model.entrada.GrupoEntradaDTO;
+import com.algaworks.algafood.api.model.saida.GrupoDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
-import com.algaworks.algafood.domain.model.FormaPagamento;
+import com.algaworks.algafood.domain.model.Grupo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class FormaPagamentoAssembler {
+public class GrupoAssembler {
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public FormaPagamentoDTO convertToModel(FormaPagamento formaPagamento) {
+    public GrupoDTO convertToModel(Grupo grupo) {
         try {
-            return modelMapper.map(formaPagamento, FormaPagamentoDTO.class);
+            return modelMapper.map(grupo, GrupoDTO.class);
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
         }
     }
 
-    public FormaPagamento convertToEntity(FormaPagamentoEntradaDTO formaPagamento) {
+    public Grupo convertToEntity(GrupoEntradaDTO grupo) {
         try {
-            return modelMapper.map(formaPagamento, FormaPagamento.class);
+            return modelMapper.map(grupo, Grupo.class);
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.");
         }
     }
 
-    public void copyToInstance(FormaPagamentoEntradaDTO formaPagamentoEntrada, FormaPagamento formaPagamento) {
+
+    public void copyToInstance(GrupoEntradaDTO grupoEntrada, Grupo grupo) {
         try {
-            modelMapper.map(formaPagamentoEntrada, formaPagamento);
+            modelMapper.map(grupoEntrada, grupo);
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.",  ex.getCause());
         }

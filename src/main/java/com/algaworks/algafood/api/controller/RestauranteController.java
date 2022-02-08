@@ -7,8 +7,6 @@ import com.algaworks.algafood.api.model.saida.RestauranteSingletonDTO;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontradaException;
-import com.algaworks.algafood.domain.model.Cidade;
-import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import com.algaworks.algafood.validation.OrderedChecksTaxaFrete;
