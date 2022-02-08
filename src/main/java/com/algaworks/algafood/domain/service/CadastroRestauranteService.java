@@ -55,6 +55,7 @@ public class CadastroRestauranteService {
 	public void remover(long id) {
 		try {
 			restauranteRepository.deleteById(id);
+			restauranteRepository.flush();
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(

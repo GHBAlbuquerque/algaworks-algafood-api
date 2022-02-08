@@ -43,6 +43,7 @@ public class CadastroEstadoService {
 	public void remover(long id) {
 		try {
 			estadoRepository.deleteById(id);
+			estadoRepository.flush();
 
 		} catch (DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(

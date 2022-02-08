@@ -38,6 +38,7 @@ public class CadastroCozinhaService {
     public void remover(long id) {
         try {
             cozinhaRepository.deleteById(id);
+            cozinhaRepository.flush();
 
         } catch (DataIntegrityViolationException e) {
             // tradução da exceção
