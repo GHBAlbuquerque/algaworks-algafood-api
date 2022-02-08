@@ -1,12 +1,11 @@
 package com.algaworks.algafood.api.model.saida;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class CidadeDTO {
 
     private Long id;

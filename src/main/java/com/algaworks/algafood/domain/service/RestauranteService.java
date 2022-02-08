@@ -4,9 +4,11 @@ import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.ValidacaoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Restaurante;
+import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -32,6 +34,12 @@ public class RestauranteService {
     private CozinhaService cozinhaService;
 
     @Autowired
+    private CidadeService cidadeService;
+
+    @Autowired
+    private CidadeRepository cidadeRepository;
+
+    @Autowired
     private SmartValidator validator;
 
     private static final String MSG_RESTAURANTE_EM_USO = "Restaurante de id %d não pode ser removido, pois está em uso!";
@@ -43,10 +51,16 @@ public class RestauranteService {
 
     @Transactional
     public Restaurante salvar(Restaurante restaurante) {
-        Long cozinhaId = restaurante.getCozinha().getId();
+        var cozinhaId = restaurante.getCozinha().getId();
         var cozinha = cozinhaService.buscar(cozinhaId);
-
         restaurante.setCozinha(cozinha);
+
+        if(ObjectUtils.isNotEmpty(restaurante.getEndereco())
+            && ObjectUtils.isNotEmpty(restaurante.getEndereco().getCidade())) {
+            var cidadeId = restaurante.getEndereco().getCidade().getId();
+            var cidade = cidadeService.buscar(cidadeId);
+            restaurante.getEndereco().setCidade(cidade);
+        }
 
         return restauranteRepository.save(restaurante);
     }

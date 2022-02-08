@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RestauranteDTO {
+public class RestauranteSingletonDTO {
 
     private Long id;
 
@@ -20,4 +20,6 @@ public class RestauranteDTO {
     private CozinhaDTO cozinha;
 
     private boolean ativo;
+
+    private EnderecoDTO endereco;
 }

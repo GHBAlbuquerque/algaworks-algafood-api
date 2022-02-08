@@ -6,6 +6,7 @@ import com.algaworks.algafood.validation.annotations.Multiplo;
 import com.algaworks.algafood.validation.annotations.TaxaFrete;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.apache.commons.lang3.ObjectUtils;
 
 import javax.persistence.Embedded;
 import javax.validation.constraints.NotBlank;
@@ -33,4 +34,10 @@ public class RestauranteEntradaDTO {
     private EnderecoEntradaDTO endereco;
 
     private OffsetDateTime dataCadastro = OffsetDateTime.now();
+
+    public Long getCidade(){
+        if(ObjectUtils.isNotEmpty(endereco)) return this.getEndereco().getCidadeId();
+
+        return null;
+    }
 }

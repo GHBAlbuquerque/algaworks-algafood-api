@@ -1,11 +1,10 @@
 package com.algaworks.algafood.api.model.saida;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class CozinhaDTO {
 
     private Long id;
