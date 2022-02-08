@@ -1,8 +1,8 @@
 package com.algaworks.algafood.api.model.entrada;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -13,7 +13,7 @@ public class CidadeEntradaDTO {
     private String nome;
 
     @NotNull
-    @Valid
-    private EstadoIdEntrada estado;
+    @JsonProperty("estado")
+    private Long estadoId;
 
 }

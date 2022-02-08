@@ -91,7 +91,6 @@ public class RestauranteController {
 			var idCozinha = restaurante.getCozinha().getId();
 			throw new EntidadeReferenciadaInexistenteException(Cozinha.class, idCozinha);
 		}
-
 	}
 
 	@PutMapping("/{id}")

@@ -4,16 +4,19 @@ import com.algaworks.algafood.api.model.entrada.EstadoEntradaDTO;
 import com.algaworks.algafood.api.model.saida.EstadoDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Estado;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EstadoAssembler {
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     public EstadoDTO convertToModel(Estado estado) {
         try {
-            var objectMapper = new ObjectMapper();
-            return objectMapper.convertValue(estado, EstadoDTO.class);
+            return modelMapper.map(estado, EstadoDTO.class);
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
         }
@@ -21,8 +24,7 @@ public class EstadoAssembler {
 
     public Estado convertToEntity(EstadoEntradaDTO estado) {
         try {
-            var objectMapper = new ObjectMapper();
-            return objectMapper.convertValue(estado, Estado.class);
+            return modelMapper.map(estado, Estado.class);
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.");
         }

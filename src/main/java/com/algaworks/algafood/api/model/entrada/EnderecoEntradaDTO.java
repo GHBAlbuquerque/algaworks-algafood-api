@@ -1,10 +1,9 @@
 package com.algaworks.algafood.api.model.entrada;
 
-import com.algaworks.algafood.api.model.saida.CidadeDTO;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -23,9 +22,9 @@ public class EnderecoEntradaDTO {
     @NotBlank
     private String bairro;
 
-    @Valid
     @NotNull
-    private CidadeIdEntrada cidade;
+    @JsonProperty("cidade")
+    private Long cidadeId;
 
     @NotBlank
     private String cep;

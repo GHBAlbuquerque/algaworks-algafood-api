@@ -22,7 +22,7 @@ public class HamburgueriaValidator implements ConstraintValidator<Hamburgueria, 
 
     @Override
     public boolean isValid(RestauranteEntradaDTO value, ConstraintValidatorContext context) {
-        var id = value.getCozinha().getId();
+        var id = value.getCozinhaId();
 
         if(id.equals(8L)) {
             return value.getNome().contains(this.nomeObrigatorio);

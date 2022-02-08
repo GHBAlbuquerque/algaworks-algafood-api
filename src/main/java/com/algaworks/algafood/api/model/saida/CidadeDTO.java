@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.model.saida;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Getter
@@ -12,6 +13,7 @@ public class CidadeDTO {
 
     private String nome;
 
-    private EstadoDTO estado;
+    @JsonProperty(value = "estado")
+    private String estadoNome;
 
 }

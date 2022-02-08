@@ -4,14 +4,15 @@ import com.algaworks.algafood.validation.Groups;
 import com.algaworks.algafood.validation.annotations.Hamburgueria;
 import com.algaworks.algafood.validation.annotations.Multiplo;
 import com.algaworks.algafood.validation.annotations.TaxaFrete;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.Embedded;
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 
 @Data
 @Hamburgueria(idField = "cozinha.id", nomeField="nome", nomeObrigatorio="- Hamburgueria")
@@ -25,9 +26,11 @@ public class RestauranteEntradaDTO {
     private BigDecimal taxaFrete;
 
     @NotNull
-    @Valid
-    private CozinhaIdEntrada cozinha;
+    @JsonProperty("cozinha")
+    private Long cozinhaId;
 
     @Embedded
     private EnderecoEntradaDTO endereco;
+
+    private OffsetDateTime dataCadastro = OffsetDateTime.now();
 }

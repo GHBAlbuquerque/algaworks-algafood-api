@@ -52,7 +52,6 @@ public class Restaurante {
 	private List<Produto> produtos = new ArrayList<>();
 	
 	@Embedded
-	//@NotNull @Valid @ConvertGroup(from = Default.class, to = Groups.CadastroRestaurante.class)
 	private Endereco endereco;
 
 	@ManyToMany
