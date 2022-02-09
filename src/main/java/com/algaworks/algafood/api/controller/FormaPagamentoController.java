@@ -50,7 +50,7 @@ public class FormaPagamentoController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<FormaPagamentoDTO> atualizar(@PathVariable long id, @RequestBody FormaPagamentoEntradaDTO formaPagamentoEntrada) {
+	public ResponseEntity<FormaPagamentoDTO> atualizar(@PathVariable long id, @RequestBody @Valid FormaPagamentoEntradaDTO formaPagamentoEntrada) {
 		var formaPagamentoExistente = formaPagamentoService.buscar(id);
 		assembler.copyToInstance(formaPagamentoEntrada, formaPagamentoExistente);
 

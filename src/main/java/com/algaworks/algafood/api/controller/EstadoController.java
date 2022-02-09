@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/estados")
@@ -28,8 +29,9 @@ public class EstadoController {
 	private EstadoAssembler assembler;
 	
 	@GetMapping
-	public List<Estado> listar(){
-		return estadoRepository.findAll();
+	public List<EstadoDTO> listar(){
+		var estados = estadoRepository.findAll();
+		return estados.stream().map(estado -> assembler.convertToModel(estado)).collect(Collectors.toList());
 	}
 	
 	
@@ -49,7 +51,7 @@ public class EstadoController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<EstadoDTO> atualizar(@PathVariable long id, @RequestBody EstadoEntradaDTO estadoEntrada) {
+	public ResponseEntity<EstadoDTO> atualizar(@PathVariable long id, @RequestBody @Valid EstadoEntradaDTO estadoEntrada) {
 		var estadoExistente = estadoService.buscar(id);
 		assembler.copyToInstance(estadoEntrada, estadoExistente);
 

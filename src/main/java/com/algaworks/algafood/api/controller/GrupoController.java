@@ -50,7 +50,7 @@ public class GrupoController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<GrupoDTO> atualizar(@PathVariable long id, @RequestBody GrupoEntradaDTO grupoEntrada) {
+	public ResponseEntity<GrupoDTO> atualizar(@PathVariable long id, @RequestBody @Valid GrupoEntradaDTO grupoEntrada) {
 		var grupoExistente = grupoService.buscar(id);
 		assembler.copyToInstance(grupoEntrada, grupoExistente);
 

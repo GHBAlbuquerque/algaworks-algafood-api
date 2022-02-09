@@ -68,7 +68,7 @@ public class CozinhaController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<CozinhaDTO> atualizar(@PathVariable long id, @RequestBody CozinhaEntradaDTO cozinhaEntrada) {
+	public ResponseEntity<CozinhaDTO> atualizar(@PathVariable long id, @RequestBody @Valid CozinhaEntradaDTO cozinhaEntrada) {
 		var cozinhaExistente = cozinhaService.buscar(id);
 		assembler.copyToInstance(cozinhaEntrada, cozinhaExistente);
 

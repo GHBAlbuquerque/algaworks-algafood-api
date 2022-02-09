@@ -56,7 +56,7 @@ public class CidadeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CidadeDTO> atualizar(@PathVariable long id, @RequestBody CidadeEntradaDTO cidadeEntrada) {
+    public ResponseEntity<CidadeDTO> atualizar(@PathVariable long id, @RequestBody @Valid CidadeEntradaDTO cidadeEntrada) {
         var cidadeExistente = cidadeService.buscar(id);
         assembler.copyToInstance(cidadeEntrada, cidadeExistente);
 
