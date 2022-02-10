@@ -13,7 +13,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 
 @Data
 @Hamburgueria(idField = "cozinha.id", nomeField="nome", nomeObrigatorio="- Hamburgueria")
@@ -32,8 +31,6 @@ public class RestauranteEntradaDTO {
 
     @Embedded
     private EnderecoEntradaDTO endereco;
-
-    private OffsetDateTime dataCadastro = OffsetDateTime.now();
 
     public Long getCidade(){
         if(ObjectUtils.isNotEmpty(endereco)) return this.getEndereco().getCidadeId();

@@ -11,6 +11,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 @Service
@@ -21,6 +22,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private EntityManager entityManager;
+
     public Usuario buscar(long id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsuarioNaoEncontradoException(id));
@@ -28,6 +32,14 @@ public class UsuarioService {
 
     @Transactional
     public Usuario salvar(Usuario usuario) {
+        entityManager.detach(usuario);
+
+        var usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
+
+        if(usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
+            throw new NegocioException(String.format("Já existe um usuário cadastrado com o email %s.", usuario.getEmail()));
+        }
+
         return usuarioRepository.save(usuario);
     }
 
