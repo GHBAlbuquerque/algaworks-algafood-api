@@ -74,4 +74,12 @@ public class Restaurante {
         setAtivo(false);
     }
 
+    public void abrir() {
+        setAberto(true);
+    }
+
+    public void fechar() {
+        setAberto(false);
+    }
+
 }

@@ -148,6 +148,18 @@ public class RestauranteService {
         restauranteRepository.save(restaurante);
     }
 
+    public void abrir(long id) {
+        var restaurante = buscar(id);
+        restaurante.abrir();
+        restauranteRepository.save(restaurante);
+    }
+
+    public void fechar(long id) {
+        var restaurante = buscar(id);
+        restaurante.fechar();
+        restauranteRepository.save(restaurante);
+    }
+
     // serviços referentes à forma de pagamento
 
     @Transactional
@@ -210,4 +222,6 @@ public class RestauranteService {
 
         produtoRepository.deleteByIdAndRestaurante(idProduto, restaurante);
     }
+
+
 }
