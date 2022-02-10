@@ -1,6 +1,6 @@
 package com.algaworks.algafood.api.assembler;
 
-import com.algaworks.algafood.api.model.entrada.CidadeEntradaDTO;
+import com.algaworks.algafood.api.model.input.CidadeInputDTO;
 import com.algaworks.algafood.api.model.saida.CidadeDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Cidade;
@@ -23,21 +23,21 @@ public class CidadeAssembler {
         }
     }
 
-    public Cidade convertToEntity(CidadeEntradaDTO cidade) {
+    public Cidade convertToEntity(CidadeInputDTO cidade) {
         try {
             return modelMapper.map(cidade, Cidade.class);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
         }
     }
 
 
-    public void copyToInstance(CidadeEntradaDTO cidadeEntrada, Cidade cidade) {
+    public void copyToInstance(CidadeInputDTO cidadeInputDTO, Cidade cidade) {
         try {
             cidade.setEstado(new Estado());
-            modelMapper.map(cidadeEntrada, cidade);
+            modelMapper.map(cidadeInputDTO, cidade);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
         }
     }
 }

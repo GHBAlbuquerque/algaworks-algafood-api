@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.RestauranteAssembler;
-import com.algaworks.algafood.api.model.entrada.RestauranteEntradaDTO;
+import com.algaworks.algafood.api.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.api.model.saida.RestauranteDTO;
 import com.algaworks.algafood.api.model.saida.RestauranteSingletonDTO;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
@@ -82,8 +82,8 @@ public class RestauranteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestauranteSingletonDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteEntradaDTO restauranteEntrada) {
-        var restaurante = assembler.convertToEntity(restauranteEntrada);
+    public RestauranteSingletonDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteInputDTO restauranteInput) {
+        var restaurante = assembler.convertToEntity(restauranteInput);
         try {
             var restauranteSalvo = restauranteService.salvar(restaurante);
             return assembler.convertToSingletonModel(restauranteSalvo);
@@ -93,10 +93,10 @@ public class RestauranteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RestauranteSingletonDTO> atualizar(@PathVariable long id, @RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteEntradaDTO restauranteEntrada) {
+    public ResponseEntity<RestauranteSingletonDTO> atualizar(@PathVariable long id, @RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteInputDTO restauranteInput) {
         try {
             var restauranteExistente = restauranteService.buscar(id);
-            assembler.copyToInstance(restauranteEntrada, restauranteExistente);
+            assembler.copyToInstance(restauranteInput, restauranteExistente);
 
             var restauranteSalvo = restauranteService.salvar(restauranteExistente);
             return ResponseEntity.ok(assembler.convertToSingletonModel(restauranteSalvo));

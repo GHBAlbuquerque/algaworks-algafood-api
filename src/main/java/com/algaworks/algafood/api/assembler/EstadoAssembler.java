@@ -1,6 +1,6 @@
 package com.algaworks.algafood.api.assembler;
 
-import com.algaworks.algafood.api.model.entrada.EstadoEntradaDTO;
+import com.algaworks.algafood.api.model.input.EstadoInputDTO;
 import com.algaworks.algafood.api.model.saida.EstadoDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Estado;
@@ -22,20 +22,20 @@ public class EstadoAssembler {
         }
     }
 
-    public Estado convertToEntity(EstadoEntradaDTO estado) {
+    public Estado convertToEntity(EstadoInputDTO estado) {
         try {
             return modelMapper.map(estado, Estado.class);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.");
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.");
         }
     }
 
 
-    public void copyToInstance(EstadoEntradaDTO estadoEntrada, Estado estado) {
+    public void copyToInstance(EstadoInputDTO estadoInput, Estado estado) {
         try {
-            modelMapper.map(estadoEntrada, estado);
+            modelMapper.map(estadoInput, estado);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
         }
     }
 }

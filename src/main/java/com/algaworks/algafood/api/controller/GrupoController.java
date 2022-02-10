@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.GrupoAssembler;
-import com.algaworks.algafood.api.model.entrada.GrupoEntradaDTO;
+import com.algaworks.algafood.api.model.input.GrupoInputDTO;
 import com.algaworks.algafood.api.model.saida.GrupoDTO;
 import com.algaworks.algafood.domain.repository.GrupoRepository;
 import com.algaworks.algafood.domain.service.GrupoService;
@@ -43,16 +43,16 @@ public class GrupoController {
 
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	public GrupoDTO salvar(@RequestBody @Valid GrupoEntradaDTO grupoEntrada) {
-		var grupoRecebida = assembler.convertToEntity(grupoEntrada);
+	public GrupoDTO salvar(@RequestBody @Valid GrupoInputDTO grupoInput) {
+		var grupoRecebida = assembler.convertToEntity(grupoInput);
 		var grupo = grupoService.salvar(grupoRecebida);
 		return assembler.convertToModel(grupo);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<GrupoDTO> atualizar(@PathVariable long id, @RequestBody @Valid GrupoEntradaDTO grupoEntrada) {
+	public ResponseEntity<GrupoDTO> atualizar(@PathVariable long id, @RequestBody @Valid GrupoInputDTO grupoInput) {
 		var grupoExistente = grupoService.buscar(id);
-		assembler.copyToInstance(grupoEntrada, grupoExistente);
+		assembler.copyToInstance(grupoInput, grupoExistente);
 
 		var grupo = grupoService.salvar(grupoExistente);
 		return ResponseEntity.ok(assembler.convertToModel(grupo));

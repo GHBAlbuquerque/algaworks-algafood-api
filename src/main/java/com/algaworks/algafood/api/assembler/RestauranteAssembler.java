@@ -1,6 +1,6 @@
 package com.algaworks.algafood.api.assembler;
 
-import com.algaworks.algafood.api.model.entrada.RestauranteEntradaDTO;
+import com.algaworks.algafood.api.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.api.model.saida.RestauranteDTO;
 import com.algaworks.algafood.api.model.saida.RestauranteSingletonDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
@@ -34,27 +34,27 @@ public class RestauranteAssembler {
         }
     }
 
-    public Restaurante convertToEntity(RestauranteEntradaDTO restaurante) {
+    public Restaurante convertToEntity(RestauranteInputDTO restaurante) {
         try {
             return modelMapper.map(restaurante, Restaurante.class);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
         }
     }
 
-    public void copyToInstance(RestauranteEntradaDTO restauranteEntrada, Restaurante restaurante) {
+    public void copyToInstance(RestauranteInputDTO restauranteInput, Restaurante restaurante) {
         try {
-            if(ObjectUtils.isNotEmpty(restauranteEntrada.getCozinhaId())) {
+            if(ObjectUtils.isNotEmpty(restauranteInput.getCozinhaId())) {
                 restaurante.setCozinha(new Cozinha());
             }
 
-            if(ObjectUtils.isNotEmpty(restauranteEntrada.getCidade())) {
+            if(ObjectUtils.isNotEmpty(restauranteInput.getCidade())) {
                 restaurante.getEndereco().setCidade(new Cidade());
             }
 
-            modelMapper.map(restauranteEntrada, restaurante);
+            modelMapper.map(restauranteInput, restaurante);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
         }
     }
 }

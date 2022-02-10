@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.FormaPagamentoAssembler;
-import com.algaworks.algafood.api.model.entrada.FormaPagamentoEntradaDTO;
+import com.algaworks.algafood.api.model.input.FormaPagamentoInputDTO;
 import com.algaworks.algafood.api.model.saida.FormaPagamentoDTO;
 import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
 import com.algaworks.algafood.domain.service.FormaPagamentoService;
@@ -43,16 +43,16 @@ public class FormaPagamentoController {
 
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	public FormaPagamentoDTO salvar(@RequestBody @Valid FormaPagamentoEntradaDTO formaPagamentoEntrada) {
-		var formaPagamentoRecebida = assembler.convertToEntity(formaPagamentoEntrada);
+	public FormaPagamentoDTO salvar(@RequestBody @Valid FormaPagamentoInputDTO formaPagamentoInput) {
+		var formaPagamentoRecebida = assembler.convertToEntity(formaPagamentoInput);
 		var formaPagamento = formaPagamentoService.salvar(formaPagamentoRecebida);
 		return assembler.convertToModel(formaPagamento);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<FormaPagamentoDTO> atualizar(@PathVariable long id, @RequestBody @Valid FormaPagamentoEntradaDTO formaPagamentoEntrada) {
+	public ResponseEntity<FormaPagamentoDTO> atualizar(@PathVariable long id, @RequestBody @Valid FormaPagamentoInputDTO formaPagamentoInput) {
 		var formaPagamentoExistente = formaPagamentoService.buscar(id);
-		assembler.copyToInstance(formaPagamentoEntrada, formaPagamentoExistente);
+		assembler.copyToInstance(formaPagamentoInput, formaPagamentoExistente);
 
 		var formaPagamento = formaPagamentoService.salvar(formaPagamentoExistente);
 		return ResponseEntity.ok(assembler.convertToModel(formaPagamento));

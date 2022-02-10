@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.assembler;
 
-import com.algaworks.algafood.api.model.entrada.UsuarioEntradaDTO;
-import com.algaworks.algafood.api.model.entrada.UsuarioNovoEntradaDTO;
+import com.algaworks.algafood.api.model.input.UsuarioUpdateDTO;
+import com.algaworks.algafood.api.model.input.UsuarioInputDTO;
 import com.algaworks.algafood.api.model.saida.UsuarioDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Usuario;
@@ -23,27 +23,27 @@ public class UsuarioAssembler {
         }
     }
 
-    public Usuario convertToEntity(UsuarioNovoEntradaDTO usuarioEntrada) {
+    public Usuario convertToEntity(UsuarioInputDTO usuarioInput) {
         try {
-            return modelMapper.map(usuarioEntrada, Usuario.class);
+            return modelMapper.map(usuarioInput, Usuario.class);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.");
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.");
         }
     }
 
-    public void copyToInstance(UsuarioNovoEntradaDTO usuarioEntrada, Usuario usuario) {
+    public void copyToInstance(UsuarioInputDTO usuarioInput, Usuario usuario) {
         try {
-            modelMapper.map(usuarioEntrada, usuario);
+            modelMapper.map(usuarioInput, usuario);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
         }
     }
 
-    public void copyToInstance(UsuarioEntradaDTO usuarioEntrada, Usuario usuario) {
+    public void copyToInstance(UsuarioUpdateDTO usuarioInput, Usuario usuario) {
         try {
-            modelMapper.map(usuarioEntrada, usuario);
+            modelMapper.map(usuarioInput, usuario);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de entrada para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
         }
     }
 }

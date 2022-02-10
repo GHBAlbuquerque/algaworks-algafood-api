@@ -40,6 +40,9 @@ public class Restaurante {
     @Column(nullable = false)
     private boolean ativo;
 
+    @Column(nullable = false)
+    private boolean aberto;
+
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime dataCadastro;

@@ -1,9 +1,9 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.UsuarioAssembler;
-import com.algaworks.algafood.api.model.entrada.SenhaEntradaDTO;
-import com.algaworks.algafood.api.model.entrada.UsuarioEntradaDTO;
-import com.algaworks.algafood.api.model.entrada.UsuarioNovoEntradaDTO;
+import com.algaworks.algafood.api.model.input.SenhaInputDTO;
+import com.algaworks.algafood.api.model.input.UsuarioUpdateDTO;
+import com.algaworks.algafood.api.model.input.UsuarioInputDTO;
 import com.algaworks.algafood.api.model.saida.UsuarioDTO;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import com.algaworks.algafood.domain.service.UsuarioService;
@@ -45,16 +45,16 @@ public class UsuarioController {
 
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	public UsuarioDTO salvar(@RequestBody @Valid UsuarioNovoEntradaDTO usuarioEntrada) {
-		var usuarioRecebida = assembler.convertToEntity(usuarioEntrada);
+	public UsuarioDTO salvar(@RequestBody @Valid UsuarioInputDTO usuarioInput) {
+		var usuarioRecebida = assembler.convertToEntity(usuarioInput);
 		var usuario = usuarioService.salvar(usuarioRecebida);
 		return assembler.convertToModel(usuario);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable long id, @RequestBody @Valid UsuarioEntradaDTO usuarioEntrada) {
+	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable long id, @RequestBody @Valid UsuarioUpdateDTO usuarioInput) {
 		var usuarioExistente = usuarioService.buscar(id);
-		assembler.copyToInstance(usuarioEntrada, usuarioExistente);
+		assembler.copyToInstance(usuarioInput, usuarioExistente);
 
 		var usuario = usuarioService.salvar(usuarioExistente);
 		return ResponseEntity.ok(assembler.convertToModel(usuario));
@@ -67,7 +67,7 @@ public class UsuarioController {
 	}
 
 	@PutMapping("/{id}/senha")
-	public ResponseEntity<UsuarioDTO> alterarSenha(@PathVariable long id, @RequestBody @Valid SenhaEntradaDTO senha) {
+	public ResponseEntity<UsuarioDTO> alterarSenha(@PathVariable long id, @RequestBody @Valid SenhaInputDTO senha) {
 
 		usuarioService.trocarSenha(id, senha);
 		return ResponseEntity.noContent().build();

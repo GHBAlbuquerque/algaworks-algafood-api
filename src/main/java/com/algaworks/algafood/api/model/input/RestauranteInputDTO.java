@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.model.entrada;
+package com.algaworks.algafood.api.model.input;
 
 import com.algaworks.algafood.validation.Groups;
 import com.algaworks.algafood.validation.annotations.Hamburgueria;
@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 
 @Data
 @Hamburgueria(idField = "cozinha.id", nomeField="nome", nomeObrigatorio="- Hamburgueria")
-public class RestauranteEntradaDTO {
+public class RestauranteInputDTO {
 
     @NotBlank
     private String nome;
@@ -30,7 +30,7 @@ public class RestauranteEntradaDTO {
     private Long cozinhaId;
 
     @Embedded
-    private EnderecoEntradaDTO endereco;
+    private EnderecoInputDTO endereco;
 
     public Long getCidade(){
         if(ObjectUtils.isNotEmpty(endereco)) return this.getEndereco().getCidadeId();

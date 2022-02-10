@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.CozinhaAssembler;
-import com.algaworks.algafood.api.model.entrada.CozinhaEntradaDTO;
+import com.algaworks.algafood.api.model.input.CozinhaInputDTO;
 import com.algaworks.algafood.api.model.saida.CozinhaDTO;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CozinhaService;
@@ -61,16 +61,16 @@ public class CozinhaController {
 
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
-	public CozinhaDTO salvar(@RequestBody @Valid CozinhaEntradaDTO cozinhaEntrada) {
-		var cozinhaRecebida = assembler.convertToEntity(cozinhaEntrada);
+	public CozinhaDTO salvar(@RequestBody @Valid CozinhaInputDTO cozinhaInput) {
+		var cozinhaRecebida = assembler.convertToEntity(cozinhaInput);
 		var cozinha = cozinhaService.salvar(cozinhaRecebida);
 		return assembler.convertToModel(cozinha);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<CozinhaDTO> atualizar(@PathVariable long id, @RequestBody @Valid CozinhaEntradaDTO cozinhaEntrada) {
+	public ResponseEntity<CozinhaDTO> atualizar(@PathVariable long id, @RequestBody @Valid CozinhaInputDTO cozinhaInput) {
 		var cozinhaExistente = cozinhaService.buscar(id);
-		assembler.copyToInstance(cozinhaEntrada, cozinhaExistente);
+		assembler.copyToInstance(cozinhaInput, cozinhaExistente);
 
 		var cozinha = cozinhaService.salvar(cozinhaExistente);
 		return ResponseEntity.ok(assembler.convertToModel(cozinha));

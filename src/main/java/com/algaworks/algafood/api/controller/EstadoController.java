@@ -1,9 +1,8 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.EstadoAssembler;
-import com.algaworks.algafood.api.model.entrada.EstadoEntradaDTO;
+import com.algaworks.algafood.api.model.input.EstadoInputDTO;
 import com.algaworks.algafood.api.model.saida.EstadoDTO;
-import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import com.algaworks.algafood.domain.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,17 +42,17 @@ public class EstadoController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public EstadoDTO adicionar(@RequestBody @Valid EstadoEntradaDTO estadoEntrada) {
-		var estado = assembler.convertToEntity(estadoEntrada);
+	public EstadoDTO adicionar(@RequestBody @Valid EstadoInputDTO estadoInput) {
+		var estado = assembler.convertToEntity(estadoInput);
 		var estadoSalvo = estadoService.salvar(estado);
 		return assembler.convertToModel(estadoSalvo);
 
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<EstadoDTO> atualizar(@PathVariable long id, @RequestBody @Valid EstadoEntradaDTO estadoEntrada) {
+	public ResponseEntity<EstadoDTO> atualizar(@PathVariable long id, @RequestBody @Valid EstadoInputDTO estadoInput) {
 		var estadoExistente = estadoService.buscar(id);
-		assembler.copyToInstance(estadoEntrada, estadoExistente);
+		assembler.copyToInstance(estadoInput, estadoExistente);
 
 		var estado = estadoService.salvar(estadoExistente);
 		return ResponseEntity.ok(assembler.convertToModel(estado));

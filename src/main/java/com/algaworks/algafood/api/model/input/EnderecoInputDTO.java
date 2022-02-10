@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.model.entrada;
+package com.algaworks.algafood.api.model.input;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class EnderecoEntradaDTO {
+public class EnderecoInputDTO {
 
     @NotBlank
     private String logradouro;

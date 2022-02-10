@@ -1,13 +1,9 @@
 package com.algaworks.algafood.domain.service;
 
-import com.algaworks.algafood.api.model.entrada.CozinhaEntradaDTO;
-import com.algaworks.algafood.api.model.saida.CozinhaDTO;
-import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;

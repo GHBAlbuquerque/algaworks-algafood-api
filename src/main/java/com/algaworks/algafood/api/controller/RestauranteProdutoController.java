@@ -1,12 +1,11 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.ProdutoAssembler;
-import com.algaworks.algafood.api.model.entrada.ProdutoEntradaDTO;
-import com.algaworks.algafood.api.model.entrada.ProdutoUpdateEntradaDTO;
+import com.algaworks.algafood.api.model.input.ProdutoInputDTO;
+import com.algaworks.algafood.api.model.input.ProdutoUpdateDTO;
 import com.algaworks.algafood.api.model.saida.ProdutoDTO;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,9 +38,9 @@ public class RestauranteProdutoController {
 
     @PostMapping("/{idProduto}")
     @ResponseStatus(HttpStatus.CREATED)
-    public ProdutoDTO adicionar(@PathVariable Long idRestaurante, @RequestBody @Valid ProdutoEntradaDTO produtoEntradaDTO) {
+    public ProdutoDTO adicionar(@PathVariable Long idRestaurante, @RequestBody @Valid ProdutoInputDTO produtoInputDTO) {
         try {
-            var produto = assembler.convertToEntity(produtoEntradaDTO);
+            var produto = assembler.convertToEntity(produtoInputDTO);
             produto = restauranteService.adicionarProduto(idRestaurante, produto);
             return assembler.convertToModel(produto);
         } catch (EntidadeNaoEncontradaException ex) {
@@ -51,10 +50,10 @@ public class RestauranteProdutoController {
 
     @PutMapping("/{idProduto}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void atualizar(@PathVariable Long idRestaurante, @PathVariable Long idProduto, @RequestBody @Valid ProdutoUpdateEntradaDTO produtoEntradaDTO) {
+    public void atualizar(@PathVariable Long idRestaurante, @PathVariable Long idProduto, @RequestBody @Valid ProdutoUpdateDTO produtoInputDTO) {
         try {
             var produtoExistente = restauranteService.buscarProdutoPorRestaurante(idRestaurante, idProduto);
-            assembler.copyToInstance(produtoEntradaDTO, produtoExistente);
+            assembler.copyToInstance(produtoInputDTO, produtoExistente);
             restauranteService.atualizarProduto(idRestaurante, produtoExistente);
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());

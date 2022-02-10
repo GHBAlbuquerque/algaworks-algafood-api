@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.CidadeAssembler;
-import com.algaworks.algafood.api.model.entrada.CidadeEntradaDTO;
+import com.algaworks.algafood.api.model.input.CidadeInputDTO;
 import com.algaworks.algafood.api.model.saida.CidadeDTO;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EstadoNaoEncontradoException;
@@ -44,8 +44,8 @@ public class CidadeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CidadeDTO adicionar(@RequestBody @Valid CidadeEntradaDTO cidadeEntrada) {
-        var cidade = assembler.convertToEntity(cidadeEntrada);
+    public CidadeDTO adicionar(@RequestBody @Valid CidadeInputDTO cidadeInput) {
+        var cidade = assembler.convertToEntity(cidadeInput);
         try {
             var cidadeSalva = cidadeService.salvar(cidade);
             return assembler.convertToModel(cidadeSalva);
@@ -56,15 +56,15 @@ public class CidadeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CidadeDTO> atualizar(@PathVariable long id, @RequestBody @Valid CidadeEntradaDTO cidadeEntrada) {
+    public ResponseEntity<CidadeDTO> atualizar(@PathVariable long id, @RequestBody @Valid CidadeInputDTO cidadeInput) {
         var cidadeExistente = cidadeService.buscar(id);
-        assembler.copyToInstance(cidadeEntrada, cidadeExistente);
+        assembler.copyToInstance(cidadeInput, cidadeExistente);
 
         try {
             var cidade = cidadeService.salvar(cidadeExistente);
             return ResponseEntity.ok(assembler.convertToModel(cidadeExistente));
         } catch (EstadoNaoEncontradoException ex) {
-            var idEstado = cidadeEntrada.getEstadoId();
+            var idEstado = cidadeInput.getEstadoId();
             throw new EntidadeReferenciadaInexistenteException(Estado.class, idEstado);
         }
     }

@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.model.entrada;
+package com.algaworks.algafood.api.model.input;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,14 +10,19 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class ProdutoUpdateEntradaDTO {
+public class ProdutoInputDTO {
 
+    @NotBlank
     private String nome;
 
+    @NotBlank
     private String descricao;
 
+    @NotNull
+    @PositiveOrZero
     private BigDecimal preco;
 
+    @NotNull
     private Boolean ativo;
 
 }
