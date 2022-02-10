@@ -47,6 +47,9 @@ public class RestauranteService {
     private FormaPagamentoService formaPagamentoService;
 
     @Autowired
+    private UsuarioService usuarioService;
+
+    @Autowired
     private ProdutoRepository produtoRepository;
 
     @Autowired
@@ -65,8 +68,8 @@ public class RestauranteService {
         var cozinha = cozinhaService.buscar(cozinhaId);
         restaurante.setCozinha(cozinha);
 
-        if(ObjectUtils.isNotEmpty(restaurante.getEndereco())
-            && ObjectUtils.isNotEmpty(restaurante.getEndereco().getCidade())) {
+        if (ObjectUtils.isNotEmpty(restaurante.getEndereco())
+                && ObjectUtils.isNotEmpty(restaurante.getEndereco().getCidade())) {
             var cidadeId = restaurante.getEndereco().getCidade().getId();
             var cidade = cidadeService.buscar(cidadeId);
             restaurante.getEndereco().setCidade(cidade);
@@ -163,25 +166,27 @@ public class RestauranteService {
     // serviços referentes à forma de pagamento
 
     @Transactional
-    public void removerFormaPagamento(Long idRestaurante, Long idFormaPagamento){
-            var restaurante = buscar(idRestaurante);
-            var formaPagamento = formaPagamentoService.buscar(idFormaPagamento);
-
-            if(!restaurante.getFormasPagamento().contains(formaPagamento))
-                throw new NegocioException("Restaurante não possui a forma de pagamento solicitada para remoção.");
-
-            restaurante.getFormasPagamento().remove(formaPagamento);
-    }
-
-    @Transactional
-    public void adicionarFormaPagamento(Long idRestaurante, Long idFormaPagamento){
+    public void removerFormaPagamento(Long idRestaurante, Long idFormaPagamento) {
         var restaurante = buscar(idRestaurante);
         var formaPagamento = formaPagamentoService.buscar(idFormaPagamento);
 
-        if(restaurante.getFormasPagamento().contains(formaPagamento))
+        if (!restaurante.getFormasPagamento().contains(formaPagamento))
+            throw new NegocioException("Restaurante não possui a forma de pagamento solicitada para remoção.");
+
+        restaurante.getFormasPagamento().remove(formaPagamento);
+        restauranteRepository.save(restaurante);
+    }
+
+    @Transactional
+    public void adicionarFormaPagamento(Long idRestaurante, Long idFormaPagamento) {
+        var restaurante = buscar(idRestaurante);
+        var formaPagamento = formaPagamentoService.buscar(idFormaPagamento);
+
+        if (restaurante.getFormasPagamento().contains(formaPagamento))
             throw new NegocioException("Restaurante já possui a forma de pagamento solicitada para adição.");
 
         restaurante.getFormasPagamento().add(formaPagamento);
+        restauranteRepository.save(restaurante);
     }
 
     // serviços referentes a produtos
@@ -191,11 +196,11 @@ public class RestauranteService {
         return produtoRepository.getByRestaurante(restaurante);
     }
 
-    public Produto buscarProdutoPorRestaurante(Long idRestaurante, Long idProduto){
+    public Produto buscarProdutoPorRestaurante(Long idRestaurante, Long idProduto) {
         var restaurante = buscar(idRestaurante);
         var produto = produtoRepository.getByIdAndRestaurante(idProduto, restaurante);
 
-        if(produto.isEmpty()) {
+        if (produto.isEmpty()) {
             throw new ProdutoNaoEncontradoException(idRestaurante, idProduto);
         }
 
@@ -216,12 +221,36 @@ public class RestauranteService {
     }
 
     @Transactional
-    public void removerProduto(Long idRestaurante, Long idProduto){
+    public void removerProduto(Long idRestaurante, Long idProduto) {
         var restaurante = buscar(idRestaurante);
         var produto = buscarProdutoPorRestaurante(idRestaurante, idProduto);
 
         produtoRepository.deleteByIdAndRestaurante(idProduto, restaurante);
     }
 
+    // serviços referentes a usuários
 
+    @Transactional
+    public void removerResponsavel(Long idRestaurante, Long idUsuario) {
+        var restaurante = buscar(idRestaurante);
+        var usuario = usuarioService.buscar(idUsuario);
+
+        if (!restaurante.getResponsaveis().contains(usuario))
+            throw new NegocioException("Restaurante não possui o usuário solicitado para remoção.");
+
+        restaurante.getResponsaveis().remove(usuario);
+        restauranteRepository.save(restaurante);
+    }
+
+    @Transactional
+    public void adicionarResponsavel(Long idRestaurante, Long idUsuario) {
+        var restaurante = buscar(idRestaurante);
+        var usuario = usuarioService.buscar(idUsuario);
+
+        if (restaurante.getResponsaveis().contains(usuario))
+            throw new NegocioException("Restaurante já possui o usuário solicitado para adição.");
+
+        restaurante.getResponsaveis().add(usuario);
+        restauranteRepository.save(restaurante);
+    }
 }
