@@ -31,8 +31,7 @@ public class GrupoController {
 	@GetMapping
 	public List<GrupoDTO> listar() {
 		var grupos = grupoRepository.findAll();
-
-		return grupos.stream().map(grupo -> assembler.convertToModel(grupo)).collect(Collectors.toList());
+		return assembler.convertListToModel(grupos);
 	}
 
 	@GetMapping("/{id}")

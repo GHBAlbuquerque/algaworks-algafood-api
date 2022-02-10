@@ -1,13 +1,17 @@
 package com.algaworks.algafood.api.assembler;
 
-import com.algaworks.algafood.api.model.input.UsuarioUpdateDTO;
 import com.algaworks.algafood.api.model.input.UsuarioInputDTO;
+import com.algaworks.algafood.api.model.input.UsuarioUpdateDTO;
 import com.algaworks.algafood.api.model.saida.UsuarioDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class UsuarioAssembler {
@@ -45,5 +49,9 @@ public class UsuarioAssembler {
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
         }
+    }
+
+    public List<UsuarioDTO> convertListToModel(Collection<Usuario> usuarios) {
+        return usuarios.stream().map(this::convertToModel).collect(Collectors.toList());
     }
 }

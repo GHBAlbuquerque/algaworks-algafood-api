@@ -8,6 +8,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class CozinhaAssembler {
 
@@ -35,7 +39,11 @@ public class CozinhaAssembler {
         try {
             modelMapper.map(cozinhaInput, cozinha);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.", ex.getCause());
         }
+    }
+
+    public List<CozinhaDTO> convertListToModel(Collection<Cozinha> cozinhas) {
+        return cozinhas.stream().map(this::convertToModel).collect(Collectors.toList());
     }
 }

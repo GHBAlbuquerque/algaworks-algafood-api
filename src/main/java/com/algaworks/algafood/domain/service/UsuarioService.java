@@ -23,6 +23,9 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
+    private GrupoService grupoService;
+
+    @Autowired
     private EntityManager entityManager;
 
     public Usuario buscar(long id) {
@@ -71,4 +74,26 @@ public class UsuarioService {
             throw new NegocioException("Senha atual não coincide com a senha do usuário.");
         }
     }
+
+    // MANIPULAÇÃO DE GRUPOS
+
+    @Transactional
+    public void associarGrupo(Long idUsuario, Long idGrupo) {
+        var usuario = buscar(idUsuario);
+        var grupo = grupoService.buscar(idGrupo);
+
+        usuario.getGrupos().add(grupo);
+        usuarioRepository.save(usuario);
+
+    }
+
+    @Transactional
+    public void desassociarGrupo(Long idUsuario, Long idGrupo) {
+        var usuario = buscar(idUsuario);
+        var grupo = grupoService.buscar(idGrupo);
+
+        usuario.getGrupos().remove(grupo);
+        usuarioRepository.save(usuario);
+    }
+
 }

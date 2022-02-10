@@ -31,8 +31,7 @@ public class FormaPagamentoController {
 	@GetMapping
 	public List<FormaPagamentoDTO> listar() {
 		var formasPagamento = formaPagamentoRepository.findAll();
-
-		return formasPagamento.stream().map(formaPagamento -> assembler.convertToModel(formaPagamento)).collect(Collectors.toList());
+		return assembler.convertListToModel(formasPagamento);
 	}
 
 	@GetMapping("/{id}")

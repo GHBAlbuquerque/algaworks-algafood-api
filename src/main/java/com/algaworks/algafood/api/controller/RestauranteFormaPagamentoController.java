@@ -31,9 +31,7 @@ public class RestauranteFormaPagamentoController {
     @GetMapping()
     public List<FormaPagamentoDTO> listar(@PathVariable Long idRestaurante) {
         var restaurante = restauranteService.buscar(idRestaurante);
-        return restaurante.getFormasPagamento().stream()
-                .map(formaPagamento -> assembler.convertToModel(formaPagamento))
-                .collect(Collectors.toList());
+        return assembler.convertListToModel(restaurante.getFormasPagamento());
     }
 
     @PutMapping("/{idFormaPagamento}")

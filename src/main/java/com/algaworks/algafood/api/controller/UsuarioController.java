@@ -33,8 +33,7 @@ public class UsuarioController {
 	@GetMapping
 	public List<UsuarioDTO> listar() {
 		var usuarios = usuarioRepository.findAll();
-
-		return usuarios.stream().map(usuario -> assembler.convertToModel(usuario)).collect(Collectors.toList());
+		return assembler.convertListToModel(usuarios);
 	}
 
 	@GetMapping("/{id}")

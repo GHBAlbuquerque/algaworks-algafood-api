@@ -14,5 +14,4 @@ public class GrupoDTO {
 
     private String nome;
 
-    private List<PermissaoDTO> permissoes;
 }

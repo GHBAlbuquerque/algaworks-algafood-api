@@ -33,7 +33,7 @@ public class CidadeController {
     @GetMapping
     public List<CidadeDTO> listar() {
         var cidades = cidadeRepository.findAll();
-        return cidades.stream().map(cidade -> assembler.convertToModel(cidade)).collect(Collectors.toList());
+        return assembler.convertListToModel(cidades);
     }
 
     @GetMapping("/{id}")

@@ -1,53 +1,55 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.api.assembler.PermissaoAssembler;
-import com.algaworks.algafood.api.model.saida.PermissaoDTO;
+import com.algaworks.algafood.api.assembler.GrupoAssembler;
+import com.algaworks.algafood.api.model.saida.GrupoDTO;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.service.PermissaoService;
 import com.algaworks.algafood.domain.service.GrupoService;
+import com.algaworks.algafood.domain.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("grupos/{idGrupo}/permissoes")
-public class GrupoPermissaoController {
+@RequestMapping(value = "/usuarios/{idUsuario}/grupos")
+public class UsuarioGrupoController {
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @Autowired
     private GrupoService grupoService;
 
     @Autowired
-    private PermissaoService permissaoService;
-
-    @Autowired
-    private PermissaoAssembler assembler;
+    private GrupoAssembler assembler;
 
     @GetMapping()
-    public List<PermissaoDTO> listar(@PathVariable Long idGrupo) {
-        var grupo = grupoService.buscar(idGrupo);
-        return assembler.convertListToModel(grupo.getPermissoes());
+    public List<GrupoDTO> listar(@PathVariable Long idUsuario) {
+        var usuario = usuarioService.buscar(idUsuario);
+        return assembler.convertListToModel(usuario.getGrupos());
     }
 
-    @PutMapping("/{idPermissao}")
+    @PutMapping("/{idGrupo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void adicionar(@PathVariable Long idGrupo, @PathVariable Long idPermissao) {
+    public void associar(@PathVariable Long idUsuario, @PathVariable Long idGrupo) {
         try {
-            grupoService.adicionarPermissao(idGrupo, idPermissao);
+            usuarioService.associarGrupo(idUsuario, idGrupo);
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }
     }
 
-    @DeleteMapping("/{idPermissao}")
+    @DeleteMapping("/{idGrupo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long idGrupo, @PathVariable Long idPermissao) {
+    public void desassociar(@PathVariable Long idUsuario, @PathVariable Long idGrupo) {
         try {
-            grupoService.removerPermissao(idGrupo, idPermissao);
+            usuarioService.desassociarGrupo(idUsuario, idGrupo);
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }
     }
+
 }

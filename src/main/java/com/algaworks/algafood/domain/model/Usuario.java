@@ -7,7 +7,9 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -37,6 +39,6 @@ public class Usuario {
 	@JoinTable(name="usuario_grupo",
 		joinColumns = @JoinColumn(name="usuario_id"),
 		inverseJoinColumns = @JoinColumn(name="grupo_id"))
-	private List<Grupo> grupos;
+	private Set<Grupo> grupos = new HashSet<>();
 
 }

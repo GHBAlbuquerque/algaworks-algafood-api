@@ -40,7 +40,7 @@ public class RestauranteController {
     @GetMapping
     public List<RestauranteDTO> listar() {
         var restaurantes = restauranteRepository.findAll();
-        return restaurantes.stream().map(restaurante -> assembler.convertToModel(restaurante)).collect(Collectors.toList());
+        return assembler.convertListToModel(restaurantes);
     }
 
     @GetMapping("/{id}")

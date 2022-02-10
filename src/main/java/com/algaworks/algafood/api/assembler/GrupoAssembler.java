@@ -8,6 +8,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class GrupoAssembler {
 
@@ -35,7 +39,11 @@ public class GrupoAssembler {
         try {
             modelMapper.map(grupoInput, grupo);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.", ex.getCause());
         }
+    }
+
+    public List<GrupoDTO> convertListToModel(Collection<Grupo> grupos) {
+        return grupos.stream().map(this::convertToModel).collect(Collectors.toList());
     }
 }

@@ -31,8 +31,7 @@ public class PermissaoController {
 	@GetMapping
 	public List<PermissaoDTO> listar() {
 		var permissoes = permissaoRepository.findAll();
-
-		return permissoes.stream().map(permissao -> assembler.convertToModel(permissao)).collect(Collectors.toList());
+		return assembler.convertListToModel(permissoes);
 	}
 
 	@GetMapping("/{id}")

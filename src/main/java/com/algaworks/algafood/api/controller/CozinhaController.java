@@ -33,8 +33,7 @@ public class CozinhaController {
 	@GetMapping
 	public List<CozinhaDTO> listar() {
 		var cozinhas = cozinhaRepository.findAll();
-
-		return cozinhas.stream().map(cozinha -> assembler.convertToModel(cozinha)).collect(Collectors.toList());
+		return assembler.convertListToModel(cozinhas);
 	}
 
 	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)

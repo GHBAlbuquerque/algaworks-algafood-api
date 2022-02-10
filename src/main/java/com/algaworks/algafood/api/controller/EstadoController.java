@@ -30,7 +30,7 @@ public class EstadoController {
 	@GetMapping
 	public List<EstadoDTO> listar(){
 		var estados = estadoRepository.findAll();
-		return estados.stream().map(estado -> assembler.convertToModel(estado)).collect(Collectors.toList());
+		return assembler.convertListToModel(estados);
 	}
 	
 	

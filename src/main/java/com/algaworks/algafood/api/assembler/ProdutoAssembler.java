@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,7 @@ public class ProdutoAssembler {
         try {
             modelMapper.map(produtoInput, produto);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.", ex.getCause());
         }
     }
 
@@ -47,11 +48,11 @@ public class ProdutoAssembler {
         try {
             modelMapper.map(produtoInput, produto);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.", ex.getCause());
         }
     }
 
-    public List<ProdutoDTO> convertListToModel(List<Produto> produtos) {
+    public List<ProdutoDTO> convertListToModel(Collection<Produto> produtos) {
         return produtos.stream().map(this::convertToModel).collect(Collectors.toList());
     }
 }

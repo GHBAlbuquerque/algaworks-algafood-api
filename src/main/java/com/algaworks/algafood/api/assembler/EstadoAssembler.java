@@ -8,6 +8,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class EstadoAssembler {
 
@@ -37,5 +41,9 @@ public class EstadoAssembler {
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
         }
+    }
+
+    public List<EstadoDTO> convertListToModel(Collection<Estado> estados) {
+        return estados.stream().map(this::convertToModel).collect(Collectors.toList());
     }
 }

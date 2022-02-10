@@ -9,6 +9,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class CidadeAssembler {
 
@@ -39,5 +43,9 @@ public class CidadeAssembler {
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
         }
+    }
+
+    public List<CidadeDTO> convertListToModel(Collection<Cidade> cidades) {
+        return cidades.stream().map(this::convertToModel).collect(Collectors.toList());
     }
 }

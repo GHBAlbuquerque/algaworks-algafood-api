@@ -12,6 +12,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class RestauranteAssembler {
 
@@ -56,5 +60,9 @@ public class RestauranteAssembler {
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
         }
+    }
+
+    public List<RestauranteDTO> convertListToModel(Collection<Restaurante> restaurantes) {
+        return restaurantes.stream().map(this::convertToModel).collect(Collectors.toList());
     }
 }

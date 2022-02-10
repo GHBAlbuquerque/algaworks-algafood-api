@@ -50,7 +50,7 @@ public class GrupoService {
     }
 
     @Transactional
-    public void adicionarPermissao(Long idGrupo, Long idPermissao) {
+    public void removerPermissao(Long idGrupo, Long idPermissao) {
         var grupo = buscar(idGrupo);
         var permissao = permissaoService.buscar(idPermissao);
 
@@ -62,7 +62,7 @@ public class GrupoService {
     }
 
     @Transactional
-    public void removerPermissao(Long idGrupo, Long idPermissao) {
+    public void adicionarPermissao(Long idGrupo, Long idPermissao) {
         var grupo = buscar(idGrupo);
         var permissao = permissaoService.buscar(idPermissao);
 
