@@ -129,4 +129,5 @@ public class RestauranteController {
     public void desativar(@PathVariable long id) {
         restauranteService.desativar(id);
     }
+
 }

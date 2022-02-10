@@ -1,8 +1,11 @@
 package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.ValidacaoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.RestauranteNaoEncontradoException;
+import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
@@ -37,7 +40,7 @@ public class RestauranteService {
     private CidadeService cidadeService;
 
     @Autowired
-    private CidadeRepository cidadeRepository;
+    private FormaPagamentoService formaPagamentoService;
 
     @Autowired
     private SmartValidator validator;
@@ -136,6 +139,28 @@ public class RestauranteService {
         var restaurante = buscar(id);
         restaurante.desativar();
         restauranteRepository.save(restaurante);
+    }
+
+    @Transactional
+    public void removerFormaPagamento(Long idRestaurante, Long idFormaPagamento){
+            var restaurante = buscar(idRestaurante);
+            var formaPagamento = formaPagamentoService.buscar(idFormaPagamento);
+
+            if(!restaurante.getFormasPagamento().contains(formaPagamento))
+                throw new NegocioException("Restaurante não possui a forma de pagamento solicitada para remoção.");
+
+            restaurante.getFormasPagamento().remove(formaPagamento);
+    }
+
+    @Transactional
+    public void adicionarFormaPagamento(Long idRestaurante, Long idFormaPagamento){
+        var restaurante = buscar(idRestaurante);
+        var formaPagamento = formaPagamentoService.buscar(idFormaPagamento);
+
+        if(restaurante.getFormasPagamento().contains(formaPagamento))
+            throw new NegocioException("Restaurante já possui a forma de pagamento solicitada para adição.");
+
+        restaurante.getFormasPagamento().add(formaPagamento);
     }
 
 }
