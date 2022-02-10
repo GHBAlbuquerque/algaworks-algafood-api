@@ -4,6 +4,7 @@ import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.ValidacaoException;
+import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.entitynotfound.ProdutoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.FormaPagamento;
@@ -137,6 +138,8 @@ public class RestauranteService {
         }
     }
 
+    // ativação/abertura de restaurantes
+
     @Transactional
     public void ativar(Long id) {
         var restaurante = buscar(id);
@@ -151,12 +154,34 @@ public class RestauranteService {
         restauranteRepository.save(restaurante);
     }
 
+    @Transactional //com anotação do transactional, a operação EM massa fica dentro da transação e só é commitada se tudo funcionar
+    public void ativar(List<Long> restaurantesIds){
+        try {
+            restaurantesIds.forEach(this::ativar);
+        } catch (EntidadeNaoEncontradaException ex) {
+            throw new NegocioException(ex.getMessage());
+        }
+    }
+
+    @Transactional
+    public void desativar(List<Long> restaurantesIds){
+        try {
+            restaurantesIds.forEach(this::desativar);
+        } catch (EntidadeNaoEncontradaException ex) {
+            throw new NegocioException(ex.getMessage());
+        }
+    }
+
+
+
+    @Transactional
     public void abrir(long id) {
         var restaurante = buscar(id);
         restaurante.abrir();
         restauranteRepository.save(restaurante);
     }
 
+    @Transactional
     public void fechar(long id) {
         var restaurante = buscar(id);
         restaurante.fechar();

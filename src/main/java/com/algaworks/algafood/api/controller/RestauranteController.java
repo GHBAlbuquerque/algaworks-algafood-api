@@ -130,6 +130,18 @@ public class RestauranteController {
         restauranteService.desativar(id);
     }
 
+    @PutMapping("/ativos")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void ativarMultiplos(@RequestBody List<Long> ids) {
+        restauranteService.ativar(ids);
+    }
+
+    @PutMapping("/inativos")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void desativarMultiplos(@RequestBody List<Long> ids) {
+        restauranteService.desativar(ids);
+    }
+
     @PutMapping("/{id}/aberto")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void abrir(@PathVariable long id) {
