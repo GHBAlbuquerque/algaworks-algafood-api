@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.entitynotfound.GrupoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.repository.GrupoRepository;
@@ -18,6 +19,9 @@ public class GrupoService {
 
     @Autowired
     private GrupoRepository grupoRepository;
+    
+    @Autowired
+    private PermissaoService permissaoService;
 
     public Grupo buscar(long id) {
         return grupoRepository.findById(id)
@@ -43,6 +47,30 @@ public class GrupoService {
         } catch (EmptyResultDataAccessException e) {
             throw new GrupoNaoEncontradoException(id);
         }
+    }
+
+    @Transactional
+    public void adicionarPermissao(Long idGrupo, Long idPermissao) {
+        var grupo = buscar(idGrupo);
+        var permissao = permissaoService.buscar(idPermissao);
+
+        if (!grupo.getPermissoes().contains(permissao))
+            throw new NegocioException("Grupo não possui a permissão solicitada para remoção.");
+
+        grupo.getPermissoes().remove(permissao);
+        grupoRepository.save(grupo);
+    }
+
+    @Transactional
+    public void removerPermissao(Long idGrupo, Long idPermissao) {
+        var grupo = buscar(idGrupo);
+        var permissao = permissaoService.buscar(idPermissao);
+
+        if (grupo.getPermissoes().contains(permissao))
+            throw new NegocioException("Grupo já possui a permissão solicitada para adição.");
+
+        grupo.getPermissoes().add(permissao);
+        grupoRepository.save(grupo);
     }
 
 }
