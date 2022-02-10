@@ -45,8 +45,8 @@ public class UsuarioController {
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public UsuarioDTO salvar(@RequestBody @Valid UsuarioInputDTO usuarioInput) {
-		var usuarioRecebida = assembler.convertToEntity(usuarioInput);
-		var usuario = usuarioService.salvar(usuarioRecebida);
+		var usuario = assembler.convertToEntity(usuarioInput);
+		usuario = usuarioService.salvar(usuario);
 		return assembler.convertToModel(usuario);
 	}
 

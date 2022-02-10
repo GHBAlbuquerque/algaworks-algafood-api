@@ -43,8 +43,8 @@ public class PermissaoController {
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public PermissaoDTO salvar(@RequestBody @Valid PermissaoInputDTO permissaoInput) {
-		var permissaoRecebida = assembler.convertToEntity(permissaoInput);
-		var permissao = permissaoService.salvar(permissaoRecebida);
+		var permissao = assembler.convertToEntity(permissaoInput);
+		permissao = permissaoService.salvar(permissao);
 		return assembler.convertToModel(permissao);
 	}
 

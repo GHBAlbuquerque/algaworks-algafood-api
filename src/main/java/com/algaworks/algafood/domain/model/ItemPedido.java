@@ -28,6 +28,10 @@ public class ItemPedido {
 	private BigDecimal precoTotal;
 	
 	private String observacao;
+
+	@ManyToOne
+	@JoinColumn(nullable = false)
+	private Pedido pedido;
 	
 	@ManyToOne
 	@JoinColumn(nullable = false)

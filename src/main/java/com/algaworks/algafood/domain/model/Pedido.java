@@ -50,12 +50,12 @@ public class Pedido {
 	@Embedded
 	@JoinColumn(nullable = false)
 	private Endereco enderecoEntrega;
-	
+
+	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private StatusPedidoEnum status;
-	
-	@OneToMany
-	@JoinColumn(nullable = false)
+
+	@OneToMany(mappedBy = "pedido")
 	private List<ItemPedido> itens;
 	
 	@ManyToOne

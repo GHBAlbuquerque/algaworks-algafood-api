@@ -43,8 +43,8 @@ public class GrupoController {
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public GrupoDTO salvar(@RequestBody @Valid GrupoInputDTO grupoInput) {
-		var grupoRecebida = assembler.convertToEntity(grupoInput);
-		var grupo = grupoService.salvar(grupoRecebida);
+		var grupo = assembler.convertToEntity(grupoInput);
+		grupo = grupoService.salvar(grupo);
 		return assembler.convertToModel(grupo);
 	}
 

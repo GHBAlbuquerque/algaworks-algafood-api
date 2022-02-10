@@ -43,8 +43,8 @@ public class FormaPagamentoController {
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public FormaPagamentoDTO salvar(@RequestBody @Valid FormaPagamentoInputDTO formaPagamentoInput) {
-		var formaPagamentoRecebida = assembler.convertToEntity(formaPagamentoInput);
-		var formaPagamento = formaPagamentoService.salvar(formaPagamentoRecebida);
+		var formaPagamento = assembler.convertToEntity(formaPagamentoInput);
+		formaPagamento = formaPagamentoService.salvar(formaPagamento);
 		return assembler.convertToModel(formaPagamento);
 	}
 

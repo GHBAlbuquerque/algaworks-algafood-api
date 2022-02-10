@@ -61,8 +61,8 @@ public class CozinhaController {
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public CozinhaDTO salvar(@RequestBody @Valid CozinhaInputDTO cozinhaInput) {
-		var cozinhaRecebida = assembler.convertToEntity(cozinhaInput);
-		var cozinha = cozinhaService.salvar(cozinhaRecebida);
+		var cozinha = assembler.convertToEntity(cozinhaInput);
+		cozinha = cozinhaService.salvar(cozinha);
 		return assembler.convertToModel(cozinha);
 	}
 
