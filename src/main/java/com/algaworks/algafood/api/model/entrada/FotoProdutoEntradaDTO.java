@@ -4,14 +4,21 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-public class EstadoEntradaDTO {
+public class FotoProdutoEntradaDTO {
 
     @NotBlank
     private String nome;
 
     @NotBlank
-    private String sigla;
+    private String descricao;
+
+    @NotBlank
+    private String contentType;
+
+    @NotNull
+    private Long tamanho;
 }

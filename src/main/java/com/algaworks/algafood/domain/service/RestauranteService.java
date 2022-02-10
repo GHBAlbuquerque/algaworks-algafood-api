@@ -4,10 +4,13 @@ import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.ValidacaoException;
+import com.algaworks.algafood.domain.exception.entitynotfound.ProdutoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.FormaPagamento;
+import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
+import com.algaworks.algafood.domain.repository.ProdutoRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +28,7 @@ import org.springframework.validation.SmartValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -41,6 +45,9 @@ public class RestauranteService {
 
     @Autowired
     private FormaPagamentoService formaPagamentoService;
+
+    @Autowired
+    private ProdutoRepository produtoRepository;
 
     @Autowired
     private SmartValidator validator;
@@ -141,6 +148,8 @@ public class RestauranteService {
         restauranteRepository.save(restaurante);
     }
 
+    // serviços referentes à forma de pagamento
+
     @Transactional
     public void removerFormaPagamento(Long idRestaurante, Long idFormaPagamento){
             var restaurante = buscar(idRestaurante);
@@ -163,4 +172,42 @@ public class RestauranteService {
         restaurante.getFormasPagamento().add(formaPagamento);
     }
 
+    // serviços referentes a produtos
+
+    public List<Produto> buscarProdutosPorRestaurante(Long idRestaurante) {
+        var restaurante = buscar(idRestaurante);
+        return produtoRepository.getByRestaurante(restaurante);
+    }
+
+    public Produto buscarProdutoPorRestaurante(Long idRestaurante, Long idProduto){
+        var restaurante = buscar(idRestaurante);
+        var produto = produtoRepository.getByIdAndRestaurante(idProduto, restaurante);
+
+        if(produto.isEmpty()) {
+            throw new ProdutoNaoEncontradoException(idRestaurante, idProduto);
+        }
+
+        return produto.get();
+    }
+
+    @Transactional
+    public Produto adicionarProduto(Long idRestaurante, Produto produto) {
+        var restaurante = buscar(idRestaurante);
+        produto.setRestaurante(restaurante);
+        produtoRepository.save(produto);
+        return produto;
+    }
+
+    @Transactional
+    public void atualizarProduto(Long idRestaurante, Produto produto) {
+        produtoRepository.save(produto);
+    }
+
+    @Transactional
+    public void removerProduto(Long idRestaurante, Long idProduto){
+        var restaurante = buscar(idRestaurante);
+        var produto = buscarProdutoPorRestaurante(idRestaurante, idProduto);
+
+        produtoRepository.deleteByIdAndRestaurante(idProduto, restaurante);
+    }
 }
