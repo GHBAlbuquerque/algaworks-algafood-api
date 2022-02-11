@@ -4,7 +4,6 @@ import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.ValidacaoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Estado;
-import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;

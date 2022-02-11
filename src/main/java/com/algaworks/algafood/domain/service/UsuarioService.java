@@ -1,6 +1,6 @@
 package com.algaworks.algafood.domain.service;
 
-import com.algaworks.algafood.api.model.input.SenhaInputDTO;
+import com.algaworks.algafood.api.model.input.update.SenhaUpdateDTO;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.entitynotfound.UsuarioNaoEncontradoException;
@@ -63,7 +63,7 @@ public class UsuarioService {
     }
 
     @Transactional
-    public void trocarSenha(long id, SenhaInputDTO senha) {
+    public void trocarSenha(long id, SenhaUpdateDTO senha) {
         var usuario = buscar(id);
         var senhaAtual = usuario.getSenha();
 

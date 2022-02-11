@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Getter
@@ -22,13 +23,13 @@ public class PedidoDTO {
 
     private BigDecimal valorTotal;
 
-    private LocalDate dataCriacao;
+    private OffsetDateTime dataCriacao;
 
-    private LocalDate dataConfirmacao;
+    private OffsetDateTime dataConfirmacao;
 
-    private LocalDate dataEntrega;
+    private OffsetDateTime dataEntrega;
 
-    private LocalDate dataCancelamento;
+    private OffsetDateTime dataCancelamento;
 
     private RestauranteSimpleDTO restaurante;
 

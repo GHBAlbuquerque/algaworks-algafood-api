@@ -3,14 +3,11 @@ package com.algaworks.algafood.domain.model;
 import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.Type;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,13 +35,13 @@ public class Pedido {
 
     @CreationTimestamp
     @Column(nullable = false)
-    private LocalDate dataCriacao;
+    private OffsetDateTime dataCriacao;
 
-    private LocalDate dataConfirmacao;
+    private OffsetDateTime dataConfirmacao;
 
-    private LocalDate dataEntrega;
+    private OffsetDateTime dataEntrega;
 
-    private LocalDate dataCancelamento;
+    private OffsetDateTime dataCancelamento;
 
     @ManyToOne
     @JoinColumn(nullable = false)

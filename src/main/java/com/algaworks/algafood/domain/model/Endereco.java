@@ -1,6 +1,5 @@
 package com.algaworks.algafood.domain.model;
 
-import com.algaworks.algafood.validation.Groups;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,10 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 
 @Data
 @Embeddable

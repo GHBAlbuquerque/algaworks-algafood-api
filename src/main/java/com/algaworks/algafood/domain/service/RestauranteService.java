@@ -1,16 +1,13 @@
 package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.ValidacaoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.entitynotfound.ProdutoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.RestauranteNaoEncontradoException;
-import com.algaworks.algafood.domain.model.FormaPagamento;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.repository.ProdutoRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.fasterxml.jackson.databind.DeserializationFeature;

@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.model.input.ProdutoInputDTO;
-import com.algaworks.algafood.api.model.input.ProdutoUpdateDTO;
+import com.algaworks.algafood.api.model.input.update.ProdutoUpdateDTO;
 import com.algaworks.algafood.api.model.output.ProdutoDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Produto;

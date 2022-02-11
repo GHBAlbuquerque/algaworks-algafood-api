@@ -9,12 +9,11 @@ import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteEx
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.PedidoService;
+import com.algaworks.algafood.domain.service.StatusPedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -27,6 +26,9 @@ public class PedidoController {
 
 	@Autowired
 	private PedidoService pedidoService;
+
+	@Autowired
+	private StatusPedidoService statusPedidoService;
 
 	@Autowired
 	private PedidoAssembler assembler;
@@ -58,6 +60,25 @@ public class PedidoController {
 		}
 	}
 
+	@PutMapping("/{id}/confirmacao")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void confirmar(@PathVariable long id) {
+		statusPedidoService.confirmar(id);
+	}
+
+	@PutMapping("/{id}/entrega")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void entregar(@PathVariable long id) {
+		statusPedidoService.entregar(id);
+	}
+
+	@DeleteMapping("/{id}/cancelamento")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void cancelar(@PathVariable long id) {
+		statusPedidoService.cancelar(id);
+	}
+
+	/*
 	@PutMapping("/{id}")
 	public ResponseEntity<PedidoDTO> atualizar(@PathVariable long id, @RequestBody @Valid PedidoInputDTO pedidoInput) {
 		var pedidoExistente = pedidoService.buscar(id);
@@ -66,11 +87,6 @@ public class PedidoController {
 		var pedido = pedidoService.salvar(pedidoExistente);
 		return ResponseEntity.ok(assembler.convertToModel(pedido));
 	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deletar(@PathVariable long id) {
-		pedidoService.remover(id);
-		return ResponseEntity.noContent().build();
-	}
+	*/
 
 }

@@ -1,14 +1,10 @@
 package com.algaworks.algafood.domain.service;
 
-
-import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.entitynotfound.PedidoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.*;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -49,24 +45,6 @@ public class PedidoService {
 
         return pedidoRepository.save(pedido);
     }
-
-    @Transactional
-    public void remover(long id) {
-        try {
-            pedidoRepository.deleteById(id);
-            pedidoRepository.flush();
-
-        } catch (DataIntegrityViolationException e) {
-            // tradução da exceção
-            throw new EntidadeEmUsoException(
-                    String.format(MSG_PEDIDO_EM_USO, id));
-
-        } catch (EmptyResultDataAccessException e) {
-            throw new PedidoNaoEncontradoException(id);
-        }
-    }
-
-
 
     public void validarPedido(Pedido pedido) {
         //valida existência das entidades referenciadas

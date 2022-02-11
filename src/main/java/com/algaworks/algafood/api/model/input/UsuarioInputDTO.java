@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.model.input;
 
+import com.algaworks.algafood.api.model.input.update.UsuarioUpdateDTO;
 import lombok.Getter;
 import lombok.Setter;
 

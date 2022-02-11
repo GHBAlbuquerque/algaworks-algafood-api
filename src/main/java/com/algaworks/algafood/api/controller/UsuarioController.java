@@ -1,9 +1,9 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.UsuarioAssembler;
-import com.algaworks.algafood.api.model.input.SenhaInputDTO;
-import com.algaworks.algafood.api.model.input.UsuarioUpdateDTO;
 import com.algaworks.algafood.api.model.input.UsuarioInputDTO;
+import com.algaworks.algafood.api.model.input.update.SenhaUpdateDTO;
+import com.algaworks.algafood.api.model.input.update.UsuarioUpdateDTO;
 import com.algaworks.algafood.api.model.output.UsuarioDTO;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import com.algaworks.algafood.domain.service.UsuarioService;
@@ -65,7 +65,7 @@ public class UsuarioController {
 	}
 
 	@PutMapping("/{id}/senha")
-	public ResponseEntity<UsuarioDTO> alterarSenha(@PathVariable long id, @RequestBody @Valid SenhaInputDTO senha) {
+	public ResponseEntity<UsuarioDTO> alterarSenha(@PathVariable long id, @RequestBody @Valid SenhaUpdateDTO senha) {
 
 		usuarioService.trocarSenha(id, senha);
 		return ResponseEntity.noContent().build();
