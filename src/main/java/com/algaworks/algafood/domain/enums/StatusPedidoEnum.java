@@ -4,16 +4,23 @@ import com.algaworks.algafood.domain.exception.NegocioException;
 import groovy.transform.ToString;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @ToString
 public enum StatusPedidoEnum {
     CRIADO,
-    CONFIRMADO,
-    ENTREGUE,
-    CANCELADO;
+    CONFIRMADO(CRIADO),
+    ENTREGUE(CONFIRMADO),
+    CANCELADO(CRIADO, CONFIRMADO);
 
-    public static StatusPedidoEnum getFromName(String name) {
+    private List<StatusPedidoEnum> statusAnteriores;
+
+    StatusPedidoEnum(StatusPedidoEnum... statusAnteriores) {
+        this.statusAnteriores = Arrays.asList(statusAnteriores);
+    }
+
+    public static StatusPedidoEnum traduzir(String name) {
         for (var value : StatusPedidoEnum.values()) {
             if (value.toString().equals(name)) {
                 return value;
@@ -21,10 +28,14 @@ public enum StatusPedidoEnum {
         }
 
         throw new NegocioException(String.format("Status do pedido não está de acordo com o valores existentes. " +
-                "Use os valores %s.", getAllAsString()));
+                "Use os valores %s.", listarNomes()));
     }
 
-    public static String getAllAsString() {
+    public static String listarNomes() {
         return Arrays.stream(values()).map(Enum::toString).collect(Collectors.joining(", "));
+    }
+
+    public boolean podeSerAlterado(StatusPedidoEnum novoStatus) {
+        return novoStatus.statusAnteriores.contains(this);
     }
 }

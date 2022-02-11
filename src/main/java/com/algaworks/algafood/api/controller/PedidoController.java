@@ -50,7 +50,7 @@ public class PedidoController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public PedidoDTO salvar(@RequestBody @Valid PedidoInputDTO pedidoInput) {
 		try {
-			var status = StatusPedidoEnum.getFromName(pedidoInput.getStatus());
+			var status = StatusPedidoEnum.traduzir(pedidoInput.getStatus());
 
 			var pedido = assembler.convertToEntity(pedidoInput);
 			pedido = pedidoService.salvar(pedido);

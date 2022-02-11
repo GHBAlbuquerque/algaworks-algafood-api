@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
+import com.algaworks.algafood.domain.exception.NegocioException;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.util.ObjectUtils;
@@ -81,5 +82,29 @@ public class Pedido {
 
     public void atribuirPedidoAosItens() {
         itens.forEach(item -> item.setPedido(this));
+    }
+
+    public void confirmar() {
+        updateStatus(StatusPedidoEnum.CONFIRMADO);
+        this.setDataConfirmacao(OffsetDateTime.now());
+    }
+
+    public void entregar() {
+        updateStatus(StatusPedidoEnum.ENTREGUE);
+        this.setDataEntrega(OffsetDateTime.now());
+    }
+
+    public void cancelar() {
+        updateStatus(StatusPedidoEnum.CANCELADO);
+        this.setDataCancelamento(OffsetDateTime.now());
+    }
+
+    private void updateStatus(StatusPedidoEnum novoStatus) {
+        if(!this.status.podeSerAlterado(novoStatus)) {
+            throw new NegocioException(String.format("O pedido %s não pode ser alterado de %s para %s.", id,
+                    this.status, novoStatus));
+        }
+
+        this.status = novoStatus;
     }
 }

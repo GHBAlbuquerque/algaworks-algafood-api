@@ -22,50 +22,24 @@ public class StatusPedidoService {
 
 
     @Transactional
-    public Pedido confirmar(Long id){
+    public void confirmar(Long id){
         var pedido = pedidoService.buscar(id);
-        var status = pedido.getStatus();
-
-        if(!status.equals(StatusPedidoEnum.CRIADO)) {
-            throw new NegocioException(String.format("O pedido %s não pode ser alterado de %s para %s.", id,
-                    status, StatusPedidoEnum.CONFIRMADO));
-        }
-
-        pedido.setStatus(StatusPedidoEnum.CONFIRMADO);
-        pedido.setDataConfirmacao(OffsetDateTime.now());
+        pedido.confirmar();
         pedidoRepository.save(pedido);
-
-        return pedido;
     }
 
     @Transactional
     public void cancelar(Long id){
         var pedido = pedidoService.buscar(id);
-        var status = pedido.getStatus();
-
-        if(status.equals(StatusPedidoEnum.ENTREGUE)) {
-            throw new NegocioException(String.format("O pedido %s não pode ser cancelado pois já foi entregue.", id));
-        }
-
-        pedido.setStatus(StatusPedidoEnum.CANCELADO);
-        pedido.setDataCancelamento(OffsetDateTime.now());
+        pedido.cancelar();
         pedidoRepository.save(pedido);
 
     }
 
     @Transactional
-    public Pedido entregar(Long id){
+    public void entregar(Long id){
         var pedido = pedidoService.buscar(id);
-        var status = pedido.getStatus();
-
-        if(!status.equals(StatusPedidoEnum.CONFIRMADO)) {
-            throw new NegocioException(String.format("O pedido %s não pode ser alterado de %s para %s.", id,
-                    status, StatusPedidoEnum.ENTREGUE));
-        }
-
-        pedido.setStatus(StatusPedidoEnum.ENTREGUE);
-        pedido.setDataEntrega(OffsetDateTime.now());
+        pedido.entregar();
         pedidoRepository.save(pedido);
-        return pedido;
     }
 }
