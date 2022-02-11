@@ -2,7 +2,7 @@ package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.model.input.UsuarioInputDTO;
 import com.algaworks.algafood.api.model.input.UsuarioUpdateDTO;
-import com.algaworks.algafood.api.model.saida.UsuarioDTO;
+import com.algaworks.algafood.api.model.output.UsuarioDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Usuario;
 import org.modelmapper.ModelMapper;

@@ -2,7 +2,7 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.CidadeAssembler;
 import com.algaworks.algafood.api.model.input.CidadeInputDTO;
-import com.algaworks.algafood.api.model.saida.CidadeDTO;
+import com.algaworks.algafood.api.model.output.CidadeDTO;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Estado;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/cidades")

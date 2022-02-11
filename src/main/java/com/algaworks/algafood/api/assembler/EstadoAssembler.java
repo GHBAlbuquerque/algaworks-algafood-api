@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.model.input.EstadoInputDTO;
-import com.algaworks.algafood.api.model.saida.EstadoDTO;
+import com.algaworks.algafood.api.model.output.EstadoDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Estado;
 import org.modelmapper.ModelMapper;

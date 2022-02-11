@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.model.input.GrupoInputDTO;
-import com.algaworks.algafood.api.model.saida.GrupoDTO;
+import com.algaworks.algafood.api.model.output.GrupoDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Grupo;
 import org.modelmapper.ModelMapper;

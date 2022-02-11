@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.model.input.CidadeInputDTO;
-import com.algaworks.algafood.api.model.saida.CidadeDTO;
+import com.algaworks.algafood.api.model.output.CidadeDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;

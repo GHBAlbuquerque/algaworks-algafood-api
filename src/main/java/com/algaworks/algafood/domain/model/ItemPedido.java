@@ -1,16 +1,16 @@
 package com.algaworks.algafood.domain.model;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Data
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Getter
+@Setter
+@AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ItemPedido {
 	
 	@Id
@@ -36,5 +36,15 @@ public class ItemPedido {
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Produto produto;
+
+	public void definirPrecoTotal(){
+		definirPrecoUnitario();
+		this.precoTotal = this.precoUnitario
+				.multiply(BigDecimal.valueOf(this.quantidade));
+	}
+
+	private void definirPrecoUnitario(){
+		this.precoUnitario = this.produto.getPreco();
+	}
 
 }

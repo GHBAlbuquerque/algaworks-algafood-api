@@ -2,7 +2,7 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.GrupoAssembler;
 import com.algaworks.algafood.api.model.input.GrupoInputDTO;
-import com.algaworks.algafood.api.model.saida.GrupoDTO;
+import com.algaworks.algafood.api.model.output.GrupoDTO;
 import com.algaworks.algafood.domain.repository.GrupoRepository;
 import com.algaworks.algafood.domain.service.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/grupos")

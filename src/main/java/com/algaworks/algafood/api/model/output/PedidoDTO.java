@@ -1,16 +1,18 @@
-package com.algaworks.algafood.api.model.saida;
+package com.algaworks.algafood.api.model.output;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PedidoSimpleDTO {
+public class PedidoDTO {
 
     private Long id;
 
@@ -22,15 +24,21 @@ public class PedidoSimpleDTO {
 
     private LocalDate dataCriacao;
 
+    private LocalDate dataConfirmacao;
+
     private LocalDate dataEntrega;
 
     private LocalDate dataCancelamento;
 
-    private String restauranteNome;
+    private RestauranteSimpleDTO restaurante;
 
-    private String clienteNome;
+    private UsuarioDTO cliente;
+
+    private EnderecoDTO enderecoEntrega;
 
     private String status;
 
-    private String formaPagamentoDescricao;
+    private List<ItemPedidoDTO> itens;
+
+    private FormaPagamentoDTO formaPagamento;
 }

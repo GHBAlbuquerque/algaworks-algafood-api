@@ -4,7 +4,7 @@ import com.algaworks.algafood.api.assembler.UsuarioAssembler;
 import com.algaworks.algafood.api.model.input.SenhaInputDTO;
 import com.algaworks.algafood.api.model.input.UsuarioUpdateDTO;
 import com.algaworks.algafood.api.model.input.UsuarioInputDTO;
-import com.algaworks.algafood.api.model.saida.UsuarioDTO;
+import com.algaworks.algafood.api.model.output.UsuarioDTO;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import com.algaworks.algafood.domain.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/usuarios")

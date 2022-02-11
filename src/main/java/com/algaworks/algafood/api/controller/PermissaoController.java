@@ -2,7 +2,7 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.PermissaoAssembler;
 import com.algaworks.algafood.api.model.input.PermissaoInputDTO;
-import com.algaworks.algafood.api.model.saida.PermissaoDTO;
+import com.algaworks.algafood.api.model.output.PermissaoDTO;
 import com.algaworks.algafood.domain.repository.PermissaoRepository;
 import com.algaworks.algafood.domain.service.PermissaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/permissoes")

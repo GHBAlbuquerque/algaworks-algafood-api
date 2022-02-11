@@ -1,11 +1,12 @@
 package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.model.input.PedidoInputDTO;
-import com.algaworks.algafood.api.model.saida.PedidoDTO;
-import com.algaworks.algafood.api.model.saida.PedidoSimpleDTO;
+import com.algaworks.algafood.api.model.output.PedidoDTO;
+import com.algaworks.algafood.api.model.output.PedidoSimpleDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Pedido;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

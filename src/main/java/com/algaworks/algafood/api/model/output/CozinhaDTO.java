@@ -1,17 +1,13 @@
-package com.algaworks.algafood.api.model.saida;
+package com.algaworks.algafood.api.model.output;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
-
-
 @Getter
 @Setter
-public class GrupoDTO {
+public class CozinhaDTO {
 
     private Long id;
 
     private String nome;
-
 }

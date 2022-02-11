@@ -1,8 +1,12 @@
 package com.algaworks.algafood.core.modelmapper;
 
 import com.algaworks.algafood.api.model.input.CidadeInputDTO;
+import com.algaworks.algafood.api.model.input.ItemPedidoInputDTO;
+import com.algaworks.algafood.api.model.input.PedidoInputDTO;
 import com.algaworks.algafood.api.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.domain.model.Cidade;
+import com.algaworks.algafood.domain.model.ItemPedido;
+import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Restaurante;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
@@ -16,6 +20,9 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper(){
         var modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+
+        modelMapper.createTypeMap(ItemPedidoInputDTO.class, ItemPedido.class)
+                .addMappings(mapper -> mapper.skip(ItemPedido::setId));
 
         modelMapper.createTypeMap(RestauranteInputDTO.class, Restaurante.class)
                 .addMappings(mapper -> mapper.skip(Restaurante::setId));

@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.model.saida;
+package com.algaworks.algafood.api.model.output;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

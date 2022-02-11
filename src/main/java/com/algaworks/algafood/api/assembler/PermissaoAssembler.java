@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.model.input.PermissaoInputDTO;
-import com.algaworks.algafood.api.model.saida.PermissaoDTO;
+import com.algaworks.algafood.api.model.output.PermissaoDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Permissao;
 import org.modelmapper.ModelMapper;

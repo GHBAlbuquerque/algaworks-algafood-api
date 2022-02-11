@@ -3,7 +3,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.ProdutoAssembler;
 import com.algaworks.algafood.api.model.input.ProdutoInputDTO;
 import com.algaworks.algafood.api.model.input.ProdutoUpdateDTO;
-import com.algaworks.algafood.api.model.saida.ProdutoDTO;
+import com.algaworks.algafood.api.model.output.ProdutoDTO;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.RestauranteService;

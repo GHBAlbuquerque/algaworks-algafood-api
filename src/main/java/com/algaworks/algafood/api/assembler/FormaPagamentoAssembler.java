@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.assembler;
 
 import com.algaworks.algafood.api.model.input.FormaPagamentoInputDTO;
-import com.algaworks.algafood.api.model.saida.FormaPagamentoDTO;
+import com.algaworks.algafood.api.model.output.FormaPagamentoDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import org.modelmapper.ModelMapper;

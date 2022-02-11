@@ -172,8 +172,6 @@ public class RestauranteService {
         }
     }
 
-
-
     @Transactional
     public void abrir(long id) {
         var restaurante = buscar(id);
@@ -226,7 +224,7 @@ public class RestauranteService {
         var produto = produtoRepository.getByIdAndRestaurante(idProduto, restaurante);
 
         if (produto.isEmpty()) {
-            throw new ProdutoNaoEncontradoException(idRestaurante, idProduto);
+            throw new ProdutoNaoEncontradoException(idProduto, idRestaurante);
         }
 
         return produto.get();

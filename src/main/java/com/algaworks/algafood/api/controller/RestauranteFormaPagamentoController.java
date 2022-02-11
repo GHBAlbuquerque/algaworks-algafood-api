@@ -1,10 +1,8 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.FormaPagamentoAssembler;
-import com.algaworks.algafood.api.model.saida.FormaPagamentoDTO;
+import com.algaworks.algafood.api.model.output.FormaPagamentoDTO;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
-import com.algaworks.algafood.domain.exception.entitynotfound.CidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.FormaPagamentoService;
 import com.algaworks.algafood.domain.service.RestauranteService;
@@ -13,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/restaurantes/{idRestaurante}/formas-pagamento")

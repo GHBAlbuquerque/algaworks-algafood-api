@@ -1,7 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.UsuarioAssembler;
-import com.algaworks.algafood.api.model.saida.UsuarioDTO;
+import com.algaworks.algafood.api.model.output.UsuarioDTO;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.UsuarioService;

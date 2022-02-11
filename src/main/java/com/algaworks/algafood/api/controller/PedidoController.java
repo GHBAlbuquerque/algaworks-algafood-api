@@ -2,8 +2,11 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.PedidoAssembler;
 import com.algaworks.algafood.api.model.input.PedidoInputDTO;
-import com.algaworks.algafood.api.model.saida.PedidoDTO;
-import com.algaworks.algafood.api.model.saida.PedidoSimpleDTO;
+import com.algaworks.algafood.api.model.output.PedidoDTO;
+import com.algaworks.algafood.api.model.output.PedidoSimpleDTO;
+import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
+import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
+import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -43,9 +47,15 @@ public class PedidoController {
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public PedidoDTO salvar(@RequestBody @Valid PedidoInputDTO pedidoInput) {
-		var pedido = assembler.convertToEntity(pedidoInput);
-		pedido = pedidoService.salvar(pedido);
-		return assembler.convertToModel(pedido);
+		try {
+			var status = StatusPedidoEnum.getFromName(pedidoInput.getStatus());
+
+			var pedido = assembler.convertToEntity(pedidoInput);
+			pedido = pedidoService.salvar(pedido);
+			return assembler.convertToModel(pedido);
+		} catch (EntidadeNaoEncontradaException ex) {
+			throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
+		}
 	}
 
 	@PutMapping("/{id}")

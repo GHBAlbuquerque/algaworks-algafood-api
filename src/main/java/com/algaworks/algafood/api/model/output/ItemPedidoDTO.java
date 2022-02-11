@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.model.saida;
+package com.algaworks.algafood.api.model.output;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +9,10 @@ import java.math.BigDecimal;
 @Setter
 public class ItemPedidoDTO {
 
+    private Long produtoId;
+
+    private String produtoNome;
+
     private Integer quantidade;
 
     private BigDecimal precoUnitario;
@@ -17,5 +21,4 @@ public class ItemPedidoDTO {
 
     private String observacao;
 
-    private Long produtoId;
 }
