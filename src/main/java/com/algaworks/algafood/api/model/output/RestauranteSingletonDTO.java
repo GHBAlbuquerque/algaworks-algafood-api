@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.model.output;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonFilter("filtroRestaurante")
 public class RestauranteSingletonDTO {
 
     private Long id;

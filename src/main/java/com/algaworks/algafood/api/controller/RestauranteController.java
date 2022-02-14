@@ -10,9 +10,13 @@ import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontra
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import com.algaworks.algafood.validation.OrderedChecksTaxaFrete;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,9 +48,13 @@ public class RestauranteController {
     }
 
     @GetMapping("/{id}")
-    public RestauranteSingletonDTO buscar(@PathVariable long id) {
+    public MappingJacksonValue buscar(@PathVariable long id, @RequestParam(required = false) String campos) {
         var restaurante = restauranteService.buscar(id);
-        return assembler.convertToSingletonModel(restaurante);
+        var model = assembler.convertToSingletonModel(restaurante);
+
+        var wrapper = crirarFiltro(model, campos);
+
+        return wrapper;
     }
 
     @GetMapping("/por-nome-e-id-cozinha") // query no orm.xml
@@ -152,6 +160,21 @@ public class RestauranteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void fechar(@PathVariable long id) {
         restauranteService.fechar(id);
+    }
+
+    public MappingJacksonValue crirarFiltro(RestauranteSingletonDTO model, String campos){
+        var wrapper = new MappingJacksonValue(model);
+
+        var filterProvider = new SimpleFilterProvider();
+        filterProvider.addFilter("filtroRestaurante", SimpleBeanPropertyFilter.serializeAll());
+
+        if(StringUtils.isNotBlank(campos)) {
+            filterProvider.addFilter("filtroRestaurante", SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
+        }
+
+        wrapper.setFilters(filterProvider);
+
+        return wrapper;
     }
 
 }
