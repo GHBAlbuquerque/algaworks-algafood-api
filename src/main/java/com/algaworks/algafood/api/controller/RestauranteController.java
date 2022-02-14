@@ -52,7 +52,7 @@ public class RestauranteController {
         var restaurante = restauranteService.buscar(id);
         var model = assembler.convertToSingletonModel(restaurante);
 
-        var wrapper = crirarFiltro(model, campos);
+        var wrapper = criarFiltro(model, campos);
 
         return wrapper;
     }
@@ -162,7 +162,7 @@ public class RestauranteController {
         restauranteService.fechar(id);
     }
 
-    public MappingJacksonValue crirarFiltro(RestauranteSingletonDTO model, String campos){
+    public MappingJacksonValue criarFiltro(RestauranteSingletonDTO model, String campos){
         var wrapper = new MappingJacksonValue(model);
 
         var filterProvider = new SimpleFilterProvider();
