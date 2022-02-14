@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -24,6 +25,9 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
+
+    @Column(nullable = false)
+    private String codigo;
 
     @Column(nullable = false)
     private BigDecimal subtotal;
@@ -106,5 +110,10 @@ public class Pedido {
         }
 
         this.status = novoStatus;
+    }
+
+    @PrePersist
+    private void gerarCodigo() {
+        this.codigo = UUID.randomUUID().toString();
     }
 }

@@ -29,9 +29,9 @@ public class PedidoService {
     @Autowired
     private UsuarioService usuarioService;
 
-    public Pedido buscar(long id) {
-        return pedidoRepository.findById(id)
-                .orElseThrow(() -> new PedidoNaoEncontradoException(id));
+    public Pedido buscar(String codigo) {
+        return pedidoRepository.findByCodigo(codigo)
+                .orElseThrow(() -> new PedidoNaoEncontradoException(codigo));
     }
 
     @Transactional
@@ -85,4 +85,6 @@ public class PedidoService {
             item.definirPrecoTotal();
         }
     }
+
+
 }

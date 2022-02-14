@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PedidoSimpleDTO {
 
-    private Long id;
+    private String codigo;
 
     private BigDecimal subtotal;
 

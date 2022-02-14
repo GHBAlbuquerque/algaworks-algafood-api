@@ -15,7 +15,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class PedidoDTO {
 
-    private Long id;
+    private String codigo;
 
     private BigDecimal subtotal;
 

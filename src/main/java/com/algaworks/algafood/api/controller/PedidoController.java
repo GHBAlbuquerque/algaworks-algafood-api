@@ -40,9 +40,9 @@ public class PedidoController {
 		return assembler.convertListToSimpleModel(pedidos);
 	}
 
-	@GetMapping("/{id}")
-	public PedidoDTO buscar(@PathVariable long id) {
-		var pedido = pedidoService.buscar(id);
+	@GetMapping("/{codigo}")
+	public PedidoDTO buscar(@PathVariable String codigo) {
+		var pedido = pedidoService.buscar(codigo);
 		return assembler.convertToModel(pedido);
 	}
 
@@ -60,22 +60,22 @@ public class PedidoController {
 		}
 	}
 
-	@PutMapping("/{id}/confirmacao")
+	@PutMapping("/{codigo}/confirmacao")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void confirmar(@PathVariable long id) {
-		statusPedidoService.confirmar(id);
+	public void confirmar(@PathVariable String codigo) {
+		statusPedidoService.confirmar(codigo);
 	}
 
-	@PutMapping("/{id}/entrega")
+	@PutMapping("/{codigo}/entrega")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void entregar(@PathVariable long id) {
-		statusPedidoService.entregar(id);
+	public void entregar(@PathVariable String codigo) {
+		statusPedidoService.entregar(codigo);
 	}
 
-	@DeleteMapping("/{id}/cancelamento")
+	@DeleteMapping("/{codigo}/cancelamento")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void cancelar(@PathVariable long id) {
-		statusPedidoService.cancelar(id);
+	public void cancelar(@PathVariable String codigo) {
+		statusPedidoService.cancelar(codigo);
 	}
 
 	/*

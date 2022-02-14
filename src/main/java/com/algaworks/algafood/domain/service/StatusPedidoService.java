@@ -1,15 +1,10 @@
 package com.algaworks.algafood.domain.service;
 
-
-import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
-import com.algaworks.algafood.domain.exception.NegocioException;
-import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.OffsetDateTime;
 
 @Service
 public class StatusPedidoService {
@@ -22,23 +17,23 @@ public class StatusPedidoService {
 
 
     @Transactional
-    public void confirmar(Long id){
-        var pedido = pedidoService.buscar(id);
+    public void confirmar(String codigo){
+        var pedido = pedidoService.buscar(codigo);
         pedido.confirmar();
         pedidoRepository.save(pedido);
     }
 
     @Transactional
-    public void cancelar(Long id){
-        var pedido = pedidoService.buscar(id);
+    public void cancelar(String codigo){
+        var pedido = pedidoService.buscar(codigo);
         pedido.cancelar();
         pedidoRepository.save(pedido);
 
     }
 
     @Transactional
-    public void entregar(Long id){
-        var pedido = pedidoService.buscar(id);
+    public void entregar(String codigo){
+        var pedido = pedidoService.buscar(codigo);
         pedido.entregar();
         pedidoRepository.save(pedido);
     }
