@@ -1,14 +1,15 @@
 package com.algaworks.algafood.api.model.output;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.algaworks.algafood.api.model.view.PedidoView;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class RestauranteSimpleDTO {
 
+    @JsonView(PedidoView.PedidoSimpleDTO.class)
     private Long id;
 
     private String nome;
