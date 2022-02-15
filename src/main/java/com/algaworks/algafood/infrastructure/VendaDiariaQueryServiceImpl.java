@@ -29,9 +29,16 @@ public class VendaDiariaQueryServiceImpl implements VendaDiariaQueryService {
         var query = builder.createQuery(VendaDiaria.class);
         var root = query.from(Pedido.class);
 
+        //cria uma funcao a ser executada no banco de dados (no caso, de converter a data para o TimeZone correto)
+        //final:  date(convert_tz(data_criacao, '+00:00', '-03:00'))
+        var convertTZDataCriacao =
+                builder.function("convert_tz", Date.class, root.get("dataCriacao"),
+                        builder.literal("+00:00"), builder.literal("-03:00"));
+
         //cria uma funcao a ser executada no banco de dados (no caso, de truncar a data para aaaa-MM-dd)
         var truncateDataCriacao =
-                builder.function("date", Date.class, root.get("dataCriacao"));
+                builder.function("date", Date.class, convertTZDataCriacao);
+
 
         var selection = builder.construct(VendaDiaria.class,
                 truncateDataCriacao,
