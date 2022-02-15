@@ -151,8 +151,9 @@ public class RestauranteService {
         restauranteRepository.save(restaurante);
     }
 
-    @Transactional //com anotação do transactional, a operação EM massa fica dentro da transação e só é commitada se tudo funcionar
-    public void ativar(List<Long> restaurantesIds){
+    @Transactional
+    //com anotação do transactional, a operação EM massa fica dentro da transação e só é commitada se tudo funcionar
+    public void ativar(List<Long> restaurantesIds) {
         try {
             restaurantesIds.forEach(this::ativar);
         } catch (EntidadeNaoEncontradaException ex) {
@@ -161,7 +162,7 @@ public class RestauranteService {
     }
 
     @Transactional
-    public void desativar(List<Long> restaurantesIds){
+    public void desativar(List<Long> restaurantesIds) {
         try {
             restaurantesIds.forEach(this::desativar);
         } catch (EntidadeNaoEncontradaException ex) {
@@ -211,14 +212,20 @@ public class RestauranteService {
 
     // serviços referentes a produtos
 
-    public List<Produto> buscarProdutosPorRestaurante(Long idRestaurante) {
+    public List<Produto> listarProdutosPorRestaurante(Long idRestaurante, boolean incluirInativos) {
         var restaurante = buscar(idRestaurante);
-        return produtoRepository.getByRestaurante(restaurante);
+
+        if (incluirInativos) {
+            return produtoRepository.getByRestaurante(restaurante);
+        } else {
+            return produtoRepository.findAtivosByRestaurante(restaurante);
+        }
     }
 
     public Produto buscarProdutoPorRestaurante(Long idRestaurante, Long idProduto) {
         var restaurante = buscar(idRestaurante);
         var produto = produtoRepository.getByIdAndRestaurante(idProduto, restaurante);
+
 
         if (produto.isEmpty()) {
             throw new ProdutoNaoEncontradoException(idProduto, idRestaurante);

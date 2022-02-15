@@ -25,8 +25,9 @@ public class RestauranteProdutoController {
     private ProdutoAssembler assembler;
 
     @GetMapping()
-    public List<ProdutoDTO> listar(@PathVariable Long idRestaurante) {
-        var produtos = restauranteService.buscarProdutosPorRestaurante(idRestaurante);
+    public List<ProdutoDTO> listar(@PathVariable Long idRestaurante,
+                                   @RequestParam(required=false) boolean incluirInativos) {
+        var produtos = restauranteService.listarProdutosPorRestaurante(idRestaurante, incluirInativos);
         return assembler.convertListToModel(produtos);
     }
 

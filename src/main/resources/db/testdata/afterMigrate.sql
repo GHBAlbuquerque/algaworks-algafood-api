@@ -61,8 +61,20 @@ insert into permissao (id, nome, descricao) values (4, 'EDITAR_RESTAURANTES', 'P
 insert into grupo (id, nome) values (1, 'ADMIN_RESTAURANTE');
 insert into grupo (id, nome) values (2, 'FUNCIONARIO_RESTAURANTE');
 
-insert into usuario (id, nome, email, senha, data_cadastro) values (1, 'Lodun Iswil', 'lodun@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (2, 'Fuvain Iswil', 'fuvain@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (1, 'Fred Jolie', 'jolie@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (2, 'Felicity Wilson', 'wilson@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (3, 'James Doop', 'doop@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (4, 'Heather Connor', 'connor@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (5, 'Rick Snozcumber', 'snozcumber@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (6, 'Zoe Ramsbottom', 'ramsbottom@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (7, 'Jenna Fish', 'fish@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (8, 'Warwick Cockle', 'fuvain@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (9, 'Dan Bundler', 'bundler@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (10, 'Zach Nolan', 'fuvain@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (11, 'Dan Meadows', 'meadows@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (12, 'Beth Hemingway', 'hemingway@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (13, 'Roy Fish', 'rfish@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (14, 'Luke Pitt', 'pitt@gmail.com', '12345aa', utc_timestamp);
 
 insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values ('Senhor Glutão', 12.50, 5, 1, '38400999', 'Rua João Pinheiro', '1000', 'Centro', utc_timestamp, utc_timestamp, true, true);
 insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values ('Thai Gourmet', 15.50, 1, 2, '38400999', 'Rua João Pinheiro', '1000', 'Centro', utc_timestamp, utc_timestamp, true, true);
@@ -93,11 +105,14 @@ insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('San
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 1);
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Whooper', 'Acompanha Coca-cola e fritas', 22, 1, 7);
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Peixe com fritas', 'Tradicional prato inglës', 48, 1, 7);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Feijoada da Casa', 'Clássico prato brasileiro a base de feijões e carne', 180, 0, 1);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Lombo à milanesa', 'Deliciosas fatias de lombo feitas à milanesa. Acompanha arroz e fritas.', 98, 1, 1);
 
-insert into pedido (id, codigo, restaurante_id, cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep,
+
+insert into pedido (id, codigo, restaurante_id, cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
                     endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
 	                status, data_criacao, subtotal, taxa_frete, valor_total)
-values (1, "5316c09d-8b64-11ec-b957-8cec4b0339fa", 1, 1, 1, 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil',
+values (1, 'f9981ca4-5a5e-4da3-af04-933861df3e55', 1, 1, 1, 1, '38400-000', 'Rua Floriano Peixoto', '500', 'Apto 801', 'Brasil',
         'CRIADO', utc_timestamp, 298.90, 10, 308.90);
 
 insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
@@ -107,10 +122,41 @@ insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, 
 values (2, 1, 2, 2, 110, 220, 'Menos picante, por favor');
 
 
-insert into pedido (id, codigo, restaurante_id, cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep,
+insert into pedido (id, codigo, restaurante_id, cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
                     endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
 	                status, data_criacao, subtotal, taxa_frete, valor_total)
-values (2, "531b0812-8b64-11ec-b957-8cec4b0339fa", 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Casa 2', 'Centro', 'CRIADO', utc_timestamp, 79, 0, 79);
+values (2, 'd178b637-a785-4768-a3cb-aa1ce5a8cdab', 4, 1, 2, 1, '38400-111', 'Rua Acre', '300', 'Casa 2', 'Centro',
+        'CRIADO', utc_timestamp, 79, 0, 79);
 
 insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
 values (3, 2, 6, 1, 79, 79, 'Ao ponto');
+
+
+insert into pedido (id, codigo, restaurante_id, cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
+                    endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
+	                status, data_criacao, data_confirmacao, data_entrega, subtotal, taxa_frete, valor_total)
+values (3, 'b5741512-8fbc-47fa-9ac1-b530354fc0ff', 1, 1, 1, 1, '38400-222', 'Rua Natal', '200', null, 'Brasil',
+        'ENTREGUE', '2019-10-30 21:10:00', '2019-10-30 21:10:45', '2019-10-30 21:55:44', 110, 10, 120);
+
+insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
+values (4, 3, 2, 1, 110, 110, null);
+
+
+insert into pedido (id, codigo, restaurante_id, cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
+                    endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
+	                status, data_criacao, data_confirmacao, data_entrega, subtotal, taxa_frete, valor_total)
+values (4, '5c621c9a-ba61-4454-8631-8aabefe58dc2', 1, 2, 1, 1, '38400-800', 'Rua Fortaleza', '900', 'Apto 504', 'Centro',
+        'ENTREGUE', '2019-11-02 20:34:04', '2019-11-02 20:35:10', '2019-11-02 21:10:32', 174.4, 5, 179.4);
+
+insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
+values (5, 4, 3, 2, 87.2, 174.4, null);
+
+
+insert into pedido (id, codigo, restaurante_id, cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
+                    endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
+	                status, data_criacao, data_confirmacao, data_entrega, subtotal, taxa_frete, valor_total)
+values (5, '8d774bcf-b238-42f3-aef1-5fb388754d63', 1, 3, 2, 1, '38400-200', 'Rua 10', '930', 'Casa 20', 'Martins',
+        'ENTREGUE', '2019-11-02 21:00:30', '2019-11-02 21:01:21', '2019-11-02 21:20:10', 87.2, 10, 97.2);
+
+insert into item_pedido (id, pedido_id, produto_id, quantidade, preco_unitario, preco_total, observacao)
+values (6, 5, 3, 1, 87.2, 87.2, null);

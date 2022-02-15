@@ -8,8 +8,10 @@ import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
+import com.algaworks.algafood.domain.repository.filter.PedidoFilter;
 import com.algaworks.algafood.domain.service.PedidoService;
 import com.algaworks.algafood.domain.service.StatusPedidoService;
+import com.algaworks.algafood.infrastructure.spec.PedidoSpecs;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,6 +49,14 @@ public class PedidoController {
 	@GetMapping(params = "view=resumo")
 	public List<PedidoDTO> listarResumido() {
 		return listar();
+	}
+
+	//@JsonView(PedidoView.PedidoSimpleDTO.class)
+	@ResponseStatus(HttpStatus.OK)
+	@GetMapping("/pesquisar")
+	public List<PedidoDTO> pesquisar(PedidoFilter filter) {
+		var pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filter));
+		return assembler.convertListToModel(pedidos);
 	}
 
 	@GetMapping("/{codigo}")
