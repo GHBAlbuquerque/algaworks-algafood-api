@@ -8,12 +8,14 @@ import com.algaworks.algafood.api.model.output.UsuarioDTO;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import com.algaworks.algafood.domain.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -30,9 +32,10 @@ public class UsuarioController {
 
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
-	public List<UsuarioDTO> listar() {
-		var usuarios = usuarioRepository.findAll();
-		return assembler.convertListToModel(usuarios);
+	public Page<UsuarioDTO> listar(Pageable pageable) {
+		var usuariosPage = usuarioRepository.findAll(pageable);
+		var usuarios = assembler.convertListToModel(usuariosPage.getContent());
+		return new PageImpl<>(usuarios, pageable, usuariosPage.getTotalElements());
 	}
 
 	@GetMapping("/{id}")
