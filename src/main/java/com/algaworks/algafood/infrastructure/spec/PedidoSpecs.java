@@ -1,7 +1,7 @@
 package com.algaworks.algafood.infrastructure.spec;
 
+import com.algaworks.algafood.domain.filter.PedidoFilter;
 import com.algaworks.algafood.domain.model.Pedido;
-import com.algaworks.algafood.domain.repository.filter.PedidoFilter;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.jpa.domain.Specification;
 
