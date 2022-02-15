@@ -14,6 +14,10 @@ import com.algaworks.algafood.domain.service.StatusPedidoService;
 import com.algaworks.algafood.infrastructure.spec.PedidoSpecs;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,9 +58,12 @@ public class PedidoController {
 	//@JsonView(PedidoView.PedidoSimpleDTO.class)
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping("/pesquisar")
-	public List<PedidoDTO> pesquisar(PedidoFilter filter) {
-		var pedidos = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filter));
-		return assembler.convertListToModel(pedidos);
+	public Page<PedidoDTO> pesquisar(PedidoFilter filter, @PageableDefault(size = 10) Pageable pageable) {
+		var pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filter), pageable);
+		var pedidos = assembler.convertListToModel(pedidosPage.getContent());
+
+		var pagina = new PageImpl<>(pedidos, pageable, pedidosPage.getTotalElements());
+		return pagina;
 	}
 
 	@GetMapping("/{codigo}")
