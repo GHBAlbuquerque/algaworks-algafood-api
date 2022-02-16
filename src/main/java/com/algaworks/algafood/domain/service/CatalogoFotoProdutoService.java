@@ -16,6 +16,13 @@ public class CatalogoFotoProdutoService {
 
     @Transactional
     public FotoProduto salvar(FotoProduto foto){
+        var restaurantId = foto.getRestauranteId();
+        var produtoId = foto.getProdutoId();
+
+        var fotoExistente = produtoRepository.findFotoById(restaurantId, produtoId);
+
+        fotoExistente.ifPresent(fotoProduto -> produtoRepository.delete(fotoProduto));
+
         return produtoRepository.save(foto);
     }
 }

@@ -3,6 +3,7 @@ package com.algaworks.algafood.domain.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 
 import javax.persistence.*;
 
@@ -30,5 +31,19 @@ public class FotoProduto {
 	private String contentType;
 	
 	private Long tamanho;
+
+	public Long getRestauranteId(){
+		if(ObjectUtils.isNotEmpty(getProduto())){
+			return this.getProduto().getRestaurante().getId();
+		}
+		return null;
+	}
+
+	public Long getProdutoId(){
+		if(ObjectUtils.isNotEmpty(getProduto())){
+			return this.getProduto().getId();
+		}
+		return null;
+	}
 
 }
