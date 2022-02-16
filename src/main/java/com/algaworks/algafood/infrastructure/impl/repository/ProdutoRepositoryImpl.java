@@ -1,4 +1,4 @@
-package com.algaworks.algafood.infrastructure;
+package com.algaworks.algafood.infrastructure.impl.repository;
 
 import com.algaworks.algafood.domain.model.FotoProduto;
 import com.algaworks.algafood.domain.repository.ProdutoRepositoryQueries;

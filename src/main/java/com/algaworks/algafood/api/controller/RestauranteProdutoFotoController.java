@@ -43,16 +43,5 @@ public class RestauranteProdutoFotoController {
 
         return fotoProdutoAssembler.convertToModel(fotoProdutoSalva);
 
-        /*var arquivo = fotoProdutoInputDTO.getArquivo();
-        var nomeArquivo = UUID.randomUUID() + "_" + arquivo.getOriginalFilename();
-
-        var pathArquivo = Path.of("/Users/Giovanna/Documents/AlgaWorks/Especialista_Spring_REST/files", nomeArquivo);
-
-        try {
-            arquivo.transferTo(pathArquivo);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
     }
 }

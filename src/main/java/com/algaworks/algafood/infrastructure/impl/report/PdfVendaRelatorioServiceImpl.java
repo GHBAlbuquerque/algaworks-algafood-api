@@ -1,4 +1,4 @@
-package com.algaworks.algafood.infrastructure;
+package com.algaworks.algafood.infrastructure.impl.report;
 
 import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
 import com.algaworks.algafood.infrastructure.exception.ReportException;
