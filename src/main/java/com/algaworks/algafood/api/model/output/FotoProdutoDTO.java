@@ -7,8 +7,6 @@ import lombok.Setter;
 @Setter
 public class FotoProdutoDTO {
 
-    private Long id;
-
     private String nome;
 
     private String descricao;

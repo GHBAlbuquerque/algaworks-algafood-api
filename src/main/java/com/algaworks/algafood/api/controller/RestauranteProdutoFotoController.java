@@ -1,23 +1,49 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.assembler.FotoProdutoAssembler;
 import com.algaworks.algafood.api.model.input.FotoProdutoInputDTO;
+import com.algaworks.algafood.api.model.output.FotoProdutoDTO;
+import com.algaworks.algafood.domain.model.FotoProduto;
+import com.algaworks.algafood.domain.service.CatalogoFotoProdutoService;
+import com.algaworks.algafood.domain.service.ProdutoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/restaurantes/{idRestaurante}/produtos/{idProduto}/foto")
 public class RestauranteProdutoFotoController {
 
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void atualizarFoto(@PathVariable Long idRestaurante, @PathVariable Long idProduto,
-                              @Valid FotoProdutoInputDTO fotoProdutoInputDTO) {
+    @Autowired
+    private ProdutoService produtoService;
 
+    @Autowired
+    private CatalogoFotoProdutoService catalogoFotoProdutoService;
+
+    @Autowired
+    private FotoProdutoAssembler fotoProdutoAssembler;
+
+    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public FotoProdutoDTO atualizarFoto(@PathVariable Long idRestaurante, @PathVariable Long idProduto,
+                                        @Valid FotoProdutoInputDTO fotoProdutoInputDTO) {
+
+        var produto = produtoService.buscar(idRestaurante, idProduto);
         var arquivo = fotoProdutoInputDTO.getArquivo();
+
+        var fotoProduto = new FotoProduto();
+        fotoProduto.setProduto(produto);
+        fotoProduto.setDescricao(fotoProdutoInputDTO.getDescricao());
+        fotoProduto.setContentType(arquivo.getContentType());
+        fotoProduto.setTamanho(arquivo.getSize());
+        fotoProduto.setNomeArquivo(arquivo.getOriginalFilename());
+
+        var fotoProdutoSalva = catalogoFotoProdutoService.salvar(fotoProduto);
+
+        return fotoProdutoAssembler.convertToModel(fotoProdutoSalva);
+
+        /*var arquivo = fotoProdutoInputDTO.getArquivo();
         var nomeArquivo = UUID.randomUUID() + "_" + arquivo.getOriginalFilename();
 
         var pathArquivo = Path.of("/Users/Giovanna/Documents/AlgaWorks/Especialista_Spring_REST/files", nomeArquivo);
@@ -26,7 +52,7 @@ public class RestauranteProdutoFotoController {
             arquivo.transferTo(pathArquivo);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 }
