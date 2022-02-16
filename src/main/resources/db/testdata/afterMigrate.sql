@@ -113,6 +113,7 @@ insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Who
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Peixe com fritas', 'Tradicional prato inglës', 48, 1, 7);
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Feijoada da Casa', 'Clássico prato brasileiro a base de feijões e carne', 180, 0, 1);
 insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Lombo à milanesa', 'Deliciosas fatias de lombo feitas à milanesa. Acompanha arroz e fritas.', 98, 1, 1);
+insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Hamburguer do Chef', 'Delicioso hamburguer artesanal com queijo prato, alface, tomate e maionese da casa no pão com gergelim.', 38.50, 1, 1);
 
 
 insert into pedido (id, codigo, restaurante_id, cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
