@@ -1,6 +1,7 @@
 package com.algaworks.algafood.validation.validators;
 
 import com.algaworks.algafood.validation.annotations.FileSize;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.util.unit.DataSize;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,6 @@ public class FileSizeValidator implements ConstraintValidator<FileSize, Multipar
 
     @Override
     public boolean isValid(MultipartFile file, ConstraintValidatorContext context) {
-        return file.isEmpty() || file.getSize() <= this.maxSize.toBytes();
+        return  ObjectUtils.isEmpty(file) || file.getSize() <= this.maxSize.toBytes();
     }
 }
