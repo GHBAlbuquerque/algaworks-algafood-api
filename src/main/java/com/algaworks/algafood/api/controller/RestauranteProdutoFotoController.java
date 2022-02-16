@@ -3,8 +3,8 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.model.input.FotoProdutoInputDTO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.UUID;
@@ -15,7 +15,7 @@ public class RestauranteProdutoFotoController {
 
     @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public void atualizarFoto(@PathVariable Long idRestaurante, @PathVariable Long idProduto,
-                              FotoProdutoInputDTO fotoProdutoInputDTO) {
+                              @Valid FotoProdutoInputDTO fotoProdutoInputDTO) {
 
         var arquivo = fotoProdutoInputDTO.getArquivo();
         var nomeArquivo = UUID.randomUUID() + "_" + arquivo.getOriginalFilename();
