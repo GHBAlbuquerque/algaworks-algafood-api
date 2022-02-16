@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface FotoStorageService {
 
     void armazenar(NovaFoto novaFoto);
+    void deletar(String nomeArquivo);
 
     default String gerarNomeArquivo(String nomeOriginal) {
         return UUID.randomUUID() + "_" + nomeOriginal;

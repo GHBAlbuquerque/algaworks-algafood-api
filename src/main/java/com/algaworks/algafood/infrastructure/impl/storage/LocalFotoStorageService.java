@@ -10,7 +10,6 @@ import org.springframework.util.FileCopyUtils;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.UUID;
 
 @Service
 @Qualifier("Local")
@@ -31,6 +30,16 @@ public class LocalFotoStorageService implements FotoStorageService {
             FileCopyUtils.copy(arquivo, Files.newOutputStream(pathArquivo));
         } catch (IOException e) {
            throw new StorageException("Não foi possível armazenar o arquivo.", e.getCause());
+        }
+    }
+
+    @Override
+    public void deletar(String nomeArquivo) {
+        try {
+            var pathArquivo = getArquivoPath(nomeArquivo);
+            Files.deleteIfExists(pathArquivo);
+        } catch (IOException e) {
+            throw new StorageException("Não foi possível deletar o arquivo.", e.getCause());
         }
     }
 

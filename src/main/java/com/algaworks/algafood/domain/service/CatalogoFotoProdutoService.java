@@ -29,7 +29,10 @@ public class CatalogoFotoProdutoService {
 
         var fotoExistente = produtoRepository.findFotoById(restaurantId, produtoId);
 
-        fotoExistente.ifPresent(fotoProduto -> produtoRepository.delete(fotoProduto));
+        fotoExistente.ifPresent(fotoProduto -> {
+            produtoRepository.delete(fotoProduto);
+            fotoStorageService.deletar(fotoProduto.getNomeArquivo());
+        });
 
         foto.setNomeArquivo(novoNomeArquivo);
         var fotoSalva = produtoRepository.save(foto);
