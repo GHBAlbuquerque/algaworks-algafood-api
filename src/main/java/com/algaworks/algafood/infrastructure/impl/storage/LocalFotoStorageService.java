@@ -2,6 +2,7 @@ package com.algaworks.algafood.infrastructure.impl.storage;
 
 import com.algaworks.algafood.infrastructure.exception.StorageException;
 import com.algaworks.algafood.infrastructure.service.FotoStorageService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -12,6 +13,7 @@ import java.nio.file.Path;
 import java.util.UUID;
 
 @Service
+@Qualifier("Local")
 public class LocalFotoStorageService implements FotoStorageService {
 
     @Value("${algafood.storage.local.diretorio-fotos}")
