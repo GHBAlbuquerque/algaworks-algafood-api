@@ -23,7 +23,7 @@ public class LocalFotoStorageService implements FotoStorageService {
     public void armazenar(NovaFoto novaFoto) {
 
         var arquivo = novaFoto.getInputStream();
-        var nomeArquivo = UUID.randomUUID() + "_" + novaFoto.getNomeArquivo();
+        var nomeArquivo = novaFoto.getNomeArquivo();
 
         var pathArquivo = getArquivoPath(nomeArquivo);
 
