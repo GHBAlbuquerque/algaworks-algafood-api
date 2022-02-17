@@ -46,3 +46,6 @@ buildNumber.properties
 ### properties ###
 application-local.properties
 application-test-local.properties
+
+##classes
+teste.java

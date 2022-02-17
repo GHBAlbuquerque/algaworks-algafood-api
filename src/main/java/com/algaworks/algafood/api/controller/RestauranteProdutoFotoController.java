@@ -3,10 +3,12 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.FotoProdutoAssembler;
 import com.algaworks.algafood.api.model.input.FotoProdutoInputDTO;
 import com.algaworks.algafood.api.model.output.FotoProdutoDTO;
+import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.FotoProduto;
 import com.algaworks.algafood.domain.service.CatalogoFotoProdutoService;
 import com.algaworks.algafood.domain.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -47,19 +49,29 @@ public class RestauranteProdutoFotoController {
         return fotoProdutoAssembler.convertToModel(fotoProdutoSalva);
     }
 
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public FotoProdutoDTO buscar(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
         var foto = catalogoFotoProdutoService.buscar(idRestaurante, idProduto);
         return fotoProdutoAssembler.convertToModel(foto);
     }
 
     @GetMapping(produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-    public ResponseEntity<InputStream> recuperar(@RequestParam(required = true) String nome){
-        var inputStream = catalogoFotoProdutoService.recuperar(nome);
+    public ResponseEntity<InputStreamResource> recuperar(@PathVariable Long idRestaurante, @PathVariable Long idProduto){
+        try {
+            var fotoProduto = catalogoFotoProdutoService.buscar(idRestaurante, idProduto);
 
-        var headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
+            //retorno o inputStream (bytes)
+            var inputStream = catalogoFotoProdutoService.recuperar(fotoProduto.getNomeArquivo());
 
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).headers(headers).body(inputStream);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.IMAGE_JPEG)
+                    .body(new InputStreamResource(inputStream));
+        } catch (EntidadeNaoEncontradaException ex) {
+            return ResponseEntity.notFound().build();
+        }
+
     }
+
+
+
 }
