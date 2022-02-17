@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import com.algaworks.algafood.domain.exception.entitynotfound.FotoProdutoNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.entitynotfound.ProdutoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.FotoProduto;
 import com.algaworks.algafood.domain.repository.ProdutoRepository;
 import com.algaworks.algafood.infrastructure.service.FotoStorageService;
@@ -47,5 +49,14 @@ public class CatalogoFotoProdutoService {
         fotoStorageService.substituir(nomeArquivoExistente, novaFoto);
 
         return fotoSalva;
+    }
+
+    public InputStream recuperar(String nomeArquivo){
+        return fotoStorageService.recuperar(nomeArquivo);
+    }
+
+    public FotoProduto buscar(Long restauranteId, Long produtoId) {
+        return produtoRepository.findFotoById(restauranteId, produtoId)
+                .orElseThrow(() -> new FotoProdutoNaoEncontradaException(produtoId, restauranteId));
     }
 }

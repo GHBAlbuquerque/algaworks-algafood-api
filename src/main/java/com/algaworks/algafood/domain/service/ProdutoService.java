@@ -23,4 +23,5 @@ public class ProdutoService {
         return produtoRepository.getByIdAndRestauranteId(restauranteId, produtoId)
                 .orElseThrow(() -> new ProdutoNaoEncontradoException(restauranteId, produtoId));
     }
+
 }

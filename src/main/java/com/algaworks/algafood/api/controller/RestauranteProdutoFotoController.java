@@ -7,11 +7,14 @@ import com.algaworks.algafood.domain.model.FotoProduto;
 import com.algaworks.algafood.domain.service.CatalogoFotoProdutoService;
 import com.algaworks.algafood.domain.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.InputStream;
 
 @RestController
 @RequestMapping(value = "/restaurantes/{idRestaurante}/produtos/{idProduto}/foto")
@@ -42,5 +45,21 @@ public class RestauranteProdutoFotoController {
 
         var fotoProdutoSalva = catalogoFotoProdutoService.salvar(fotoProduto, arquivo.getInputStream());
         return fotoProdutoAssembler.convertToModel(fotoProdutoSalva);
+    }
+
+    @GetMapping
+    public FotoProdutoDTO buscar(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
+        var foto = catalogoFotoProdutoService.buscar(idRestaurante, idProduto);
+        return fotoProdutoAssembler.convertToModel(foto);
+    }
+
+    @GetMapping(produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
+    public ResponseEntity<InputStream> recuperar(@RequestParam(required = true) String nome){
+        var inputStream = catalogoFotoProdutoService.recuperar(nome);
+
+        var headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_TYPE, "image/jpeg");
+
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).headers(headers).body(inputStream);
     }
 }
