@@ -25,14 +25,15 @@ public class CatalogoFotoProdutoService {
     public FotoProduto salvar(FotoProduto foto, InputStream dadosArquivo) {
         var restaurantId = foto.getRestauranteId();
         var produtoId = foto.getProdutoId();
-        String novoNomeArquivo = fotoStorageService.gerarNomeArquivo(foto.getNomeArquivo());
+        String nomeArquivoExistente = null;
+        var novoNomeArquivo = fotoStorageService.gerarNomeArquivo(foto.getNomeArquivo());
 
         var fotoExistente = produtoRepository.findFotoById(restaurantId, produtoId);
 
-        fotoExistente.ifPresent(fotoProduto -> {
-            produtoRepository.delete(fotoProduto);
-            fotoStorageService.deletar(fotoProduto.getNomeArquivo());
-        });
+        if (fotoExistente.isPresent()){
+            nomeArquivoExistente = fotoExistente.get().getNomeArquivo();
+            produtoRepository.delete(fotoExistente.get());
+        };
 
         foto.setNomeArquivo(novoNomeArquivo);
         var fotoSalva = produtoRepository.save(foto);
@@ -43,7 +44,7 @@ public class CatalogoFotoProdutoService {
                 .nomeArquivo(foto.getNomeArquivo())
                 .build();
 
-        fotoStorageService.armazenar(novaFoto);
+        fotoStorageService.substituir(nomeArquivoExistente, novaFoto);
 
         return fotoSalva;
     }
