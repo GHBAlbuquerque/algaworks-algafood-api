@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.entitynotfound.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.entitynotfound.FotoProdutoNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.entitynotfound.ProdutoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.FotoProduto;
@@ -7,6 +9,8 @@ import com.algaworks.algafood.domain.repository.ProdutoRepository;
 import com.algaworks.algafood.infrastructure.service.FotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,6 +26,11 @@ public class CatalogoFotoProdutoService {
     @Autowired
     @Qualifier("Local")
     private FotoStorageService fotoStorageService;
+
+    public FotoProduto buscar(Long restauranteId, Long produtoId) {
+        return produtoRepository.findFotoById(restauranteId, produtoId)
+                .orElseThrow(() -> new FotoProdutoNaoEncontradaException(produtoId, restauranteId));
+    }
 
     @Transactional
     public FotoProduto salvar(FotoProduto foto, InputStream dadosArquivo) {
@@ -55,8 +64,17 @@ public class CatalogoFotoProdutoService {
         return fotoStorageService.recuperar(nomeArquivo);
     }
 
-    public FotoProduto buscar(Long restauranteId, Long produtoId) {
-        return produtoRepository.findFotoById(restauranteId, produtoId)
-                .orElseThrow(() -> new FotoProdutoNaoEncontradaException(produtoId, restauranteId));
+    public void deletar(Long idRestaurante, Long idProduto) {
+        try {
+            var fotoExistente = buscar(idRestaurante, idProduto);
+
+            produtoRepository.delete(fotoExistente);
+            produtoRepository.flush();
+
+            fotoStorageService.deletar(fotoExistente.getNomeArquivo());
+
+        } catch (EmptyResultDataAccessException e) {
+            throw new FotoProdutoNaoEncontradaException(idProduto, idRestaurante);
+        }
     }
 }
