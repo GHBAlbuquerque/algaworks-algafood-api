@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.FotoProdutoAssembler;
 import com.algaworks.algafood.api.model.input.FotoProdutoInputDTO;
 import com.algaworks.algafood.api.model.output.FotoProdutoDTO;
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.FotoProduto;
 import com.algaworks.algafood.domain.service.CatalogoFotoProdutoService;
@@ -12,11 +13,14 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.print.attribute.standard.Media;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/restaurantes/{idRestaurante}/produtos/{idProduto}/foto")
@@ -55,16 +59,21 @@ public class RestauranteProdutoFotoController {
         return fotoProdutoAssembler.convertToModel(foto);
     }
 
-    @GetMapping(produces = {MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
-    public ResponseEntity<InputStreamResource> recuperar(@PathVariable Long idRestaurante, @PathVariable Long idProduto){
+    @GetMapping
+    public ResponseEntity<InputStreamResource> recuperar(@PathVariable Long idRestaurante, @PathVariable Long idProduto,
+                                                         @RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
         try {
             var fotoProduto = catalogoFotoProdutoService.buscar(idRestaurante, idProduto);
+            var mediaTypeFoto = MediaType.parseMediaType(fotoProduto.getContentType());
+            var mediaTypesAceitas = MediaType.parseMediaTypes(acceptHeader);
+
+            verificarCompatibilidadeMediaType(mediaTypeFoto, mediaTypesAceitas);
 
             //retorno o inputStream (bytes)
             var inputStream = catalogoFotoProdutoService.recuperar(fotoProduto.getNomeArquivo());
 
             return ResponseEntity.ok()
-                    .contentType(MediaType.IMAGE_JPEG)
+                    .contentType(mediaTypeFoto)
                     .body(new InputStreamResource(inputStream));
         } catch (EntidadeNaoEncontradaException ex) {
             return ResponseEntity.notFound().build();
@@ -72,6 +81,12 @@ public class RestauranteProdutoFotoController {
 
     }
 
+    public void verificarCompatibilidadeMediaType(MediaType mediaTypeFoto, List<MediaType> mediaTypesAceitas) throws HttpMediaTypeNotAcceptableException {
+        var isAceita = mediaTypesAceitas.stream().anyMatch(mediaType -> mediaType.isCompatibleWith(mediaTypeFoto));
 
+        if (!isAceita) {
+            throw new HttpMediaTypeNotAcceptableException(mediaTypesAceitas);
+        }
+    }
 
 }
