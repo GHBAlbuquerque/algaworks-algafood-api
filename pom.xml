@@ -13,11 +13,17 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>algaworks-algafood-api</name>
     <description>API de Delivery de Comida do AlgaFood</description>
+
     <properties>
         <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+
+        <modelmapper.version>3.0.0</modelmapper.version>
+        <jasperreports.version>6.18.1</jasperreports.version>
+        <aws-java-sdk-s3.version>1.12.150</aws-java-sdk-s3.version>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -67,23 +73,32 @@
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
-            <version>3.0.0</version>
+            <version>${modelmapper.version}</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>6.18.1</version>
+            <version>${jasperreports.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports-functions -->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-functions</artifactId>
-            <version>6.18.1</version>
+            <version>${jasperreports.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
+        <dependency>
+            <groupId>com.amazonaws</groupId>
+            <artifactId>aws-java-sdk-s3</artifactId>
+            <version>${aws-java-sdk-s3.version}</version>
         </dependency>
     </dependencies>
 
