@@ -5,6 +5,7 @@ import com.algaworks.algafood.infrastructure.exception.StorageException;
 import com.algaworks.algafood.infrastructure.service.FotoStorageService;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.IOUtils;
@@ -60,10 +61,21 @@ public class S3FotoStorageService implements FotoStorageService {
 
     @Override
     public void deletar(String nomeArquivo) {
+        try {
+            var path = getArquivoPath(nomeArquivo);
 
+            //recebe um "key" que é o path+nome dentro do bucket, a ref.
+            var deleteObjectRequest = new DeleteObjectRequest(
+                    storageProperties.getS3().getBucket(),
+                    path);
+
+            amazonS3.deleteObject(deleteObjectRequest);
+        } catch (RuntimeException ex) {
+            throw new StorageException("Não foi possível deletar o arquivo do Amazon S3.", ex.getCause());
+        }
     }
 
-    private String getArquivoPath(String nomeArquivo){
+    private String getArquivoPath(String nomeArquivo) {
         // catalogo/arquivo.jpeg
         return String.format("%s/%s", storageProperties.getS3().getDir(), nomeArquivo);
     }
