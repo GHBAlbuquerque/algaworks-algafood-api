@@ -49,7 +49,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         if (body == null) {
             body = customProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, ex.getClass().toString(), MSG_ERRO_GENERICA, OffsetDateTime.now(), null);
         } else if (body instanceof String) {
-            body = customProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, (String) body, MSG_ERRO_GENERICA, OffsetDateTime.now(), null);
+            body = customProblemBuilder(status, ProblemTypeEnum.ERRO_DE_SISTEMA, ex.getCause().toString(), (String) body, OffsetDateTime.now(), null);
         }
 
         return super.handleExceptionInternal(ex, body, headers, status, request);

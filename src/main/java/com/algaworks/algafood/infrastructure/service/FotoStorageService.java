@@ -3,6 +3,7 @@ package com.algaworks.algafood.infrastructure.service;
 import lombok.Builder;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.MediaType;
 
 import java.io.InputStream;
 import java.util.UUID;
@@ -31,5 +32,6 @@ public interface FotoStorageService {
     class NovaFoto {
         private String nomeArquivo;
         private InputStream inputStream;
+        private String mediaType;
     }
 }

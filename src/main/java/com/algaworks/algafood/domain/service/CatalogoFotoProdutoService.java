@@ -9,7 +9,6 @@ import com.algaworks.algafood.domain.repository.ProdutoRepository;
 import com.algaworks.algafood.infrastructure.service.FotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,7 @@ public class CatalogoFotoProdutoService {
     // ^ por ser uma entidade agregada, fotoProduto usa o mesmo repositório de produto.
 
     @Autowired
-    @Qualifier("Local")
+    @Qualifier("S3")
     private FotoStorageService fotoStorageService;
 
     public FotoProduto buscar(Long restauranteId, Long produtoId) {
@@ -53,6 +52,7 @@ public class CatalogoFotoProdutoService {
         var novaFoto = FotoStorageService.NovaFoto.builder()
                 .inputStream(dadosArquivo)
                 .nomeArquivo(foto.getNomeArquivo())
+                .mediaType(foto.getContentType())
                 .build();
 
         fotoStorageService.substituir(nomeArquivoExistente, novaFoto);
