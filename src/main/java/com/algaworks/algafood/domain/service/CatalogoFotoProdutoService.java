@@ -60,7 +60,7 @@ public class CatalogoFotoProdutoService {
         return fotoSalva;
     }
 
-    public InputStream recuperar(String nomeArquivo){
+    public FotoStorageService.FotoRecuperada recuperar(String nomeArquivo){
         return fotoStorageService.recuperar(nomeArquivo);
     }
 

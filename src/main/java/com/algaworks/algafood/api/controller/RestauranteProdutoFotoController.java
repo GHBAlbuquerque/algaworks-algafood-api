@@ -67,8 +67,8 @@ public class RestauranteProdutoFotoController {
     }
 
     @GetMapping
-    public ResponseEntity<InputStreamResource> recuperar(@PathVariable Long idRestaurante, @PathVariable Long idProduto,
-                                                         @RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
+    public ResponseEntity<?> recuperar(@PathVariable Long idRestaurante, @PathVariable Long idProduto,
+                                       @RequestHeader(name = "accept") String acceptHeader) throws HttpMediaTypeNotAcceptableException {
         try {
             var fotoProduto = catalogoFotoProdutoService.buscar(idRestaurante, idProduto);
             var mediaTypeFoto = MediaType.parseMediaType(fotoProduto.getContentType());
@@ -77,11 +77,18 @@ public class RestauranteProdutoFotoController {
             verificarCompatibilidadeMediaType(mediaTypeFoto, mediaTypesAceitas);
 
             //retorno o inputStream (bytes)
-            var inputStream = catalogoFotoProdutoService.recuperar(fotoProduto.getNomeArquivo());
+            var fotoRecuperada = catalogoFotoProdutoService.recuperar(fotoProduto.getNomeArquivo());
 
-            return ResponseEntity.ok()
-                    .contentType(mediaTypeFoto)
-                    .body(new InputStreamResource(inputStream));
+            if (fotoRecuperada.temUrl()) {
+                return ResponseEntity.status(HttpStatus.FOUND)
+                        .header(HttpHeaders.LOCATION, fotoRecuperada.getURL())
+                        .build();
+            } else {
+                return ResponseEntity.ok()
+                        .contentType(mediaTypeFoto)
+                        .body(new InputStreamResource(fotoRecuperada.getInputStream()));
+            }
+
         } catch (EntidadeNaoEncontradaException ex) {
             return ResponseEntity.notFound().build();
         }

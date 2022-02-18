@@ -30,8 +30,17 @@ public class S3FotoStorageService implements FotoStorageService {
     private AmazonS3 amazonS3;
 
     @Override
-    public InputStream recuperar(String nomeArquivo) {
-        return null;
+    public FotoRecuperada recuperar(String nomeArquivo) {
+        // a ideia aqui é retornar o link da foto na nuvem, e não ter que trafegar dados na nossa api.
+        // ou seja, não vou retornar um inputStream e sim uma URL.
+        var path = getArquivoPath(nomeArquivo);
+
+        //get url recebe bucket, caminho do arquivo
+        var urlS3 = amazonS3.getUrl(storageProperties.getS3().getBucket(), path);
+
+        return FotoRecuperada.builder()
+                        .URL(urlS3.toString())
+                        .build();
     }
 
     @Override

@@ -21,10 +21,16 @@ public class LocalFotoStorageService implements FotoStorageService {
     private StorageProperties storageProperties;
 
     @Override
-    public InputStream recuperar(String nomeArquivo) {
+    public FotoRecuperada recuperar(String nomeArquivo) {
         try {
             var pathArquivo = getArquivoPath(nomeArquivo);
-            return Files.newInputStream(pathArquivo);
+            var inputStream = Files.newInputStream(pathArquivo);
+
+            var fotoRecuperada =
+                            FotoRecuperada.builder()
+                            .inputStream(inputStream).build();
+
+            return fotoRecuperada;
         } catch (IOException e) {
             throw new StorageException("Não foi possível recuperar o arquivo.", e.getCause());
         }

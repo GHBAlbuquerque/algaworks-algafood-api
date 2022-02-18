@@ -2,6 +2,7 @@ package com.algaworks.algafood.api.exceptionhandler;
 
 import com.algaworks.algafood.domain.exception.*;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.infrastructure.exception.StorageException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.IgnoredPropertyException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
@@ -109,6 +110,15 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleConversaoException(ConversaoException ex, WebRequest request) {
         var status = HttpStatus.BAD_REQUEST;
         var problem = genericProblemBuilder(status, ProblemTypeEnum.ERRO_AO_CONVERTER, ex.getMessage()).build();
+
+        return handleExceptionInternal(ex, problem, null, status, request);
+    }
+
+    @ExceptionHandler(StorageException.class)
+    public ResponseEntity<?> handleStorageException(StorageException ex, WebRequest request) {
+        var status = HttpStatus.BAD_REQUEST;
+        var problem = genericProblemBuilder(status, ProblemTypeEnum.ERRO_AO_MANIPULAR_ARQUIVO,
+                String.format("%s - %s", ex.getMessage(), ex.getCause().toString())).build();
 
         return handleExceptionInternal(ex, problem, null, status, request);
     }
