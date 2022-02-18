@@ -23,7 +23,6 @@ public class CatalogoFotoProdutoService {
     // ^ por ser uma entidade agregada, fotoProduto usa o mesmo repositório de produto.
 
     @Autowired
-    @Qualifier("S3")
     private FotoStorageService fotoStorageService;
 
     public FotoProduto buscar(Long restauranteId, Long produtoId) {

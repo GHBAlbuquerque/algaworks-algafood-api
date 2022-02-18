@@ -4,17 +4,14 @@ import com.algaworks.algafood.core.storage.StorageProperties;
 import com.algaworks.algafood.infrastructure.exception.StorageException;
 import com.algaworks.algafood.infrastructure.service.FotoStorageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Service
-@Qualifier("Local")
 public class LocalFotoStorageService implements FotoStorageService {
 
     @Autowired
