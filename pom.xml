@@ -22,6 +22,7 @@
         <modelmapper.version>3.0.0</modelmapper.version>
         <jasperreports.version>6.18.1</jasperreports.version>
         <aws-java-sdk-s3.version>1.12.150</aws-java-sdk-s3.version>
+        <spring-boot-starter-mail.version>2.5.6</spring-boot-starter-mail.version>
     </properties>
 
     <dependencies>
@@ -100,6 +101,13 @@
             <artifactId>aws-java-sdk-s3</artifactId>
             <version>${aws-java-sdk-s3.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>${spring-boot-starter-mail.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
