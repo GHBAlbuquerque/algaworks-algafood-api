@@ -81,6 +81,9 @@ insert into usuario (id, nome, email, senha, data_cadastro) values (17, 'Shakira
 insert into usuario (id, nome, email, senha, data_cadastro) values (18, 'Sumaya Burton', 'hemingway@gmail.com', '12345aa', utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (19, 'Serena Rice', 'Rice@gmail.com', '12345aa', utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (20, 'Sylvia Lane', 'Lane@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (21, 'Gigi Bene', 'aneleh.annavoig@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (22, 'Aurora Gemini', 'auroragemini0@gmail.com', '12345aa', utc_timestamp);
+
 
 insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values ('Senhor Glutão', 12.50, 5, 1, '38400999', 'Rua João Pinheiro', '1000', 'Centro', utc_timestamp, utc_timestamp, true, true);
 insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values ('Thai Gourmet', 15.50, 1, 2, '38400999', 'Rua João Pinheiro', '1000', 'Centro', utc_timestamp, utc_timestamp, true, true);
