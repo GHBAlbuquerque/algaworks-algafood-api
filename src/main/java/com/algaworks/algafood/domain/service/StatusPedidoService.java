@@ -28,8 +28,9 @@ public class StatusPedidoService {
         var mensagem = EnvioEmailService.
                 Mensagem.builder()
                 .assunto((String.format("%s - Pedido confirmado", pedido.getRestaurante().getNome())))
-                .corpo(String.format("O pedido de código<strong> %s </strong>foi confirmado.", pedido.getId()))
+                .corpo("pedido-confirmado.html")
                 .destinatario(pedido.getCliente().getEmail()) //posso usar isso quantas vezes quiser
+                .variavel("pedido", pedido)
                 .build();
 
         envioEmailService.enviar(mensagem);
