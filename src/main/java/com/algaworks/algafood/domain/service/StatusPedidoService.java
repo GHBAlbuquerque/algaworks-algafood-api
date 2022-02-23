@@ -24,16 +24,6 @@ public class StatusPedidoService {
     public void confirmar(String codigo){
         var pedido = pedidoService.buscar(codigo);
         pedido.confirmar();
-
-        var mensagem = EnvioEmailService.
-                Mensagem.builder()
-                .assunto((String.format("%s - Pedido confirmado", pedido.getRestaurante().getNome())))
-                .corpo("pedido-confirmado.html")
-                .destinatario(pedido.getCliente().getEmail()) //posso usar isso quantas vezes quiser
-                .variavel("pedido", pedido)
-                .build();
-
-        envioEmailService.enviar(mensagem);
         pedidoRepository.save(pedido);
     }
 

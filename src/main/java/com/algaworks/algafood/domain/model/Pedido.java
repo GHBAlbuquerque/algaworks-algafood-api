@@ -1,9 +1,11 @@
 package com.algaworks.algafood.domain.model;
 
 import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
+import com.algaworks.algafood.domain.event.PedidoConfirmadoEvent;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.util.ObjectUtils;
 
 import javax.persistence.*;
@@ -18,8 +20,8 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Pedido {
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+public class Pedido extends AbstractAggregateRoot<Pedido> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -91,6 +93,9 @@ public class Pedido {
     public void confirmar() {
         updateStatus(StatusPedidoEnum.CONFIRMADO);
         this.setDataConfirmacao(OffsetDateTime.now());
+
+        //a chamada deste método publica um evento que pode ser ouvido por qualquer classe que eu quiser
+        registerEvent(new PedidoConfirmadoEvent(this));
     }
 
     public void entregar() {

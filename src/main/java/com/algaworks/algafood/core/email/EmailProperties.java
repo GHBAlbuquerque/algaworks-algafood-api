@@ -19,9 +19,8 @@ public class EmailProperties {
     private String remetente;
 
     private TipoImplementacao impl;
-
-    //TODO: remover esse new para testar a criação de erros que vem sem cause
-    private Sandbox sandbox;
+    
+    private Sandbox sandbox = new Sandbox();
 
     public enum TipoImplementacao {
         FAKE, SMTP, SANDBOX;
