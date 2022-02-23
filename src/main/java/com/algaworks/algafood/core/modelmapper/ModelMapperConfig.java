@@ -2,11 +2,9 @@ package com.algaworks.algafood.core.modelmapper;
 
 import com.algaworks.algafood.api.model.input.CidadeInputDTO;
 import com.algaworks.algafood.api.model.input.ItemPedidoInputDTO;
-import com.algaworks.algafood.api.model.input.PedidoInputDTO;
 import com.algaworks.algafood.api.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.ItemPedido;
-import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Restaurante;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;

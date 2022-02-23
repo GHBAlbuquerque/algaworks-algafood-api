@@ -1,7 +1,6 @@
 package com.algaworks.algafood.validation.annotations;
 
 import com.algaworks.algafood.validation.validators.FileContentTypeValidator;
-import org.springframework.http.MediaType;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
