@@ -14,9 +14,11 @@ public enum ProblemTypeEnum {
 	DADOS_INVALIDOS("Dados Inválidos", "/dados-invalidos"),
 	ERRO_AO_VALIDAR("Erro ao validar", "/erro-ao-validar"),
 	ERRO_AO_CONVERTER("Erro ao converter", "/erro-ao-converter"),
-	ERRO_AO_MANIPULAR_ARQUIVO("Erro ao manipular arquivo", "/erro-ao-manipular-arquivo");
-	
-	private final String title;
+	ERRO_AO_MANIPULAR_ARQUIVO("Erro ao manipular arquivo", "/erro-ao-manipular-arquivo"),
+	ERRO_DE_EMAIL("Erro de e-mail", "/erro-de-email");
+
+
+    private final String title;
 	private final String uri;
 	
 	

@@ -118,8 +118,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(StorageException.class)
     public ResponseEntity<?> handleStorageException(StorageException ex, WebRequest request) {
         var status = HttpStatus.BAD_REQUEST;
-        var problem = genericProblemBuilder(status, ProblemTypeEnum.ERRO_AO_MANIPULAR_ARQUIVO,
-                String.format("%s - erro: %s", ex.getMessage(), ex.getCause().toString())).build();
+        var problem = genericProblemBuilder(status, ProblemTypeEnum.ERRO_AO_MANIPULAR_ARQUIVO, ex.getMessage()).build();
 
         return handleExceptionInternal(ex, problem, null, status, request);
     }
@@ -127,8 +126,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(EmailException.class)
     public ResponseEntity<?> handleStorageException(EmailException ex, WebRequest request) {
         var status = HttpStatus.BAD_REQUEST;
-        var problem = genericProblemBuilder(status, ProblemTypeEnum.ERRO_AO_MANIPULAR_ARQUIVO,
-                String.format("%s - erro: %s", ex.getMessage(), ex.getCause().toString())).build();
+        var problem = genericProblemBuilder(status, ProblemTypeEnum.ERRO_DE_EMAIL, ex.getMessage()).build();
 
         return handleExceptionInternal(ex, problem, null, status, request);
     }

@@ -18,9 +18,20 @@ public class EmailProperties {
     @NotNull
     private String remetente;
 
-    private String impl;
+    private TipoImplementacao impl;
+
+    //TODO: remover esse new para testar a criação de erros que vem sem cause
+    private Sandbox sandbox;
 
     public enum TipoImplementacao {
-        FAKE, SMTP;
+        FAKE, SMTP, SANDBOX;
+    }
+
+    @Getter
+    @Setter
+    public class Sandbox {
+
+        private String destinatario;
+
     }
 }
