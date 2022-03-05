@@ -1,4 +1,4 @@
-package com.algaworks.algafood.infrastructure.service;
+package com.algaworks.algafood.domain.service;
 
 import lombok.Builder;
 import lombok.Getter;

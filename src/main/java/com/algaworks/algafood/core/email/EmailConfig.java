@@ -3,7 +3,7 @@ package com.algaworks.algafood.core.email;
 import com.algaworks.algafood.infrastructure.impl.email.FakeEnvioEmailService;
 import com.algaworks.algafood.infrastructure.impl.email.SandBoxEnvioEmailService;
 import com.algaworks.algafood.infrastructure.impl.email.SmtpEnvioEmailService;
-import com.algaworks.algafood.infrastructure.service.EnvioEmailService;
+import com.algaworks.algafood.domain.service.EnvioEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

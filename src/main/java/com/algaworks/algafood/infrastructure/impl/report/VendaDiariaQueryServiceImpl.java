@@ -4,7 +4,7 @@ import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
 import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.view.VendaDiaria;
-import com.algaworks.algafood.infrastructure.service.VendaDiariaQueryService;
+import com.algaworks.algafood.domain.service.VendaDiariaQueryService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

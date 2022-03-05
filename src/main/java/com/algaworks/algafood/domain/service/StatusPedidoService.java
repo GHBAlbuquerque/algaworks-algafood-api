@@ -1,7 +1,6 @@
 package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.repository.PedidoRepository;
-import com.algaworks.algafood.infrastructure.service.EnvioEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

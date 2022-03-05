@@ -6,12 +6,14 @@ import com.algaworks.algafood.api.model.output.FormaPagamentoDTO;
 import com.algaworks.algafood.domain.repository.FormaPagamentoRepository;
 import com.algaworks.algafood.domain.service.FormaPagamentoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/formas-pagamento")
@@ -28,15 +30,24 @@ public class FormaPagamentoController {
 
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
-	public List<FormaPagamentoDTO> listar() {
+	public ResponseEntity<List<FormaPagamentoDTO>> listar() {
 		var formasPagamento = formaPagamentoRepository.findAll();
-		return assembler.convertListToModel(formasPagamento);
+		var formasPagamentoModel = assembler.convertListToModel(formasPagamento);
+		return ResponseEntity
+				.ok()
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+				.body(formasPagamentoModel);
 	}
 
 	@GetMapping("/{id}")
-	public FormaPagamentoDTO buscar(@PathVariable long id) {
+	public ResponseEntity<FormaPagamentoDTO> buscar(@PathVariable long id) {
 		var formaPagamento = formaPagamentoService.buscar(id);
-		return assembler.convertToModel(formaPagamento);
+		var formasPagamentoModel = assembler.convertToModel(formaPagamento);
+
+		return ResponseEntity
+				.ok()
+				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
+				.body(formasPagamentoModel);
 	}
 
 	@PostMapping()

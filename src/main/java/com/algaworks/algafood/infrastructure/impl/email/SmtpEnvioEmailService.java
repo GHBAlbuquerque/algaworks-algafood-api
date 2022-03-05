@@ -2,7 +2,7 @@ package com.algaworks.algafood.infrastructure.impl.email;
 
 import com.algaworks.algafood.core.email.EmailProperties;
 import com.algaworks.algafood.infrastructure.exception.EmailException;
-import com.algaworks.algafood.infrastructure.service.EnvioEmailService;
+import com.algaworks.algafood.domain.service.EnvioEmailService;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
