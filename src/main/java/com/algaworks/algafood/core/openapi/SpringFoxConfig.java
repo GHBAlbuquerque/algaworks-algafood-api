@@ -46,6 +46,10 @@ public class SpringFoxConfig {
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.NOT_ACCEPTABLE.value()))
                         .description("Recurso não possui representação que pode ser aceita pelo consumidor")
+                        .build(),
+                new ResponseBuilder()
+                        .code(String.valueOf(HttpStatus.NOT_FOUND.value()))
+                        .description("Recurso não encontrado")
                         .build()
         );
     }
