@@ -1,5 +1,8 @@
 package com.algaworks.algafood.core.openapi;
 
+import com.algaworks.algafood.api.exceptionhandler.CustomProblem;
+import com.algaworks.algafood.api.exceptionhandler.GenericProblem;
+import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -24,6 +27,8 @@ public class SpringFoxConfig {
 
     @Bean
     public Docket apiDocket() {
+        var typeResolver = new TypeResolver();
+
         return new Docket(DocumentationType.OAS_30) //classe do springfox que representa a configuracao da API para gerar a doc
                     .select() //builder
                     .apis(RequestHandlerSelectors.basePackage("com.algaworks.algafood.api")) //seletor de endpoints, onde posso filtrar
@@ -34,6 +39,7 @@ public class SpringFoxConfig {
                 .globalResponses(HttpMethod.POST, globalPostResponseMessages())
                 .globalResponses(HttpMethod.PATCH, globalPutResponseMessages())
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
+                .additionalModels(typeResolver.resolve(GenericProblem.class), typeResolver.resolve(CustomProblem.class))
                 .apiInfo(apiInfo());
     }
 
