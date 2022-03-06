@@ -13,6 +13,9 @@ import com.algaworks.algafood.domain.service.PedidoService;
 import com.algaworks.algafood.domain.service.StatusPedidoService;
 import com.algaworks.algafood.infrastructure.spec.PedidoSpecs;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -40,6 +43,10 @@ public class PedidoController {
 	@Autowired
 	private PedidoAssembler assembler;
 
+	@ApiImplicitParams({
+			@ApiImplicitParam(value="Nome da view", name="view", paramType="query", type="string",
+								allowableValues = "resumo", required = false)
+	})
 	@JsonView(PedidoView.PedidoSimpleDTO.class)
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping
@@ -48,6 +55,7 @@ public class PedidoController {
 		return assembler.convertListToModel(pedidos);
 	}
 
+	@ApiOperation(value="Listar Pedidos Resumo", hidden = true)
 	@JsonView(PedidoView.PedidoIdentificationDTO.class)
 	@ResponseStatus(HttpStatus.OK)
 	@GetMapping(params = "view=resumo")
