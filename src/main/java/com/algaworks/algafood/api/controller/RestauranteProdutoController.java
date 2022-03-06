@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags="restaurante-controller")
+@Api(tags="produto-controller")
 @RestController
 @RequestMapping(value = "/restaurantes/{idRestaurante}/produtos")
 public class RestauranteProdutoController {

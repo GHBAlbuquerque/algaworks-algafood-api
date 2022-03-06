@@ -24,6 +24,7 @@ import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Response;
+import springfox.documentation.service.Tag;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -55,6 +56,7 @@ public class SpringFoxConfig {
                 .alternateTypeRules(buildPageTypeRole(PedidoDTO.class))
                 .alternateTypeRules(buildPageTypeRole(UsuarioDTO.class))
                 .ignoredParameterTypes(ServletWebRequest.class)
+                .tags(new Tag("produto-controller", "Produto Controller"))
                 .apiInfo(apiInfo());
     }
 
