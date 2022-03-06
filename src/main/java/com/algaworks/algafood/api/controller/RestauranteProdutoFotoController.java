@@ -7,6 +7,7 @@ import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontr
 import com.algaworks.algafood.domain.model.FotoProduto;
 import com.algaworks.algafood.domain.service.CatalogoFotoProdutoService;
 import com.algaworks.algafood.domain.service.ProdutoService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
+@Api(tags="restaurante-controller")
 @RestController
 @RequestMapping(value = "/restaurantes/{idRestaurante}/produtos/{idProduto}/foto")
 public class RestauranteProdutoFotoController {

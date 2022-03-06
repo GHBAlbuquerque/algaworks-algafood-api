@@ -6,12 +6,14 @@ import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteEx
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.GrupoService;
 import com.algaworks.algafood.domain.service.UsuarioService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(tags="usuario-controller")
 @RestController
 @RequestMapping(value = "/usuarios/{idUsuario}/grupos")
 public class UsuarioGrupoController {

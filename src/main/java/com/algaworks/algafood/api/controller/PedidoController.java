@@ -43,8 +43,8 @@ public class PedidoController {
 	@Autowired
 	private PedidoAssembler assembler;
 
-	@ApiImplicitParams({
-			@ApiImplicitParam(value="Nome da view", name="view", paramType="query", type="string",
+	@ApiImplicitParams({ //documentando em uma unica operação esse e o endpoint de baixo
+			@ApiImplicitParam(value="Nome da view", name="view", paramType="query", dataTypeClass=String.class,
 								allowableValues = "resumo", required = false)
 	})
 	@JsonView(PedidoView.PedidoSimpleDTO.class)
