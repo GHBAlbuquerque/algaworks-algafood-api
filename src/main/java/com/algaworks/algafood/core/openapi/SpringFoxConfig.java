@@ -2,10 +2,13 @@ package com.algaworks.algafood.core.openapi;
 
 import com.algaworks.algafood.api.exceptionhandler.CustomProblem;
 import com.algaworks.algafood.api.exceptionhandler.GenericProblem;
+import com.algaworks.algafood.api.model.output.PedidoDTO;
+import com.algaworks.algafood.api.model.output.UsuarioDTO;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,8 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RepresentationBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseBuilder;
+import springfox.documentation.schema.AlternateTypeRule;
+import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.service.Response;
@@ -29,9 +34,10 @@ import java.util.function.Consumer;
 @Import(BeanValidatorPluginsConfiguration.class) //classe com varios beans definidos que lê annotations
 public class SpringFoxConfig {
 
+    private TypeResolver typeResolver = new TypeResolver();
+
     @Bean
     public Docket apiDocket() {
-        var typeResolver = new TypeResolver();
 
         return new Docket(DocumentationType.OAS_30) //classe do springfox que representa a configuracao da API para gerar a doc
                     .select() //builder
@@ -45,7 +51,17 @@ public class SpringFoxConfig {
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
                 .additionalModels(typeResolver.resolve(GenericProblem.class), typeResolver.resolve(CustomProblem.class))
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+                .alternateTypeRules(buildPageTypeRole(PedidoDTO.class))
+                .alternateTypeRules(buildPageTypeRole(UsuarioDTO.class))
                 .apiInfo(apiInfo());
+    }
+
+    private <T> AlternateTypeRule buildPageTypeRole(Class<T> classModel) {
+
+        return AlternateTypeRules.newRule(
+                typeResolver.resolve(Page.class, classModel),
+                typeResolver.resolve(PageModelOpenApi.class, classModel)
+        );
     }
 
     private Consumer<RepresentationBuilder> getCustomProblemModelReference() {
