@@ -4,15 +4,20 @@ import com.algaworks.algafood.api.assembler.CidadeAssembler;
 import com.algaworks.algafood.api.model.input.CidadeInputDTO;
 import com.algaworks.algafood.api.model.output.CidadeDTO;
 import com.algaworks.algafood.api.openapi.CidadeControllerOpenApi;
+import com.algaworks.algafood.api.utils.ResourceUriHelper;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.service.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -45,10 +50,14 @@ public class CidadeController implements CidadeControllerOpenApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CidadeDTO adicionar(@RequestBody @Valid CidadeInputDTO cidadeInput) {
-        var cidade = assembler.convertToEntity(cidadeInput);
         try {
+            var cidade = assembler.convertToEntity(cidadeInput);
             var cidadeSalva = cidadeService.salvar(cidade);
-            return assembler.convertToModel(cidadeSalva);
+            var model = assembler.convertToModel(cidadeSalva);
+
+            ResourceUriHelper.addUriInResponseHeader(model.getId());
+
+            return model;
         } catch (EstadoNaoEncontradoException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }
