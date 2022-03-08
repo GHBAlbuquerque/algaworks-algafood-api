@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.model.input.UsuarioInputDTO;
 import com.algaworks.algafood.api.model.input.update.SenhaUpdateDTO;
 import com.algaworks.algafood.api.model.input.update.UsuarioUpdateDTO;
 import com.algaworks.algafood.api.model.output.UsuarioDTO;
+import com.algaworks.algafood.api.openapi.UsuarioControllerOpenApi;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import com.algaworks.algafood.domain.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,58 +20,58 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/usuarios")
-public class UsuarioController {
+public class UsuarioController implements UsuarioControllerOpenApi {
 
-	@Autowired
-	private UsuarioRepository usuarioRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-	@Autowired
-	private UsuarioService usuarioService;
+    @Autowired
+    private UsuarioService usuarioService;
 
-	@Autowired
-	private UsuarioAssembler assembler;
+    @Autowired
+    private UsuarioAssembler assembler;
 
-	@ResponseStatus(HttpStatus.OK)
-	@GetMapping
-	public Page<UsuarioDTO> listar(Pageable pageable) {
-		var usuariosPage = usuarioRepository.findAll(pageable);
-		var usuarios = assembler.convertListToModel(usuariosPage.getContent());
-		return new PageImpl<>(usuarios, pageable, usuariosPage.getTotalElements());
-	}
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public Page<UsuarioDTO> listar(Pageable pageable) {
+        var usuariosPage = usuarioRepository.findAll(pageable);
+        var usuarios = assembler.convertListToModel(usuariosPage.getContent());
+        return new PageImpl<>(usuarios, pageable, usuariosPage.getTotalElements());
+    }
 
-	@GetMapping("/{id}")
-	public UsuarioDTO buscar(@PathVariable long id) {
-		var usuario = usuarioService.buscar(id);
-		return assembler.convertToModel(usuario);
-	}
+    @GetMapping("/{id}")
+    public UsuarioDTO buscar(@PathVariable long id) {
+        var usuario = usuarioService.buscar(id);
+        return assembler.convertToModel(usuario);
+    }
 
-	@PostMapping()
-	@ResponseStatus(HttpStatus.CREATED)
-	public UsuarioDTO salvar(@RequestBody @Valid UsuarioInputDTO usuarioInput) {
-		var usuario = assembler.convertToEntity(usuarioInput);
-		usuario = usuarioService.salvar(usuario);
-		return assembler.convertToModel(usuario);
-	}
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public UsuarioDTO salvar(@RequestBody @Valid UsuarioInputDTO usuarioInput) {
+        var usuario = assembler.convertToEntity(usuarioInput);
+        usuario = usuarioService.salvar(usuario);
+        return assembler.convertToModel(usuario);
+    }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<UsuarioDTO> atualizar(@PathVariable long id, @RequestBody @Valid UsuarioUpdateDTO usuarioInput) {
-		var usuarioExistente = usuarioService.buscar(id);
-		assembler.copyToInstance(usuarioInput, usuarioExistente);
+    @PutMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> atualizar(@PathVariable long id, @RequestBody @Valid UsuarioUpdateDTO usuarioInput) {
+        var usuarioExistente = usuarioService.buscar(id);
+        assembler.copyToInstance(usuarioInput, usuarioExistente);
 
-		var usuario = usuarioService.salvar(usuarioExistente);
-		return ResponseEntity.ok(assembler.convertToModel(usuario));
-	}
+        var usuario = usuarioService.salvar(usuarioExistente);
+        return ResponseEntity.ok(assembler.convertToModel(usuario));
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deletar(@PathVariable long id) {
-		usuarioService.remover(id);
-		return ResponseEntity.noContent().build();
-	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletar(@PathVariable long id) {
+        usuarioService.remover(id);
+        return ResponseEntity.noContent().build();
+    }
 
-	@PutMapping("/{id}/senha")
-	public ResponseEntity<UsuarioDTO> alterarSenha(@PathVariable long id, @RequestBody @Valid SenhaUpdateDTO senha) {
+    @PutMapping("/{id}/senha")
+    public ResponseEntity<UsuarioDTO> alterarSenha(@PathVariable long id, @RequestBody @Valid SenhaUpdateDTO senha) {
 
-		usuarioService.trocarSenha(id, senha);
-		return ResponseEntity.noContent().build();
-	}
+        usuarioService.trocarSenha(id, senha);
+        return ResponseEntity.noContent().build();
+    }
 }

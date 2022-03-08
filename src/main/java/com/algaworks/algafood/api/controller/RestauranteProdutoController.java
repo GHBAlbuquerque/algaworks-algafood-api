@@ -4,10 +4,10 @@ import com.algaworks.algafood.api.assembler.ProdutoAssembler;
 import com.algaworks.algafood.api.model.input.ProdutoInputDTO;
 import com.algaworks.algafood.api.model.input.update.ProdutoUpdateDTO;
 import com.algaworks.algafood.api.model.output.ProdutoDTO;
+import com.algaworks.algafood.api.openapi.RestauranteProdutoControllerOpenApi;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.RestauranteService;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@Api(tags="produto-controller")
 @RestController
 @RequestMapping(value = "/restaurantes/{idRestaurante}/produtos")
-public class RestauranteProdutoController {
+public class RestauranteProdutoController implements RestauranteProdutoControllerOpenApi {
 
     @Autowired
     private RestauranteService restauranteService;

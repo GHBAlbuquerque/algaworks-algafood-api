@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.GrupoAssembler;
 import com.algaworks.algafood.api.model.input.GrupoInputDTO;
 import com.algaworks.algafood.api.model.output.GrupoDTO;
+import com.algaworks.algafood.api.openapi.GrupoControllerOpenApi;
 import com.algaworks.algafood.domain.repository.GrupoRepository;
 import com.algaworks.algafood.domain.service.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/grupos")
-public class GrupoController {
+public class GrupoController implements GrupoControllerOpenApi {
 
 	@Autowired
 	private GrupoRepository grupoRepository;

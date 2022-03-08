@@ -2,21 +2,20 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.PermissaoAssembler;
 import com.algaworks.algafood.api.model.output.PermissaoDTO;
+import com.algaworks.algafood.api.openapi.GrupoPermissaoControllerOpenApi;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.GrupoService;
 import com.algaworks.algafood.domain.service.PermissaoService;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags="grupo-controller")
 @RestController
 @RequestMapping("grupos/{idGrupo}/permissoes")
-public class GrupoPermissaoController {
+public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi {
 
     @Autowired
     private GrupoService grupoService;

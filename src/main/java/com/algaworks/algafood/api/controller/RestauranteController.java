@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.assembler.RestauranteAssembler;
 import com.algaworks.algafood.api.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.api.model.output.RestauranteDTO;
 import com.algaworks.algafood.api.model.output.RestauranteSingletonDTO;
+import com.algaworks.algafood.api.openapi.RestauranteControllerOpenApi;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontradaException;
@@ -29,7 +30,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/restaurantes")
-public class RestauranteController {
+public class RestauranteController implements RestauranteControllerOpenApi {
 
     @Autowired
     private RestauranteRepository restauranteRepository;
@@ -52,7 +53,7 @@ public class RestauranteController {
         var restaurante = restauranteService.buscar(id);
         var model = assembler.convertToSingletonModel(restaurante);
 
-        var wrapper = crirarFiltro(model, campos);
+        var wrapper = criarFiltro(model, campos);
 
         return wrapper;
     }
@@ -162,7 +163,7 @@ public class RestauranteController {
         restauranteService.fechar(id);
     }
 
-    public MappingJacksonValue crirarFiltro(RestauranteSingletonDTO model, String campos){
+    public MappingJacksonValue criarFiltro(RestauranteSingletonDTO model, String campos){
         var wrapper = new MappingJacksonValue(model);
 
         var filterProvider = new SimpleFilterProvider();

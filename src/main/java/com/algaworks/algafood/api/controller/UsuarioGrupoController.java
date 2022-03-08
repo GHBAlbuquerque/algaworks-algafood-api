@@ -2,21 +2,20 @@ package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.api.assembler.GrupoAssembler;
 import com.algaworks.algafood.api.model.output.GrupoDTO;
+import com.algaworks.algafood.api.openapi.UsuarioGrupoControllerOpenApi;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.GrupoService;
 import com.algaworks.algafood.domain.service.UsuarioService;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags="usuario-controller")
 @RestController
 @RequestMapping(value = "/usuarios/{idUsuario}/grupos")
-public class UsuarioGrupoController {
+public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 
     @Autowired
     private UsuarioService usuarioService;
