@@ -11,17 +11,15 @@ import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.service.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import javax.validation.Valid;
-import java.util.List;
 
-import static org.springframework.hateoas.server.core.WebHandler.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
@@ -38,9 +36,23 @@ public class CidadeController implements CidadeControllerOpenApi {
     private CidadeAssembler assembler;
 
     @GetMapping
-    public List<CidadeDTO> listar() {
+    public CollectionModel<CidadeDTO> listar() {
         var cidades = cidadeRepository.findAll();
-        return assembler.convertListToModel(cidades);
+        var models = assembler.convertListToModel(cidades);
+
+        models.forEach(model -> model.add(WebMvcLinkBuilder.linkTo(
+                        methodOn(CidadeController.class)
+                                .buscar(model.getId()))
+                .withSelfRel()));
+
+        var collectionModel = CollectionModel.of(models);
+
+        collectionModel.add(WebMvcLinkBuilder.linkTo(
+                        methodOn(CidadeController.class)
+                                .listar())
+                .withSelfRel());
+
+        return collectionModel;
     }
 
     @GetMapping("/{id}")
