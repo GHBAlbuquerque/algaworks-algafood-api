@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.assembler;
 
+import com.algaworks.algafood.api.controller.PedidoController;
 import com.algaworks.algafood.api.controller.UsuarioController;
 import com.algaworks.algafood.api.model.input.UsuarioInputDTO;
 import com.algaworks.algafood.api.model.input.update.UsuarioUpdateDTO;
@@ -8,8 +9,7 @@ import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.*;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -73,8 +73,18 @@ public class UsuarioAssembler extends RepresentationModelAssemblerSupport<Usuari
 
     @Override
     public CollectionModel<UsuarioDTO> toCollectionModel(Iterable<? extends Usuario> entities) {
+
+        var usuariosUrl = linkTo(UsuarioController.class).toUri().toString();
+
+        var uriTemplate = UriTemplate.of(usuariosUrl, new TemplateVariables(
+                new TemplateVariable("page", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("size", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM)
+        ));
+
+        var link = Link.of(uriTemplate, IanaLinkRelations.COLLECTION);
+
         return super.toCollectionModel(entities)
-                .add(linkTo(UsuarioController.class)
-                        .withSelfRel());
+                .add(link);
     }
 }

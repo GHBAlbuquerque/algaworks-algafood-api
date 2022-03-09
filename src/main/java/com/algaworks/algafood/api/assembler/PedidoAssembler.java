@@ -10,8 +10,7 @@ import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Pedido;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.*;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +30,16 @@ public class PedidoAssembler extends RepresentationModelAssemblerSupport<Pedido,
     public PedidoDTO toModel(Pedido pedido) {
         try {
             var model = modelMapper.map(pedido, PedidoDTO.class);
+
+            var pedidosUrl = linkTo(PedidoController.class).toUri().toString() + "/pesquisar";
+
+            var uriTemplate = UriTemplate.of(pedidosUrl, new TemplateVariables(
+                    new TemplateVariable("page", TemplateVariable.VariableType.REQUEST_PARAM),
+                    new TemplateVariable("size", TemplateVariable.VariableType.REQUEST_PARAM),
+                    new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM)
+            ));
+
+            model.add(Link.of(uriTemplate, LinkRelation.of("pesquisar")));
 
             model.add(linkTo(
                     methodOn(PedidoController.class)
