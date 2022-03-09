@@ -49,7 +49,7 @@ public class PedidoController implements PedidoControllerOpenApi {
     @Autowired
     private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
 
-    @JsonView(PedidoView.PedidoSimpleDTO.class)
+    //@JsonView(PedidoView.PedidoSimpleDTO.class)
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public CollectionModel<PedidoDTO> listar() {
@@ -58,7 +58,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         return lista;
     }
 
-    @JsonView(PedidoView.PedidoIdentificationDTO.class)
+    //@JsonView(PedidoView.PedidoIdentificationDTO.class)
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(params = "view=resumo")
     public CollectionModel<PedidoDTO> listarResumido() {
