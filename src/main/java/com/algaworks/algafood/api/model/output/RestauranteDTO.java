@@ -5,13 +5,16 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
 
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RestauranteDTO {
+@Relation(collectionRelation = "restaurantes")
+public class RestauranteDTO extends RepresentationModel<RestauranteDTO> {
 
     @JsonView(PedidoView.PedidoSimpleDTO.class)
     private Long id;

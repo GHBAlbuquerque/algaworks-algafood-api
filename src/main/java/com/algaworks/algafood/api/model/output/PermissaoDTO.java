@@ -2,10 +2,13 @@ package com.algaworks.algafood.api.model.output;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 @Getter
 @Setter
-public class PermissaoDTO {
+@Relation(collectionRelation = "permissoes")
+public class PermissaoDTO extends RepresentationModel<PermissaoDTO> {
 
     private Long id;
 

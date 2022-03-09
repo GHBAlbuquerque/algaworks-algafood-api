@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -13,7 +15,8 @@ import java.util.List;
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class PedidoDTO {
+@Relation(collectionRelation = "pedidos")
+public class PedidoDTO extends RepresentationModel<PedidoDTO> {
 
     @JsonView({PedidoView.PedidoSimpleDTO.class,PedidoView.PedidoIdentificationDTO.class})
     private String codigo;
