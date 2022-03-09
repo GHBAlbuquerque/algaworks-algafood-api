@@ -11,13 +11,12 @@ import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import com.algaworks.algafood.domain.service.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 
 import javax.validation.Valid;
 import java.util.List;
@@ -44,7 +43,12 @@ public class CidadeController implements CidadeControllerOpenApi {
     @GetMapping("/{id}")
     public CidadeDTO buscar(@PathVariable long id) {
         var cidade = cidadeService.buscar(id);
-        return assembler.convertToModel(cidade);
+        var model = assembler.convertToModel(cidade);
+
+        model.add(Link.of("localhost:8080/cidades/6", IanaLinkRelations.SELF));
+        model.add(Link.of("localhost:8080/cidades", IanaLinkRelations.COLLECTION));
+
+        return model;
     }
 
     @PostMapping
