@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping(value = "/restaurantes/{idRestaurante}/responsaveis")
 public class RestauranteUsuarioController implements RestauranteUsuarioControllerOpenApi {
@@ -31,7 +34,12 @@ public class RestauranteUsuarioController implements RestauranteUsuarioControlle
     @GetMapping()
     public CollectionModel<UsuarioDTO> listar(@PathVariable Long idRestaurante) {
         var restaurante = restauranteService.buscar(idRestaurante);
-        return assembler.toCollectionModel(restaurante.getResponsaveis());
+
+        return assembler.toCollectionModel(restaurante.getResponsaveis())
+                .removeLinks() //link do assembler nao condiz com a url correta
+                .add(linkTo(methodOn(RestauranteUsuarioController.class)
+                        .listar(idRestaurante))
+                        .withSelfRel()); //adiciono manualmente
     }
 
     @PutMapping("/{idUsuario}")
