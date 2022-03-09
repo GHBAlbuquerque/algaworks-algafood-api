@@ -31,21 +31,21 @@ public class PermissaoController implements PermissaoControllerOpenApi {
 	@GetMapping
 	public List<PermissaoDTO> listar() {
 		var permissoes = permissaoRepository.findAll();
-		return assembler.convertListToModel(permissoes);
+		return assembler.toCollectionModel(permissoes);
 	}
 
 	@GetMapping("/{id}")
 	public PermissaoDTO buscar(@PathVariable long id) {
 		var permissao = permissaoService.buscar(id);
-		return assembler.convertToModel(permissao);
+		return assembler.toModel(permissao);
 	}
 
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public PermissaoDTO salvar(@RequestBody @Valid PermissaoInputDTO permissaoInput) {
-		var permissao = assembler.convertToEntity(permissaoInput);
+		var permissao = assembler.toEntity(permissaoInput);
 		permissao = permissaoService.salvar(permissao);
-		return assembler.convertToModel(permissao);
+		return assembler.toModel(permissao);
 	}
 
 	@PutMapping("/{id}")
@@ -54,7 +54,7 @@ public class PermissaoController implements PermissaoControllerOpenApi {
 		assembler.copyToInstance(permissaoInput, permissaoExistente);
 
 		var permissao = permissaoService.salvar(permissaoExistente);
-		return ResponseEntity.ok(assembler.convertToModel(permissao));
+		return ResponseEntity.ok(assembler.toModel(permissao));
 	}
 
 	@DeleteMapping("/{id}")

@@ -18,7 +18,7 @@ public class CozinhaAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public CozinhaDTO convertToModel(Cozinha cozinha) {
+    public CozinhaDTO toModel(Cozinha cozinha) {
         try {
             return modelMapper.map(cozinha, CozinhaDTO.class);
         } catch (IllegalArgumentException ex) {
@@ -26,7 +26,7 @@ public class CozinhaAssembler {
         }
     }
 
-    public Cozinha convertToEntity(CozinhaInputDTO cozinha) {
+    public Cozinha toEntity(CozinhaInputDTO cozinha) {
         try {
             return modelMapper.map(cozinha, Cozinha.class);
         } catch (IllegalArgumentException ex) {
@@ -43,7 +43,7 @@ public class CozinhaAssembler {
         }
     }
 
-    public List<CozinhaDTO> convertListToModel(Collection<Cozinha> cozinhas) {
-        return cozinhas.stream().map(this::convertToModel).collect(Collectors.toList());
+    public List<CozinhaDTO> toCollectionModel(Collection<Cozinha> cozinhas) {
+        return cozinhas.stream().map(this::toModel).collect(Collectors.toList());
     }
 }

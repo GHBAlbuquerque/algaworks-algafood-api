@@ -18,7 +18,7 @@ public class PermissaoAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public PermissaoDTO convertToModel(Permissao permissao) {
+    public PermissaoDTO toModel(Permissao permissao) {
         try {
             return modelMapper.map(permissao, PermissaoDTO.class);
         } catch (IllegalArgumentException ex) {
@@ -26,7 +26,7 @@ public class PermissaoAssembler {
         }
     }
 
-    public Permissao convertToEntity(PermissaoInputDTO permissao) {
+    public Permissao toEntity(PermissaoInputDTO permissao) {
         try {
             return modelMapper.map(permissao, Permissao.class);
         } catch (IllegalArgumentException ex) {
@@ -43,7 +43,7 @@ public class PermissaoAssembler {
         }
     }
 
-    public List<PermissaoDTO> convertListToModel(Collection<Permissao> permissoes) {
-        return permissoes.stream().map(this::convertToModel).collect(Collectors.toList());
+    public List<PermissaoDTO> toCollectionModel(Collection<Permissao> permissoes) {
+        return permissoes.stream().map(this::toModel).collect(Collectors.toList());
     }
 }

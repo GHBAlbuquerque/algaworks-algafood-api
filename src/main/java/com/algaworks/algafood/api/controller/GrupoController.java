@@ -31,21 +31,21 @@ public class GrupoController implements GrupoControllerOpenApi {
 	@GetMapping
 	public List<GrupoDTO> listar() {
 		var grupos = grupoRepository.findAll();
-		return assembler.convertListToModel(grupos);
+		return assembler.toCollectionModel(grupos);
 	}
 
 	@GetMapping("/{id}")
 	public GrupoDTO buscar(@PathVariable long id) {
 		var grupo = grupoService.buscar(id);
-		return assembler.convertToModel(grupo);
+		return assembler.toModel(grupo);
 	}
 
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public GrupoDTO salvar(@RequestBody @Valid GrupoInputDTO grupoInput) {
-		var grupo = assembler.convertToEntity(grupoInput);
+		var grupo = assembler.toEntity(grupoInput);
 		grupo = grupoService.salvar(grupo);
-		return assembler.convertToModel(grupo);
+		return assembler.toModel(grupo);
 	}
 
 	@PutMapping("/{id}")
@@ -54,7 +54,7 @@ public class GrupoController implements GrupoControllerOpenApi {
 		assembler.copyToInstance(grupoInput, grupoExistente);
 
 		var grupo = grupoService.salvar(grupoExistente);
-		return ResponseEntity.ok(assembler.convertToModel(grupo));
+		return ResponseEntity.ok(assembler.toModel(grupo));
 	}
 
 	@DeleteMapping("/{id}")

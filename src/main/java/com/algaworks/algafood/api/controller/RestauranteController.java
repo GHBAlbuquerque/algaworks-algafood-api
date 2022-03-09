@@ -45,7 +45,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
     @GetMapping
     public List<RestauranteDTO> listar() {
         var restaurantes = restauranteRepository.findAll();
-        return assembler.convertListToModel(restaurantes);
+        return assembler.toCollectionModel(restaurantes);
     }
 
     @GetMapping("/{id}")
@@ -63,7 +63,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
                                                                       @PathParam(value = "cozinha_id") Long cozinhaId) {
         var restaurantes = restauranteRepository.consultarPorNomeECozinha(nome, cozinhaId);
         return ResponseEntity.ok(
-                restaurantes.stream().map(restaurante -> assembler.convertToModel(restaurante))
+                restaurantes.stream().map(restaurante -> assembler.toModel(restaurante))
                         .collect(Collectors.toList()));
     }
 
@@ -71,7 +71,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
     public ResponseEntity<RestauranteDTO> buscarPorNome(@PathParam(value = "nome") String nome) {
         var restaurante = restauranteRepository.findFirstRestauranteByNomeContaining(nome);
         if (restaurante.isPresent()) {
-            var restauranteDTO = assembler.convertToModel(restaurante.get());
+            var restauranteDTO = assembler.toModel(restaurante.get());
             return ResponseEntity.ok(restauranteDTO);
         }
         return ResponseEntity.notFound().build();
@@ -86,13 +86,13 @@ public class RestauranteController implements RestauranteControllerOpenApi {
     @GetMapping("/specification")
     public List<RestauranteDTO> queryPorSpecification(String nome) {
         var restaurantes = restauranteRepository.buscarComFreteGratis(nome);
-        return restaurantes.stream().map(restaurante -> assembler.convertToModel(restaurante)).collect(Collectors.toList());
+        return restaurantes.stream().map(restaurante -> assembler.toModel(restaurante)).collect(Collectors.toList());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RestauranteSingletonDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteInputDTO restauranteInput) {
-        var restaurante = assembler.convertToEntity(restauranteInput);
+        var restaurante = assembler.toEntity(restauranteInput);
         try {
             var restauranteSalvo = restauranteService.salvar(restaurante);
             return assembler.convertToSingletonModel(restauranteSalvo);

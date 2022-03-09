@@ -18,7 +18,7 @@ public class EstadoAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public EstadoDTO convertToModel(Estado estado) {
+    public EstadoDTO toModel(Estado estado) {
         try {
             return modelMapper.map(estado, EstadoDTO.class);
         } catch (IllegalArgumentException ex) {
@@ -26,7 +26,7 @@ public class EstadoAssembler {
         }
     }
 
-    public Estado convertToEntity(EstadoInputDTO estado) {
+    public Estado toEntity(EstadoInputDTO estado) {
         try {
             return modelMapper.map(estado, Estado.class);
         } catch (IllegalArgumentException ex) {
@@ -43,7 +43,7 @@ public class EstadoAssembler {
         }
     }
 
-    public List<EstadoDTO> convertListToModel(Collection<Estado> estados) {
-        return estados.stream().map(this::convertToModel).collect(Collectors.toList());
+    public List<EstadoDTO> toCollectionModel(Collection<Estado> estados) {
+        return estados.stream().map(this::toModel).collect(Collectors.toList());
     }
 }

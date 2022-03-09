@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.assembler;
 
+import com.algaworks.algafood.api.controller.CidadeController;
 import com.algaworks.algafood.api.model.input.CidadeInputDTO;
 import com.algaworks.algafood.api.model.output.CidadeDTO;
 import com.algaworks.algafood.domain.exception.ConversaoException;
@@ -7,31 +8,51 @@ import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class CidadeAssembler {
+public class CidadeAssembler extends RepresentationModelAssemblerSupport<Cidade, CidadeDTO> {
 
     @Autowired
     private ModelMapper modelMapper;
 
-    public CidadeDTO convertToModel(Cidade cidade) {
+    public CidadeAssembler() {
+        super(CidadeController.class, CidadeDTO.class);
+    }
+
+    @Override
+    public CidadeDTO toModel(Cidade cidade) {
         try {
-            return modelMapper.map(cidade, CidadeDTO.class);
+            var model = modelMapper.map(cidade, CidadeDTO.class);
+
+            model.add(linkTo(
+                            methodOn(CidadeController.class)
+                                    .buscar(model.getId()))
+                    .withSelfRel());
+
+            model.add(linkTo(
+                            methodOn(CidadeController.class)
+                                    .listar())
+                    .withRel(IanaLinkRelations.COLLECTION));
+
+            return model;
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.", ex.getCause());
         }
     }
 
-    public Cidade convertToEntity(CidadeInputDTO cidade) {
+    public Cidade toEntity(CidadeInputDTO cidade) {
         try {
             return modelMapper.map(cidade, Cidade.class);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.", ex.getCause());
         }
     }
 
@@ -41,11 +62,13 @@ public class CidadeAssembler {
             cidade.setEstado(new Estado());
             modelMapper.map(cidadeInputDTO, cidade);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.", ex.getCause());
         }
     }
 
-    public List<CidadeDTO> convertListToModel(Collection<Cidade> cidades) {
-        return cidades.stream().map(this::convertToModel).collect(Collectors.toList());
+    @Override
+    public CollectionModel<CidadeDTO> toCollectionModel(Iterable<? extends Cidade> entities) {
+        return super.toCollectionModel(entities)
+                .add(linkTo(CidadeController.class).withSelfRel());
     }
 }

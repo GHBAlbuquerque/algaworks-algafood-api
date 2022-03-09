@@ -49,13 +49,13 @@ public class RestauranteProdutoFotoController implements RestauranteProdutoFotoC
         fotoProduto.setNomeArquivo(arquivo.getOriginalFilename());
 
         var fotoProdutoSalva = catalogoFotoProdutoService.salvar(fotoProduto, arquivo.getInputStream());
-        return fotoProdutoAssembler.convertToModel(fotoProdutoSalva);
+        return fotoProdutoAssembler.toModel(fotoProdutoSalva);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public FotoProdutoDTO buscar(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
         var foto = catalogoFotoProdutoService.buscar(idRestaurante, idProduto);
-        return fotoProdutoAssembler.convertToModel(foto);
+        return fotoProdutoAssembler.toModel(foto);
     }
 
     @DeleteMapping

@@ -18,7 +18,7 @@ public class FotoProdutoAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public FotoProdutoDTO convertToModel(FotoProduto FotoProduto) {
+    public FotoProdutoDTO toModel(FotoProduto FotoProduto) {
         try {
             return modelMapper.map(FotoProduto, FotoProdutoDTO.class);
         } catch (IllegalArgumentException ex) {
@@ -26,7 +26,7 @@ public class FotoProdutoAssembler {
         }
     }
 
-    public FotoProduto convertToEntity(FotoProdutoInputDTO FotoProduto) {
+    public FotoProduto toEntity(FotoProdutoInputDTO FotoProduto) {
         try {
             return modelMapper.map(FotoProduto, FotoProduto.class);
         } catch (IllegalArgumentException ex) {
@@ -43,7 +43,7 @@ public class FotoProdutoAssembler {
         }
     }
 
-    public List<FotoProdutoDTO> convertListToModel(Collection<FotoProduto> FotoProdutos) {
-        return FotoProdutos.stream().map(this::convertToModel).collect(Collectors.toList());
+    public List<FotoProdutoDTO> toCollectionModel(Collection<FotoProduto> FotoProdutos) {
+        return FotoProdutos.stream().map(this::toModel).collect(Collectors.toList());
     }
 }

@@ -35,22 +35,22 @@ public class UsuarioController implements UsuarioControllerOpenApi {
     @GetMapping
     public Page<UsuarioDTO> listar(Pageable pageable) {
         var usuariosPage = usuarioRepository.findAll(pageable);
-        var usuarios = assembler.convertListToModel(usuariosPage.getContent());
+        var usuarios = assembler.toCollectionModel(usuariosPage.getContent());
         return new PageImpl<>(usuarios, pageable, usuariosPage.getTotalElements());
     }
 
     @GetMapping("/{id}")
     public UsuarioDTO buscar(@PathVariable long id) {
         var usuario = usuarioService.buscar(id);
-        return assembler.convertToModel(usuario);
+        return assembler.toModel(usuario);
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioDTO salvar(@RequestBody @Valid UsuarioInputDTO usuarioInput) {
-        var usuario = assembler.convertToEntity(usuarioInput);
+        var usuario = assembler.toEntity(usuarioInput);
         usuario = usuarioService.salvar(usuario);
-        return assembler.convertToModel(usuario);
+        return assembler.toModel(usuario);
     }
 
     @PutMapping("/{id}")
@@ -59,7 +59,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         assembler.copyToInstance(usuarioInput, usuarioExistente);
 
         var usuario = usuarioService.salvar(usuarioExistente);
-        return ResponseEntity.ok(assembler.convertToModel(usuario));
+        return ResponseEntity.ok(assembler.toModel(usuario));
     }
 
     @DeleteMapping("/{id}")

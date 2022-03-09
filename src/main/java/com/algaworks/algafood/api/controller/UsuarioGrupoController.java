@@ -29,7 +29,7 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
     @GetMapping()
     public List<GrupoDTO> listar(@PathVariable Long idUsuario) {
         var usuario = usuarioService.buscar(idUsuario);
-        return assembler.convertListToModel(usuario.getGrupos());
+        return assembler.toCollectionModel(usuario.getGrupos());
     }
 
     @PutMapping("/{idGrupo}")

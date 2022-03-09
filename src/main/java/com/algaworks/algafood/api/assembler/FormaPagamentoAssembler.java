@@ -18,7 +18,7 @@ public class FormaPagamentoAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public FormaPagamentoDTO convertToModel(FormaPagamento formaPagamento) {
+    public FormaPagamentoDTO toModel(FormaPagamento formaPagamento) {
         try {
             return modelMapper.map(formaPagamento, FormaPagamentoDTO.class);
         } catch (IllegalArgumentException ex) {
@@ -26,7 +26,7 @@ public class FormaPagamentoAssembler {
         }
     }
 
-    public FormaPagamento convertToEntity(FormaPagamentoInputDTO formaPagamento) {
+    public FormaPagamento toEntity(FormaPagamentoInputDTO formaPagamento) {
         try {
             return modelMapper.map(formaPagamento, FormaPagamento.class);
         } catch (IllegalArgumentException ex) {
@@ -42,7 +42,7 @@ public class FormaPagamentoAssembler {
         }
     }
 
-    public List<FormaPagamentoDTO> convertListToModel(Collection<FormaPagamento> formasPagamento) {
-        return formasPagamento.stream().map(this::convertToModel).collect(Collectors.toList());
+    public List<FormaPagamentoDTO> toCollectionModel(Collection<FormaPagamento> formasPagamento) {
+        return formasPagamento.stream().map(this::toModel).collect(Collectors.toList());
     }
 }

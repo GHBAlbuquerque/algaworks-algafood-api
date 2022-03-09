@@ -19,7 +19,7 @@ public class UsuarioAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public UsuarioDTO convertToModel(Usuario usuario) {
+    public UsuarioDTO toModel(Usuario usuario) {
         try {
             return modelMapper.map(usuario, UsuarioDTO.class);
         } catch (IllegalArgumentException ex) {
@@ -27,7 +27,7 @@ public class UsuarioAssembler {
         }
     }
 
-    public Usuario convertToEntity(UsuarioInputDTO usuarioInput) {
+    public Usuario toEntity(UsuarioInputDTO usuarioInput) {
         try {
             return modelMapper.map(usuarioInput, Usuario.class);
         } catch (IllegalArgumentException ex) {
@@ -51,7 +51,7 @@ public class UsuarioAssembler {
         }
     }
 
-    public List<UsuarioDTO> convertListToModel(Collection<Usuario> usuarios) {
-        return usuarios.stream().map(this::convertToModel).collect(Collectors.toList());
+    public List<UsuarioDTO> toCollectionModel(Collection<Usuario> usuarios) {
+        return usuarios.stream().map(this::toModel).collect(Collectors.toList());
     }
 }

@@ -33,7 +33,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	@GetMapping
 	public ResponseEntity<List<FormaPagamentoDTO>> listar() {
 		var formasPagamento = formaPagamentoRepository.findAll();
-		var formasPagamentoModel = assembler.convertListToModel(formasPagamento);
+		var formasPagamentoModel = assembler.toCollectionModel(formasPagamento);
 		return ResponseEntity
 				.ok()
 				.cacheControl(CacheControl.maxAge(10, TimeUnit.SECONDS))
@@ -43,7 +43,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	@GetMapping("/{id}")
 	public ResponseEntity<FormaPagamentoDTO> buscar(@PathVariable long id) {
 		var formaPagamento = formaPagamentoService.buscar(id);
-		var formasPagamentoModel = assembler.convertToModel(formaPagamento);
+		var formasPagamentoModel = assembler.toModel(formaPagamento);
 
 		return ResponseEntity
 				.ok()
@@ -54,9 +54,9 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 	@PostMapping()
 	@ResponseStatus(HttpStatus.CREATED)
 	public FormaPagamentoDTO salvar(@RequestBody @Valid FormaPagamentoInputDTO formaPagamentoInput) {
-		var formaPagamento = assembler.convertToEntity(formaPagamentoInput);
+		var formaPagamento = assembler.toEntity(formaPagamentoInput);
 		formaPagamento = formaPagamentoService.salvar(formaPagamento);
-		return assembler.convertToModel(formaPagamento);
+		return assembler.toModel(formaPagamento);
 	}
 
 	@PutMapping("/{id}")
@@ -65,7 +65,7 @@ public class FormaPagamentoController implements FormaPagamentoControllerOpenApi
 		assembler.copyToInstance(formaPagamentoInput, formaPagamentoExistente);
 
 		var formaPagamento = formaPagamentoService.salvar(formaPagamentoExistente);
-		return ResponseEntity.ok(assembler.convertToModel(formaPagamento));
+		return ResponseEntity.ok(assembler.toModel(formaPagamento));
 	}
 
 	@DeleteMapping("/{id}")

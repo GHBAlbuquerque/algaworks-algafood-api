@@ -18,7 +18,7 @@ public class PedidoAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public PedidoDTO convertToModel(Pedido pedido) {
+    public PedidoDTO toModel(Pedido pedido) {
         try {
             return modelMapper.map(pedido, PedidoDTO.class);
         } catch (IllegalArgumentException ex) {
@@ -26,7 +26,7 @@ public class PedidoAssembler {
         }
     }
 
-    public Pedido convertToEntity(PedidoInputDTO pedido) {
+    public Pedido toEntity(PedidoInputDTO pedido) {
         try {
             return modelMapper.map(pedido, Pedido.class);
         } catch (IllegalArgumentException ex) {
@@ -42,7 +42,7 @@ public class PedidoAssembler {
         }
     }
 
-    public List<PedidoDTO> convertListToModel(Collection<Pedido> pedidos) {
-        return pedidos.stream().map(this::convertToModel).collect(Collectors.toList());
+    public List<PedidoDTO> toCollectionModel(Collection<Pedido> pedidos) {
+        return pedidos.stream().map(this::toModel).collect(Collectors.toList());
     }
 }

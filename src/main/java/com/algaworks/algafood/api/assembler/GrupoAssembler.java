@@ -18,7 +18,7 @@ public class GrupoAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public GrupoDTO convertToModel(Grupo grupo) {
+    public GrupoDTO toModel(Grupo grupo) {
         try {
             return modelMapper.map(grupo, GrupoDTO.class);
         } catch (IllegalArgumentException ex) {
@@ -26,7 +26,7 @@ public class GrupoAssembler {
         }
     }
 
-    public Grupo convertToEntity(GrupoInputDTO grupo) {
+    public Grupo toEntity(GrupoInputDTO grupo) {
         try {
             return modelMapper.map(grupo, Grupo.class);
         } catch (IllegalArgumentException ex) {
@@ -43,7 +43,7 @@ public class GrupoAssembler {
         }
     }
 
-    public List<GrupoDTO> convertListToModel(Collection<Grupo> grupos) {
-        return grupos.stream().map(this::convertToModel).collect(Collectors.toList());
+    public List<GrupoDTO> toCollectionModel(Collection<Grupo> grupos) {
+        return grupos.stream().map(this::toModel).collect(Collectors.toList());
     }
 }

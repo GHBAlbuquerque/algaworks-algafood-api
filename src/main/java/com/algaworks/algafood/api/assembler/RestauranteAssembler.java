@@ -22,7 +22,7 @@ public class RestauranteAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public RestauranteDTO convertToModel(Restaurante restaurante) {
+    public RestauranteDTO toModel(Restaurante restaurante) {
         try {
             return modelMapper.map(restaurante, RestauranteDTO.class);
         } catch (IllegalArgumentException ex) {
@@ -38,7 +38,7 @@ public class RestauranteAssembler {
         }
     }
 
-    public Restaurante convertToEntity(RestauranteInputDTO restaurante) {
+    public Restaurante toEntity(RestauranteInputDTO restaurante) {
         try {
             return modelMapper.map(restaurante, Restaurante.class);
         } catch (IllegalArgumentException ex) {
@@ -62,7 +62,7 @@ public class RestauranteAssembler {
         }
     }
 
-    public List<RestauranteDTO> convertListToModel(Collection<Restaurante> restaurantes) {
-        return restaurantes.stream().map(this::convertToModel).collect(Collectors.toList());
+    public List<RestauranteDTO> toCollectionModel(Collection<Restaurante> restaurantes) {
+        return restaurantes.stream().map(this::toModel).collect(Collectors.toList());
     }
 }

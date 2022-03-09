@@ -38,38 +38,13 @@ public class CidadeController implements CidadeControllerOpenApi {
     @GetMapping
     public CollectionModel<CidadeDTO> listar() {
         var cidades = cidadeRepository.findAll();
-        var models = assembler.convertListToModel(cidades);
-
-        models.forEach(model -> model.add(WebMvcLinkBuilder.linkTo(
-                        methodOn(CidadeController.class)
-                                .buscar(model.getId()))
-                .withSelfRel()));
-
-        var collectionModel = CollectionModel.of(models);
-
-        collectionModel.add(WebMvcLinkBuilder.linkTo(
-                        methodOn(CidadeController.class)
-                                .listar())
-                .withSelfRel());
-
-        return collectionModel;
+       return assembler.toCollectionModel(cidades);
     }
 
     @GetMapping("/{id}")
     public CidadeDTO buscar(@PathVariable long id) {
         var cidade = cidadeService.buscar(id);
-        var model = assembler.convertToModel(cidade);
-
-        model.add(WebMvcLinkBuilder.linkTo(
-                        methodOn(CidadeController.class)
-                                .buscar(model.getId()))
-                .withSelfRel());
-
-        model.add(WebMvcLinkBuilder.linkTo(
-                        methodOn(CidadeController.class)
-                                .listar())
-                .withRel(IanaLinkRelations.COLLECTION));
-
+        var model = assembler.toModel(cidade);
 
         return model;
     }
@@ -78,9 +53,9 @@ public class CidadeController implements CidadeControllerOpenApi {
     @ResponseStatus(HttpStatus.CREATED)
     public CidadeDTO adicionar(@RequestBody @Valid CidadeInputDTO cidadeInput) {
         try {
-            var cidade = assembler.convertToEntity(cidadeInput);
+            var cidade = assembler.toEntity(cidadeInput);
             var cidadeSalva = cidadeService.salvar(cidade);
-            var model = assembler.convertToModel(cidadeSalva);
+            var model = assembler.toModel(cidadeSalva);
 
             ResourceUriHelper.addUriInResponseHeader(model.getId());
 
@@ -98,7 +73,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
         try {
             var cidade = cidadeService.salvar(cidadeExistente);
-            return ResponseEntity.ok(assembler.convertToModel(cidadeExistente));
+            return ResponseEntity.ok(assembler.toModel(cidadeExistente));
         } catch (EstadoNaoEncontradoException ex) {
             var idEstado = cidadeInput.getEstadoId();
             throw new EntidadeReferenciadaInexistenteException(Estado.class, idEstado);

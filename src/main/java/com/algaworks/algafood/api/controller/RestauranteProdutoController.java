@@ -29,22 +29,22 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
     public List<ProdutoDTO> listar(@PathVariable Long idRestaurante,
                                    @RequestParam(required=false) boolean incluirInativos) {
         var produtos = restauranteService.listarProdutosPorRestaurante(idRestaurante, incluirInativos);
-        return assembler.convertListToModel(produtos);
+        return assembler.toCollectionModel(produtos);
     }
 
     @GetMapping("/{idProduto}")
     public ProdutoDTO buscar(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
         var produto = restauranteService.buscarProdutoPorRestaurante(idRestaurante, idProduto);
-        return assembler.convertToModel(produto);
+        return assembler.toModel(produto);
     }
 
     @PostMapping("/{idProduto}")
     @ResponseStatus(HttpStatus.CREATED)
     public ProdutoDTO adicionar(@PathVariable Long idRestaurante, @RequestBody @Valid ProdutoInputDTO produtoInputDTO) {
         try {
-            var produto = assembler.convertToEntity(produtoInputDTO);
+            var produto = assembler.toEntity(produtoInputDTO);
             produto = restauranteService.adicionarProduto(idRestaurante, produto);
-            return assembler.convertToModel(produto);
+            return assembler.toModel(produto);
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }

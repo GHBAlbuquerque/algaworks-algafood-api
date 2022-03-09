@@ -29,7 +29,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
     @GetMapping()
     public List<PermissaoDTO> listar(@PathVariable Long idGrupo) {
         var grupo = grupoService.buscar(idGrupo);
-        return assembler.convertListToModel(grupo.getPermissoes());
+        return assembler.toCollectionModel(grupo.getPermissoes());
     }
 
     @PutMapping("/{idPermissao}")

@@ -19,7 +19,7 @@ public class ProdutoAssembler {
     @Autowired
     private ModelMapper modelMapper;
 
-    public ProdutoDTO convertToModel(Produto produto) {
+    public ProdutoDTO toModel(Produto produto) {
         try {
             return modelMapper.map(produto, ProdutoDTO.class);
         } catch (IllegalArgumentException ex) {
@@ -27,7 +27,7 @@ public class ProdutoAssembler {
         }
     }
 
-    public Produto convertToEntity(ProdutoInputDTO produto) {
+    public Produto toEntity(ProdutoInputDTO produto) {
         try {
             return modelMapper.map(produto, Produto.class);
         } catch (IllegalArgumentException ex) {
@@ -52,7 +52,7 @@ public class ProdutoAssembler {
         }
     }
 
-    public List<ProdutoDTO> convertListToModel(Collection<Produto> produtos) {
-        return produtos.stream().map(this::convertToModel).collect(Collectors.toList());
+    public List<ProdutoDTO> toCollectionModel(Collection<Produto> produtos) {
+        return produtos.stream().map(this::toModel).collect(Collectors.toList());
     }
 }

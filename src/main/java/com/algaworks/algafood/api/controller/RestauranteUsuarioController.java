@@ -29,7 +29,7 @@ public class RestauranteUsuarioController implements RestauranteUsuarioControlle
     @GetMapping()
     public List<UsuarioDTO> listar(@PathVariable Long idRestaurante) {
         var restaurante = restauranteService.buscar(idRestaurante);
-        return assembler.convertListToModel(restaurante.getResponsaveis());
+        return assembler.toCollectionModel(restaurante.getResponsaveis());
     }
 
     @PutMapping("/{idUsuario}")

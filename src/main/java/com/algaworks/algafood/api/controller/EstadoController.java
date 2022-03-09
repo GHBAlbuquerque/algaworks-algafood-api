@@ -30,22 +30,22 @@ public class EstadoController implements EstadoControllerOpenApi {
 	@GetMapping
 	public List<EstadoDTO> listar(){
 		var estados = estadoRepository.findAll();
-		return assembler.convertListToModel(estados);
+		return assembler.toCollectionModel(estados);
 	}
 	
 	
 	@GetMapping("/{id}")
 	public EstadoDTO buscar(@PathVariable long id) {
 		var estado = estadoService.buscar(id);
-		return assembler.convertToModel(estado);
+		return assembler.toModel(estado);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public EstadoDTO adicionar(@RequestBody @Valid EstadoInputDTO estadoInput) {
-		var estado = assembler.convertToEntity(estadoInput);
+		var estado = assembler.toEntity(estadoInput);
 		var estadoSalvo = estadoService.salvar(estado);
-		return assembler.convertToModel(estadoSalvo);
+		return assembler.toModel(estadoSalvo);
 
 	}
 
@@ -55,7 +55,7 @@ public class EstadoController implements EstadoControllerOpenApi {
 		assembler.copyToInstance(estadoInput, estadoExistente);
 
 		var estado = estadoService.salvar(estadoExistente);
-		return ResponseEntity.ok(assembler.convertToModel(estado));
+		return ResponseEntity.ok(assembler.toModel(estado));
 	}
 	
 

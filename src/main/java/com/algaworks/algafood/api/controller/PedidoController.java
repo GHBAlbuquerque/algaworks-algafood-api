@@ -46,7 +46,7 @@ public class PedidoController implements PedidoControllerOpenApi {
     @GetMapping
     public List<PedidoDTO> listar() {
         var pedidos = pedidoRepository.findAll();
-        return assembler.convertListToModel(pedidos);
+        return assembler.toCollectionModel(pedidos);
     }
 
     @JsonView(PedidoView.PedidoIdentificationDTO.class)
@@ -61,7 +61,7 @@ public class PedidoController implements PedidoControllerOpenApi {
     @GetMapping("/pesquisar")
     public Page<PedidoDTO> pesquisar(PedidoFilter filter, @PageableDefault(size = 10) Pageable pageable) {
         var pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filter), pageable);
-        var pedidos = assembler.convertListToModel(pedidosPage.getContent());
+        var pedidos = assembler.toCollectionModel(pedidosPage.getContent());
 
         var pagina = new PageImpl<>(pedidos, pageable, pedidosPage.getTotalElements());
         return pagina;
@@ -70,7 +70,7 @@ public class PedidoController implements PedidoControllerOpenApi {
     @GetMapping("/{codigo}")
     public PedidoDTO buscar(@PathVariable String codigo) {
         var pedido = pedidoService.buscar(codigo);
-        return assembler.convertToModel(pedido);
+        return assembler.toModel(pedido);
     }
 
     @PostMapping()
@@ -79,9 +79,9 @@ public class PedidoController implements PedidoControllerOpenApi {
         try {
             var status = StatusPedidoEnum.traduzir(pedidoInput.getStatus());
 
-            var pedido = assembler.convertToEntity(pedidoInput);
+            var pedido = assembler.toEntity(pedidoInput);
             pedido = pedidoService.salvar(pedido);
-            return assembler.convertToModel(pedido);
+            return assembler.toModel(pedido);
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }
