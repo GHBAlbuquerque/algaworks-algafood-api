@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.openapi.CozinhaControllerOpenApi;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CozinhaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,66 +22,66 @@ import java.util.stream.Collectors;
 @RequestMapping("/cozinhas")
 public class CozinhaController implements CozinhaControllerOpenApi {
 
-	@Autowired
-	private CozinhaRepository cozinhaRepository;
+    @Autowired
+    private CozinhaRepository cozinhaRepository;
 
-	@Autowired
-	private CozinhaService cozinhaService;
+    @Autowired
+    private CozinhaService cozinhaService;
 
-	@Autowired
-	private CozinhaAssembler assembler;
+    @Autowired
+    private CozinhaAssembler assembler;
 
-	@ResponseStatus(HttpStatus.OK)
-	@GetMapping
-	public List<CozinhaDTO> listar() {
-		var cozinhas = cozinhaRepository.findAll();
-		return assembler.toCollectionModel(cozinhas);
-	}
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public CollectionModel<CozinhaDTO> listar() {
+        var cozinhas = cozinhaRepository.findAll();
+        return assembler.toCollectionModel(cozinhas);
+    }
 
-	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
-	public List<CozinhaDTO> listarXML() {
-		var cozinhas = cozinhaRepository.findAll();
-		return cozinhas.stream().map(cozinha -> assembler.toModel(cozinha)).collect(Collectors.toList());
-	}
+    @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
+    public List<CozinhaDTO> listarXML() {
+        var cozinhas = cozinhaRepository.findAll();
+        return cozinhas.stream().map(cozinha -> assembler.toModel(cozinha)).collect(Collectors.toList());
+    }
 
-	@GetMapping("/{id}")
-	public CozinhaDTO buscar(@PathVariable long id) {
-		var cozinha = cozinhaService.buscar(id);
-		return assembler.toModel(cozinha);
+    @GetMapping("/{id}")
+    public CozinhaDTO buscar(@PathVariable long id) {
+        var cozinha = cozinhaService.buscar(id);
+        return assembler.toModel(cozinha);
 
-	}
-	
-	@GetMapping("/por-nome")
-	public ResponseEntity<List<CozinhaDTO>> buscarPorNome(@PathParam(value = "nome") String nome) {
-		var cozinhas = cozinhaRepository.findByNomeContaining(nome);
-		var cozinhaModels = cozinhas.stream()
-				.map(cozinha -> assembler.toModel(cozinha))
-				.collect(Collectors.toList());
-		return ResponseEntity.ok(cozinhaModels);
-	}
+    }
 
-	@PostMapping()
-	@ResponseStatus(HttpStatus.CREATED)
-	public CozinhaDTO salvar(@RequestBody @Valid CozinhaInputDTO cozinhaInput) {
-		var cozinha = assembler.toEntity(cozinhaInput);
-		cozinha = cozinhaService.salvar(cozinha);
-		return assembler.toModel(cozinha);
-	}
+    @GetMapping("/por-nome")
+    public ResponseEntity<List<CozinhaDTO>> buscarPorNome(@PathParam(value = "nome") String nome) {
+        var cozinhas = cozinhaRepository.findByNomeContaining(nome);
+        var cozinhaModels = cozinhas.stream()
+                .map(cozinha -> assembler.toModel(cozinha))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(cozinhaModels);
+    }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<CozinhaDTO> atualizar(@PathVariable long id, @RequestBody @Valid CozinhaInputDTO cozinhaInput) {
-		var cozinhaExistente = cozinhaService.buscar(id);
-		assembler.copyToInstance(cozinhaInput, cozinhaExistente);
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public CozinhaDTO salvar(@RequestBody @Valid CozinhaInputDTO cozinhaInput) {
+        var cozinha = assembler.toEntity(cozinhaInput);
+        cozinha = cozinhaService.salvar(cozinha);
+        return assembler.toModel(cozinha);
+    }
 
-		var cozinha = cozinhaService.salvar(cozinhaExistente);
-		return ResponseEntity.ok(assembler.toModel(cozinha));
-	}
+    @PutMapping("/{id}")
+    public ResponseEntity<CozinhaDTO> atualizar(@PathVariable long id, @RequestBody @Valid CozinhaInputDTO cozinhaInput) {
+        var cozinhaExistente = cozinhaService.buscar(id);
+        assembler.copyToInstance(cozinhaInput, cozinhaExistente);
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deletar(@PathVariable long id) {
-		cozinhaService.remover(id);
-		return ResponseEntity.noContent().build();
-			
-	}
+        var cozinha = cozinhaService.salvar(cozinhaExistente);
+        return ResponseEntity.ok(assembler.toModel(cozinha));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletar(@PathVariable long id) {
+        cozinhaService.remover(id);
+        return ResponseEntity.noContent().build();
+
+    }
 
 }

@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.openapi;
 import com.algaworks.algafood.api.model.input.CozinhaInputDTO;
 import com.algaworks.algafood.api.model.output.CozinhaDTO;
 import io.swagger.annotations.Api;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +15,7 @@ import java.util.List;
 @Api(tags = "Cozinhas")
 public interface CozinhaControllerOpenApi {
 
-    public List<CozinhaDTO> listar();
+    public CollectionModel<CozinhaDTO> listar();
 
     public List<CozinhaDTO> listarXML();
 
