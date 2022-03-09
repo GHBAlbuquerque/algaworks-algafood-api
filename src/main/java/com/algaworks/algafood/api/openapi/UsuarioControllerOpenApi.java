@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.model.output.UsuarioDTO;
 import io.swagger.annotations.Api;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +17,7 @@ import javax.validation.Valid;
 @Api(tags = "Usuários")
 public interface UsuarioControllerOpenApi {
 
-    public Page<UsuarioDTO> listar(Pageable pageable);
+    public CollectionModel<UsuarioDTO> listar(Pageable pageable);
 
     public UsuarioDTO buscar(@PathVariable long id);
 

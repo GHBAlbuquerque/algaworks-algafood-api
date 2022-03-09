@@ -44,9 +44,7 @@ public class CidadeController implements CidadeControllerOpenApi {
     @GetMapping("/{id}")
     public CidadeDTO buscar(@PathVariable long id) {
         var cidade = cidadeService.buscar(id);
-        var model = assembler.toModel(cidade);
-
-        return model;
+        return assembler.toModel(cidade);
     }
 
     @PostMapping

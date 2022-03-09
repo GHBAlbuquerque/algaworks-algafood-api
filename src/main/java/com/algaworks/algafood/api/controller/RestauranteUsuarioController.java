@@ -8,6 +8,8 @@ import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontr
 import com.algaworks.algafood.domain.service.RestauranteService;
 import com.algaworks.algafood.domain.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +29,7 @@ public class RestauranteUsuarioController implements RestauranteUsuarioControlle
     private UsuarioAssembler assembler;
 
     @GetMapping()
-    public List<UsuarioDTO> listar(@PathVariable Long idRestaurante) {
+    public CollectionModel<UsuarioDTO> listar(@PathVariable Long idRestaurante) {
         var restaurante = restauranteService.buscar(idRestaurante);
         return assembler.toCollectionModel(restaurante.getResponsaveis());
     }

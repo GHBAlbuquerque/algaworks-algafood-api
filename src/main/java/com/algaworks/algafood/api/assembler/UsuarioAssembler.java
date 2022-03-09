@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.assembler;
 
+import com.algaworks.algafood.api.controller.UsuarioController;
 import com.algaworks.algafood.api.model.input.UsuarioInputDTO;
 import com.algaworks.algafood.api.model.input.update.UsuarioUpdateDTO;
 import com.algaworks.algafood.api.model.output.UsuarioDTO;
@@ -7,21 +8,40 @@ import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
-public class UsuarioAssembler {
+public class UsuarioAssembler extends RepresentationModelAssemblerSupport<Usuario, UsuarioDTO> {
 
     @Autowired
     private ModelMapper modelMapper;
 
+    public UsuarioAssembler() {
+        super(UsuarioController.class, UsuarioDTO.class);
+    }
+
+    @Override
     public UsuarioDTO toModel(Usuario usuario) {
         try {
-            return modelMapper.map(usuario, UsuarioDTO.class);
+            var model= modelMapper.map(usuario, UsuarioDTO.class);
+
+            model.add(linkTo(
+                    methodOn(UsuarioController.class)
+                            .buscar(model.getId()))
+                    .withSelfRel());
+
+            model.add(linkTo(
+                    methodOn(UsuarioController.class)
+                            .listar(null))
+                    .withRel(IanaLinkRelations.COLLECTION));
+
+            return model;
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
         }
@@ -39,7 +59,7 @@ public class UsuarioAssembler {
         try {
             modelMapper.map(usuarioInput, usuario);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.", ex.getCause());
         }
     }
 
@@ -47,11 +67,14 @@ public class UsuarioAssembler {
         try {
             modelMapper.map(usuarioInput, usuario);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.", ex.getCause());
         }
     }
 
-    public List<UsuarioDTO> toCollectionModel(Collection<Usuario> usuarios) {
-        return usuarios.stream().map(this::toModel).collect(Collectors.toList());
+    @Override
+    public CollectionModel<UsuarioDTO> toCollectionModel(Iterable<? extends Usuario> entities) {
+        return super.toCollectionModel(entities)
+                .add(linkTo(UsuarioController.class)
+                        .withSelfRel());
     }
 }
