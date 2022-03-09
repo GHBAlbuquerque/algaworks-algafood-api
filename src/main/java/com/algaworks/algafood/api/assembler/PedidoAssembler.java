@@ -6,6 +6,7 @@ import com.algaworks.algafood.api.controller.RestauranteController;
 import com.algaworks.algafood.api.controller.UsuarioController;
 import com.algaworks.algafood.api.model.input.PedidoInputDTO;
 import com.algaworks.algafood.api.model.output.PedidoDTO;
+import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Pedido;
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,9 @@ public class PedidoAssembler extends RepresentationModelAssemblerSupport<Pedido,
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private LinkGenerator linkGenerator;
+
     public PedidoAssembler() {
         super(PedidoController.class, PedidoDTO.class);
     }
@@ -30,16 +34,8 @@ public class PedidoAssembler extends RepresentationModelAssemblerSupport<Pedido,
     public PedidoDTO toModel(Pedido pedido) {
         try {
             var model = modelMapper.map(pedido, PedidoDTO.class);
-
-            var pedidosUrl = linkTo(PedidoController.class).toUri().toString() + "/pesquisar";
-
-            var uriTemplate = UriTemplate.of(pedidosUrl, new TemplateVariables(
-                    new TemplateVariable("page", TemplateVariable.VariableType.REQUEST_PARAM),
-                    new TemplateVariable("size", TemplateVariable.VariableType.REQUEST_PARAM),
-                    new TemplateVariable("sort", TemplateVariable.VariableType.REQUEST_PARAM)
-            ));
-
-            model.add(Link.of(uriTemplate, LinkRelation.of("pesquisar")));
+            
+            model.add(linkGenerator.linkToPedidosPesquisar());
 
             model.add(linkTo(
                     methodOn(PedidoController.class)
