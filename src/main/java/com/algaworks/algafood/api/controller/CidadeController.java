@@ -13,6 +13,7 @@ import com.algaworks.algafood.domain.service.CidadeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,8 +46,14 @@ public class CidadeController implements CidadeControllerOpenApi {
         var cidade = cidadeService.buscar(id);
         var model = assembler.convertToModel(cidade);
 
-        model.add(Link.of("localhost:8080/cidades/6", IanaLinkRelations.SELF));
-        model.add(Link.of("localhost:8080/cidades", IanaLinkRelations.COLLECTION));
+        model.add(WebMvcLinkBuilder
+                .linkTo(CidadeController.class)
+                .slash(model.getId())
+                .withSelfRel());
+
+        model.add(WebMvcLinkBuilder
+                .linkTo(CidadeController.class)
+                .withRel(IanaLinkRelations.COLLECTION));
 
         return model;
     }
