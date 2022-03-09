@@ -10,11 +10,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Api(tags = "Pedidos")
 public interface PedidoControllerOpenApi {
@@ -22,12 +23,12 @@ public interface PedidoControllerOpenApi {
     @ApiImplicitParams({ //documentando em uma unica operação esse e o endpoint de baixo
             @ApiImplicitParam(value = "Nome da view", name = "view", paramType = "query", dataTypeClass = String.class,
                     allowableValues = "resumo", required = false)})
-    public List<PedidoDTO> listar();
+    public CollectionModel<PedidoDTO> listar();
 
     @ApiOperation(value = "Listar Pedidos Resumo", hidden = true)
-    public List<PedidoDTO> listarResumido();
+    public CollectionModel<PedidoDTO> listarResumido();
 
-    public Page<PedidoDTO> pesquisar(PedidoFilter filter, @PageableDefault(size = 10) Pageable pageable);
+    public PagedModel<PedidoDTO> pesquisar(PedidoFilter filter, @PageableDefault(size = 10) Pageable pageable);
 
     public PedidoDTO buscar(@PathVariable String codigo);
 

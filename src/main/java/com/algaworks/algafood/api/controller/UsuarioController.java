@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public CollectionModel<UsuarioDTO> listar(Pageable pageable) {
+    public PagedModel<UsuarioDTO> listar(Pageable pageable) {
         var usuariosPage = usuarioRepository.findAll(pageable);
         return pagedResourcesAssembler.toModel(usuariosPage, assembler);
     }
