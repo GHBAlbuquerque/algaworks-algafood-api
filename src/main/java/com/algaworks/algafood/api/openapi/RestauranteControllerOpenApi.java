@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.model.output.RestauranteDTO;
 import com.algaworks.algafood.api.model.output.RestauranteSingletonDTO;
 import com.algaworks.algafood.validation.OrderedChecksTaxaFrete;
 import io.swagger.annotations.Api;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.validation.annotation.Validated;
@@ -21,18 +22,18 @@ import java.util.Map;
 @Api(tags = "Restaurantes")
 public interface RestauranteControllerOpenApi {
 
-    public List<RestauranteDTO> listar();
+    public CollectionModel<RestauranteDTO> listar();
 
     public MappingJacksonValue buscar(@PathVariable long id, @RequestParam(required = false) String campos);
 
-    public ResponseEntity<List<RestauranteDTO>> buscarPorNomeECozinha(@PathParam(value = "nome") String nome,
+    public ResponseEntity<CollectionModel<RestauranteDTO>> buscarPorNomeECozinha(@PathParam(value = "nome") String nome,
                                                                       @PathParam(value = "cozinha_id") Long cozinhaId);
 
     public ResponseEntity<RestauranteDTO> buscarPorNome(@PathParam(value = "nome") String nome);
 
     public int quantidadePorCozinhaId(Long cozinhaId);
 
-    public List<RestauranteDTO> queryPorSpecification(String nome);
+    public CollectionModel<RestauranteDTO> queryPorSpecification(String nome);
 
     public RestauranteSingletonDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class})
                                                      RestauranteInputDTO restauranteInput);
@@ -47,9 +48,9 @@ public interface RestauranteControllerOpenApi {
                                                                     @RequestBody Map<String, Object> campos,
                                                                     HttpServletRequest request);
 
-    public void ativar(@PathVariable long id);
+    public ResponseEntity<Void> ativar(@PathVariable long id);
 
-    public void desativar(@PathVariable long id);
+    public ResponseEntity<Void> desativar(@PathVariable long id);
 
     public void ativarMultiplos(@RequestBody List<Long> ids);
 

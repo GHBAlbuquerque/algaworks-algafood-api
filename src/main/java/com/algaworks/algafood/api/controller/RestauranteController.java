@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
@@ -43,7 +44,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<RestauranteDTO> listar() {
+    public CollectionModel<RestauranteDTO> listar() {
         var restaurantes = restauranteRepository.findAll();
         return assembler.toCollectionModel(restaurantes);
     }
@@ -59,12 +60,11 @@ public class RestauranteController implements RestauranteControllerOpenApi {
     }
 
     @GetMapping("/por-nome-e-id-cozinha") // query no orm.xml
-    public ResponseEntity<List<RestauranteDTO>> buscarPorNomeECozinha(@PathParam(value = "nome") String nome,
-                                                                      @PathParam(value = "cozinha_id") Long cozinhaId) {
+    public ResponseEntity<CollectionModel<RestauranteDTO>> buscarPorNomeECozinha(@PathParam(value = "nome") String nome,
+                                                                                 @PathParam(value = "cozinha_id") Long cozinhaId) {
         var restaurantes = restauranteRepository.consultarPorNomeECozinha(nome, cozinhaId);
-        return ResponseEntity.ok(
-                restaurantes.stream().map(restaurante -> assembler.toModel(restaurante))
-                        .collect(Collectors.toList()));
+        var models = assembler.toCollectionModel(restaurantes);
+        return ResponseEntity.ok(models);
     }
 
     @GetMapping("/por-nome")
@@ -84,9 +84,9 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 
     // SPECIFICATION
     @GetMapping("/specification")
-    public List<RestauranteDTO> queryPorSpecification(String nome) {
+    public CollectionModel<RestauranteDTO> queryPorSpecification(String nome) {
         var restaurantes = restauranteRepository.buscarComFreteGratis(nome);
-        return restaurantes.stream().map(restaurante -> assembler.toModel(restaurante)).collect(Collectors.toList());
+        return assembler.toCollectionModel(restaurantes);
     }
 
     @PostMapping
@@ -129,14 +129,16 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 
     @PutMapping("/{id}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void ativar(@PathVariable long id) {
+    public ResponseEntity<Void> ativar(@PathVariable long id) {
         restauranteService.ativar(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/inativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void desativar(@PathVariable long id) {
+    public ResponseEntity<Void> desativar(@PathVariable long id) {
         restauranteService.desativar(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/ativos")
@@ -163,13 +165,13 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         restauranteService.fechar(id);
     }
 
-    public MappingJacksonValue criarFiltro(RestauranteSingletonDTO model, String campos){
+    public MappingJacksonValue criarFiltro(RestauranteSingletonDTO model, String campos) {
         var wrapper = new MappingJacksonValue(model);
 
         var filterProvider = new SimpleFilterProvider();
         filterProvider.addFilter("filtroRestaurante", SimpleBeanPropertyFilter.serializeAll());
 
-        if(StringUtils.isNotBlank(campos)) {
+        if (StringUtils.isNotBlank(campos)) {
             filterProvider.addFilter("filtroRestaurante", SimpleBeanPropertyFilter.filterOutAllExcept(campos.split(",")));
         }
 

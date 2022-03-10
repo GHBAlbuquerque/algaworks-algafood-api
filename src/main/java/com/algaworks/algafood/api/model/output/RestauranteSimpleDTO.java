@@ -10,10 +10,22 @@ import org.springframework.hateoas.server.core.Relation;
 @Getter
 @Setter
 @Relation(collectionRelation = "restaurantes")
-public class RestauranteSimpleDTO extends RepresentationModel<RestauranteSimpleDTO> {
+public class RestauranteSimpleDTO extends RepresentationModel<RestauranteSimpleDTO> implements RestauranteModel {
 
     @JsonView(PedidoView.PedidoSimpleDTO.class)
     private Long id;
 
     private String nome;
+
+    private boolean ativo;
+
+    @Override
+    public Long getId(){
+        return this.id;
+    }
+
+    @Override
+    public Boolean isAtivo(){
+        return this.ativo;
+    }
 }

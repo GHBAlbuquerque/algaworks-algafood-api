@@ -113,6 +113,16 @@ public class LinkGenerator {
                 .withRel(IanaLinkRelations.COLLECTION);
     }
 
+    public Link linkToRestauranteAtivar(Long restauranteId) {
+        return linkTo(methodOn(RestauranteController.class)
+                .ativar(restauranteId)).withRel("ativar");
+    }
+
+    public Link linkToRestauranteDesativar(Long restauranteId) {
+        return linkTo(methodOn(RestauranteController.class)
+                .desativar(restauranteId)).withRel("desativar");
+    }
+
     public Link linkToUsuario(Long usuarioId) {
         return linkTo(methodOn(UsuarioController.class)
                 .buscar(usuarioId)).withSelfRel();
@@ -123,7 +133,7 @@ public class LinkGenerator {
                 .listar(null)).toUri().toString();
 
         return Link.of(UriTemplate.of(url, PAGEABLE_VARIABLES),
-                LinkRelation.of("pesquisar"));
+                IanaLinkRelations.COLLECTION);
     }
 
     public Link linkToPedido(String codigo) {
