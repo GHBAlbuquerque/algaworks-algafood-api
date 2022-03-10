@@ -25,6 +25,7 @@ import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -71,7 +72,7 @@ public class PedidoController implements PedidoControllerOpenApi {
     public PagedModel<PedidoDTO> pesquisar(PedidoFilter filter, @PageableDefault(size = 10) Pageable pageable) {
         var pedidosPage = pedidoRepository.findAll(PedidoSpecs.usandoFiltro(filter), pageable);
 
-       return pagedResourcesAssembler.toModel(pedidosPage, assembler);
+        return pagedResourcesAssembler.toModel(pedidosPage, assembler);
     }
 
     @GetMapping("/{codigo}")
@@ -96,20 +97,23 @@ public class PedidoController implements PedidoControllerOpenApi {
 
     @PutMapping("/{codigo}/confirmacao")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void confirmar(@PathVariable String codigo) {
+    public ResponseEntity<Void> confirmar(@PathVariable String codigo) {
         statusPedidoService.confirmar(codigo);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{codigo}/entrega")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void entregar(@PathVariable String codigo) {
+    public ResponseEntity<Void> entregar(@PathVariable String codigo) {
         statusPedidoService.entregar(codigo);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{codigo}/cancelamento")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cancelar(@PathVariable String codigo) {
+    public ResponseEntity<Void> cancelar(@PathVariable String codigo) {
         statusPedidoService.cancelar(codigo);
+        return ResponseEntity.noContent().build();
     }
 
 	/*

@@ -137,6 +137,21 @@ public class LinkGenerator {
                 .withRel(IanaLinkRelations.COLLECTION);
     }
 
+    public Link linkToConfirmarPedido(String codigo) {
+        return linkTo(methodOn(PedidoController.class)
+                .confirmar(codigo)).withRel("confirmar");
+    }
+
+    public Link linkToEntregarPedido(String codigo) {
+        return linkTo(methodOn(PedidoController.class)
+                .entregar(codigo)).withRel("entregar");
+    }
+
+    public Link linkToCancelarPedido(String codigo) {
+        return linkTo(methodOn(PedidoController.class)
+                .cancelar(codigo)).withRel("cancelar");
+    }
+
 
     public Link linkToPedidosPesquisar() {
         var pedidosUrl = linkTo(PedidoController.class).toUri().toString() + "/pesquisar";

@@ -41,6 +41,12 @@ public class PedidoAssembler extends RepresentationModelAssemblerSupport<Pedido,
 
             model.add(linkGenerator.linkToPedidos());
 
+            model.add(linkGenerator.linkToConfirmarPedido(model.getCodigo()));
+
+            model.add(linkGenerator.linkToCancelarPedido(model.getCodigo()));
+
+            model.add(linkGenerator.linkToEntregarPedido(model.getCodigo()));
+
             var cliente = model.getCliente();
 
             cliente.add(linkGenerator.linkToUsuario(model.getCliente().getId()));

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -34,9 +35,9 @@ public interface PedidoControllerOpenApi {
 
     public PedidoDTO salvar(@RequestBody @Valid PedidoInputDTO pedidoInput);
 
-    public void confirmar(@PathVariable String codigo);
+    public ResponseEntity<Void> confirmar(@PathVariable String codigo);
 
-    public void entregar(@PathVariable String codigo);
+    public ResponseEntity<Void> entregar(@PathVariable String codigo);
 
-    public void cancelar(@PathVariable String codigo);
+    public ResponseEntity<Void> cancelar(@PathVariable String codigo);
 }
