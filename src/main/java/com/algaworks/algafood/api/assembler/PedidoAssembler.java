@@ -34,54 +34,30 @@ public class PedidoAssembler extends RepresentationModelAssemblerSupport<Pedido,
     public PedidoDTO toModel(Pedido pedido) {
         try {
             var model = modelMapper.map(pedido, PedidoDTO.class);
-            
+
             model.add(linkGenerator.linkToPedidosPesquisar());
 
-            model.add(linkTo(
-                    methodOn(PedidoController.class)
-                            .buscar(model.getCodigo()))
-                    .withSelfRel());
+            model.add(linkGenerator.linkToPedido(model.getCodigo()));
 
-            model.add(linkTo(
-                    methodOn(PedidoController.class)
-                            .listar())
-                    .withRel(IanaLinkRelations.COLLECTION));
+            model.add(linkGenerator.linkToPedidos());
 
             var cliente = model.getCliente();
 
-            cliente.add(linkTo(
-                    methodOn(UsuarioController.class)
-                            .buscar(cliente.getId()))
-                    .withSelfRel());
+            cliente.add(linkGenerator.linkToUsuario(model.getCliente().getId()));
 
-            cliente.add(linkTo(
-                    methodOn(UsuarioController.class)
-                            .listar(null))
-                    .withRel(IanaLinkRelations.COLLECTION));
+            cliente.add(linkGenerator.linkToUsuarios());
 
             var restaurante = model.getRestaurante();
 
-            restaurante.add(linkTo(
-                    methodOn(RestauranteController.class)
-                            .buscar(restaurante.getId(), null))
-                    .withSelfRel());
+            restaurante.add(linkGenerator.linkToRestaurante(model.getRestaurante().getId()));
 
-            restaurante.add(linkTo(
-                    methodOn(RestauranteController.class)
-                            .listar())
-                    .withRel(IanaLinkRelations.COLLECTION));
+            restaurante.add(linkGenerator.linkToRestaurantes());
 
             var formaPagamento = model.getFormaPagamento();
 
-            formaPagamento.add(linkTo(
-                    methodOn(FormaPagamentoController.class)
-                            .buscar(formaPagamento.getId()))
-                    .withSelfRel());
+            formaPagamento.add(linkGenerator.linkToFormaPagamento(model.getFormaPagamento().getId()));
 
-            formaPagamento.add(linkTo(
-                    methodOn(FormaPagamentoController.class)
-                            .listar())
-                    .withRel(IanaLinkRelations.COLLECTION));
+            formaPagamento.add(linkGenerator.linkToFormasPagamento());
 
             return model;
         } catch (IllegalArgumentException ex) {

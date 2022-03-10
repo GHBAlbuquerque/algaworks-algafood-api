@@ -1,11 +1,14 @@
 package com.algaworks.algafood.api.assembler;
 
+import com.algaworks.algafood.api.controller.GrupoController;
 import com.algaworks.algafood.api.model.input.GrupoInputDTO;
 import com.algaworks.algafood.api.model.output.GrupoDTO;
+import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Grupo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -13,10 +16,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class GrupoAssembler {
+public class GrupoAssembler extends RepresentationModelAssemblerSupport<Grupo, GrupoDTO> {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private LinkGenerator linkGenerator;
+
+    public GrupoAssembler() {
+        super(GrupoController.class, GrupoDTO.class);
+    }
 
     public GrupoDTO toModel(Grupo grupo) {
         try {

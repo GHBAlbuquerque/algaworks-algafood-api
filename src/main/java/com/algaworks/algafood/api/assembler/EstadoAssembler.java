@@ -1,20 +1,18 @@
 package com.algaworks.algafood.api.assembler;
 
-import com.algaworks.algafood.api.controller.CidadeController;
 import com.algaworks.algafood.api.controller.EstadoController;
 import com.algaworks.algafood.api.model.input.EstadoInputDTO;
 import com.algaworks.algafood.api.model.output.EstadoDTO;
+import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Estado;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 @Component
@@ -22,6 +20,9 @@ public class EstadoAssembler extends RepresentationModelAssemblerSupport<Estado,
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private LinkGenerator linkGenerator;
 
     public EstadoAssembler() {
         super(EstadoController.class, EstadoDTO.class);
@@ -31,15 +32,9 @@ public class EstadoAssembler extends RepresentationModelAssemblerSupport<Estado,
         try {
             var model = modelMapper.map(estado, EstadoDTO.class);
 
-            model.add(linkTo(
-                    methodOn(EstadoController.class)
-                            .buscar(model.getId()))
-                    .withSelfRel());
+            model.add(linkGenerator.linkToEstado(model.getId()));
 
-            model.add(linkTo(
-                    methodOn(EstadoController.class)
-                            .listar())
-                    .withRel(IanaLinkRelations.COLLECTION));
+            model.add(linkGenerator.linkToEstados());
 
             return model;
 

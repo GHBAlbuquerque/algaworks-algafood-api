@@ -3,25 +3,26 @@ package com.algaworks.algafood.api.assembler;
 import com.algaworks.algafood.api.controller.CidadeController;
 import com.algaworks.algafood.api.model.input.CidadeInputDTO;
 import com.algaworks.algafood.api.model.output.CidadeDTO;
+import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Estado;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class CidadeAssembler extends RepresentationModelAssemblerSupport<Cidade, CidadeDTO> {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private LinkGenerator linkGenerator;
 
     public CidadeAssembler() {
         super(CidadeController.class, CidadeDTO.class);
@@ -32,15 +33,9 @@ public class CidadeAssembler extends RepresentationModelAssemblerSupport<Cidade,
         try {
             var model = modelMapper.map(cidade, CidadeDTO.class);
 
-            model.add(linkTo(
-                            methodOn(CidadeController.class)
-                                    .buscar(model.getId()))
-                    .withSelfRel());
+            model.add(linkGenerator.linkToCidade(model.getId()));
 
-            model.add(linkTo(
-                            methodOn(CidadeController.class)
-                                    .listar())
-                    .withRel(IanaLinkRelations.COLLECTION));
+            model.add(linkGenerator.linkToCidades());
 
             return model;
         } catch (IllegalArgumentException ex) {

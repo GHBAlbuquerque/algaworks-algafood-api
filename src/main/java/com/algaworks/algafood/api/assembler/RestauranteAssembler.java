@@ -1,8 +1,10 @@
 package com.algaworks.algafood.api.assembler;
 
+import com.algaworks.algafood.api.controller.RestauranteController;
 import com.algaworks.algafood.api.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.api.model.output.RestauranteDTO;
 import com.algaworks.algafood.api.model.output.RestauranteSingletonDTO;
+import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
@@ -10,6 +12,7 @@ import com.algaworks.algafood.domain.model.Restaurante;
 import org.apache.commons.lang3.ObjectUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -17,10 +20,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class RestauranteAssembler {
+public class RestauranteAssembler extends RepresentationModelAssemblerSupport<Restaurante, RestauranteDTO> {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private LinkGenerator linkGenerator;
+
+    public RestauranteAssembler() {
+        super(RestauranteController.class, RestauranteDTO.class);
+    }
 
     public RestauranteDTO toModel(Restaurante restaurante) {
         try {

@@ -1,11 +1,14 @@
 package com.algaworks.algafood.api.assembler;
 
+import com.algaworks.algafood.api.controller.RestauranteProdutoFotoController;
 import com.algaworks.algafood.api.model.input.FotoProdutoInputDTO;
 import com.algaworks.algafood.api.model.output.FotoProdutoDTO;
+import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.FotoProduto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -13,10 +16,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class FotoProdutoAssembler {
+public class FotoProdutoAssembler extends RepresentationModelAssemblerSupport<FotoProduto, FotoProdutoDTO> {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private LinkGenerator linkGenerator;
+
+    public FotoProdutoAssembler() {
+        super(RestauranteProdutoFotoController.class, FotoProdutoDTO.class);
+    }
 
     public FotoProdutoDTO toModel(FotoProduto FotoProduto) {
         try {
