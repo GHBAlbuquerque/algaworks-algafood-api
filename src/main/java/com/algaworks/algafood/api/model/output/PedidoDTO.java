@@ -54,4 +54,7 @@ public class PedidoDTO extends RepresentationModel<PedidoDTO> {
 
     @JsonView(PedidoView.PedidoSimpleDTO.class)
     private FormaPagamentoDTO formaPagamento;
+
+
+
 }

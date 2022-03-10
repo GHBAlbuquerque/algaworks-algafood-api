@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.controller.UsuarioController;
 import com.algaworks.algafood.api.model.input.PedidoInputDTO;
 import com.algaworks.algafood.api.model.output.PedidoDTO;
 import com.algaworks.algafood.api.utils.LinkGenerator;
+import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Pedido;
 import org.modelmapper.ModelMapper;
@@ -41,11 +42,7 @@ public class PedidoAssembler extends RepresentationModelAssemblerSupport<Pedido,
 
             model.add(linkGenerator.linkToPedidos());
 
-            model.add(linkGenerator.linkToConfirmarPedido(model.getCodigo()));
-
-            model.add(linkGenerator.linkToCancelarPedido(model.getCodigo()));
-
-            model.add(linkGenerator.linkToEntregarPedido(model.getCodigo()));
+            adicionarLinksStatus(model);
 
             var cliente = model.getCliente();
 
@@ -92,5 +89,25 @@ public class PedidoAssembler extends RepresentationModelAssemblerSupport<Pedido,
         return super.toCollectionModel(entities)
                 .add(linkTo(PedidoController.class)
                         .withSelfRel());
+    }
+
+    private void adicionarLinksStatus(PedidoDTO model) {
+
+        if (StatusPedidoEnum.valueOf(model.getStatus())
+                .podeSerAlterado(StatusPedidoEnum.CONFIRMADO)) {
+            model.add(linkGenerator.linkToConfirmarPedido(model.getCodigo()));
+        }
+
+        if (StatusPedidoEnum.valueOf(model.getStatus())
+                .podeSerAlterado(StatusPedidoEnum.CANCELADO)) {
+            model.add(linkGenerator.linkToCancelarPedido(model.getCodigo()));
+
+        }
+
+        if (StatusPedidoEnum.valueOf(model.getStatus())
+                .podeSerAlterado(StatusPedidoEnum.ENTREGUE)) {
+            model.add(linkGenerator.linkToEntregarPedido(model.getCodigo()));
+        }
+
     }
 }
