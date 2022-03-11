@@ -2,7 +2,7 @@ package com.algaworks.algafood.core.openapi;
 
 import com.algaworks.algafood.api.exceptionhandler.CustomProblem;
 import com.algaworks.algafood.api.exceptionhandler.GenericProblem;
-import com.algaworks.algafood.api.model.output.PedidoDTO;
+import com.algaworks.algafood.api.model.output.PedidoSingletonDTO;
 import com.algaworks.algafood.api.model.output.UsuarioDTO;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +53,7 @@ public class SpringFoxConfig {
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
                 .additionalModels(typeResolver.resolve(GenericProblem.class), typeResolver.resolve(CustomProblem.class))
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
-                .alternateTypeRules(buildPageTypeRole(PedidoDTO.class))
+                .alternateTypeRules(buildPageTypeRole(PedidoSingletonDTO.class))
                 .alternateTypeRules(buildPageTypeRole(UsuarioDTO.class))
                 .ignoredParameterTypes(ServletWebRequest.class)
                 .tags(new Tag("Cidades", "Gerencia as cidades"),

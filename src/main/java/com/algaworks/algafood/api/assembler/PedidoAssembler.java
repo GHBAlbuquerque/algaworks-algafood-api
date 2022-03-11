@@ -1,11 +1,9 @@
 package com.algaworks.algafood.api.assembler;
 
-import com.algaworks.algafood.api.controller.FormaPagamentoController;
 import com.algaworks.algafood.api.controller.PedidoController;
-import com.algaworks.algafood.api.controller.RestauranteController;
-import com.algaworks.algafood.api.controller.UsuarioController;
 import com.algaworks.algafood.api.model.input.PedidoInputDTO;
 import com.algaworks.algafood.api.model.output.PedidoDTO;
+import com.algaworks.algafood.api.model.output.PedidoSingletonDTO;
 import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
 import com.algaworks.algafood.domain.exception.ConversaoException;
@@ -17,7 +15,6 @@ import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSuppor
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Component
 public class PedidoAssembler extends RepresentationModelAssemblerSupport<Pedido, PedidoDTO> {
@@ -32,9 +29,32 @@ public class PedidoAssembler extends RepresentationModelAssemblerSupport<Pedido,
         super(PedidoController.class, PedidoDTO.class);
     }
 
+    @Override
     public PedidoDTO toModel(Pedido pedido) {
         try {
             var model = modelMapper.map(pedido, PedidoDTO.class);
+
+            model.add(linkGenerator.linkToPedidosPesquisar());
+
+            model.add(linkGenerator.linkToPedido(model.getCodigo()));
+
+            model.add(linkGenerator.linkToPedidos());
+
+            var restaurante = model.getRestaurante();
+
+            restaurante.add(linkGenerator.linkToRestaurante(model.getRestaurante().getId()));
+
+            restaurante.add(linkGenerator.linkToRestaurantes());
+
+            return model;
+        } catch (IllegalArgumentException ex) {
+            throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
+        }
+    }
+
+    public PedidoSingletonDTO toSingletonModel(Pedido pedido) {
+        try {
+            var model = modelMapper.map(pedido, PedidoSingletonDTO.class);
 
             model.add(linkGenerator.linkToPedidosPesquisar());
 
@@ -91,7 +111,7 @@ public class PedidoAssembler extends RepresentationModelAssemblerSupport<Pedido,
                         .withSelfRel());
     }
 
-    private void adicionarLinksStatus(PedidoDTO model) {
+    private void adicionarLinksStatus(PedidoSingletonDTO model) {
 
         if (StatusPedidoEnum.valueOf(model.getStatus())
                 .podeSerAlterado(StatusPedidoEnum.CONFIRMADO)) {

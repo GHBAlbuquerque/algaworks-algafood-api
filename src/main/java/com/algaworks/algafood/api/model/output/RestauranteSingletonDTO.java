@@ -34,12 +34,12 @@ public class RestauranteSingletonDTO extends RepresentationModel<RestauranteSing
     private Set<ProdutoDTO> produtos;
 
     @Override
-    public Long getId(){
+    public Long getId() {
         return this.id;
     }
 
     @Override
-    public Boolean isAtivo(){
+    public Boolean isAtivo() {
         return this.ativo;
     }
 

@@ -3,22 +3,18 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.PedidoAssembler;
 import com.algaworks.algafood.api.model.input.PedidoInputDTO;
 import com.algaworks.algafood.api.model.output.PedidoDTO;
-import com.algaworks.algafood.api.model.view.PedidoView;
+import com.algaworks.algafood.api.model.output.PedidoSingletonDTO;
 import com.algaworks.algafood.api.openapi.PedidoControllerOpenApi;
 import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.filter.PedidoFilter;
 import com.algaworks.algafood.domain.model.Pedido;
-import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.PedidoService;
 import com.algaworks.algafood.domain.service.StatusPedidoService;
 import com.algaworks.algafood.infrastructure.spec.PedidoSpecs;
-import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -29,7 +25,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -50,23 +45,20 @@ public class PedidoController implements PedidoControllerOpenApi {
     @Autowired
     private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
 
-    //@JsonView(PedidoView.PedidoSimpleDTO.class)
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public CollectionModel<PedidoDTO> listar() {
         var pedidos = pedidoRepository.findAll();
-        var lista = assembler.toCollectionModel(pedidos);
-        return lista;
+        return  assembler.toCollectionModel(pedidos);
     }
 
-    //@JsonView(PedidoView.PedidoIdentificationDTO.class)
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(params = "view=resumo")
     public CollectionModel<PedidoDTO> listarResumido() {
         return listar();
     }
 
-    //@JsonView(PedidoView.PedidoSimpleDTO.class)
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/pesquisar")
     public PagedModel<PedidoDTO> pesquisar(PedidoFilter filter, @PageableDefault(size = 10) Pageable pageable) {
@@ -76,20 +68,20 @@ public class PedidoController implements PedidoControllerOpenApi {
     }
 
     @GetMapping("/{codigo}")
-    public PedidoDTO buscar(@PathVariable String codigo) {
+    public PedidoSingletonDTO buscar(@PathVariable String codigo) {
         var pedido = pedidoService.buscar(codigo);
-        return assembler.toModel(pedido);
+        return assembler.toSingletonModel(pedido);
     }
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public PedidoDTO salvar(@RequestBody @Valid PedidoInputDTO pedidoInput) {
+    public PedidoSingletonDTO salvar(@RequestBody @Valid PedidoInputDTO pedidoInput) {
         try {
             var status = StatusPedidoEnum.traduzir(pedidoInput.getStatus());
 
             var pedido = assembler.toEntity(pedidoInput);
             pedido = pedidoService.salvar(pedido);
-            return assembler.toModel(pedido);
+            return assembler.toSingletonModel(pedido);
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }
