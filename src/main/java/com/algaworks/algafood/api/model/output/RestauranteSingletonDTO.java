@@ -43,4 +43,9 @@ public class RestauranteSingletonDTO extends RepresentationModel<RestauranteSing
         return this.ativo;
     }
 
+    @Override
+    public Boolean isAberto() {
+        return this.ativo;
+    }
+
 }

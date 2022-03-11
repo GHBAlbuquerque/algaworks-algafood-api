@@ -57,7 +57,10 @@ public class RestauranteAssembler extends RepresentationModelAssemblerSupport<Re
 
             model.add(linkGenerator.linkToRestaurante(model.getId()),
                     linkGenerator.linkToRestaurantes(),
-                    adicionarLinkAtivacao(model));
+                    linkGenerator.linkToFormasPagamentoRestaurante(model.getId()),
+                    linkGenerator.linkToProdutosRestaurante(model.getId()),
+                    adicionarLinkAtivacao(model),
+                    adicionarLinkAbertura(model));
 
             var cozinha = model.getCozinha();
 
@@ -126,6 +129,18 @@ public class RestauranteAssembler extends RepresentationModelAssemblerSupport<Re
 
         if (model.isAtivo()) {
             return linkGenerator.linkToRestauranteDesativar(model.getId());
+        }
+
+        return null;
+    }
+
+    private Link adicionarLinkAbertura(RestauranteModel model) {
+        if (!model.isAberto()) {
+            return linkGenerator.linkToRestauranteAbrir(model.getId());
+        }
+
+        if (model.isAberto()) {
+            return linkGenerator.linkToRestauranteFechar(model.getId());
         }
 
         return null;

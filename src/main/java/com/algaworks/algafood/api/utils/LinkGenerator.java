@@ -123,6 +123,26 @@ public class LinkGenerator {
                 .desativar(restauranteId)).withRel("desativar");
     }
 
+    public Link linkToRestauranteAbrir(Long restauranteId) {
+        return linkTo(methodOn(RestauranteController.class)
+                .abrir(restauranteId)).withRel("abrir");
+    }
+
+    public Link linkToRestauranteFechar(Long restauranteId) {
+        return linkTo(methodOn(RestauranteController.class)
+                .fechar(restauranteId)).withRel("fechar");
+    }
+
+    public Link linkToFormasPagamentoRestaurante(Long restauranteId){
+        return linkTo(methodOn(RestauranteFormaPagamentoController.class)
+                .listar(restauranteId)).withRel("formasPagamento");
+    }
+
+    public Link linkToProdutosRestaurante(Long restauranteId){
+        return linkTo(methodOn(RestauranteProdutoController.class)
+                .listar(restauranteId, false)).withRel("produtos");
+    }
+
     public Link linkToUsuario(Long usuarioId) {
         return linkTo(methodOn(UsuarioController.class)
                 .buscar(usuarioId)).withSelfRel();

@@ -155,14 +155,16 @@ public class RestauranteController implements RestauranteControllerOpenApi {
 
     @PutMapping("/{id}/aberto")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void abrir(@PathVariable long id) {
+    public ResponseEntity<Void> abrir(@PathVariable long id) {
         restauranteService.abrir(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}/fechado")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void fechar(@PathVariable long id) {
+    public ResponseEntity<Void> fechar(@PathVariable long id) {
         restauranteService.fechar(id);
+        return ResponseEntity.noContent().build();
     }
 
     public MappingJacksonValue criarFiltro(RestauranteSingletonDTO model, String campos) {

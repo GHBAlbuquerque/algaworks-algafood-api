@@ -56,8 +56,8 @@ public interface RestauranteControllerOpenApi {
 
     public void desativarMultiplos(@RequestBody List<Long> ids);
 
-    public void abrir(@PathVariable long id);
+    public ResponseEntity<Void> abrir(@PathVariable long id);
 
-    public void fechar(@PathVariable long id);
+    public ResponseEntity<Void> fechar(@PathVariable long id);
 
 }
