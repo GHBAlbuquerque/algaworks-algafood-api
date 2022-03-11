@@ -38,7 +38,7 @@ public class RestauranteDTO extends RepresentationModel<RestauranteDTO> implemen
 
     @Override
     public Boolean isAberto(){
-        return this.ativo;
+        return this.aberto;
     }
 
 }

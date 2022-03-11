@@ -30,6 +30,6 @@ public class RestauranteSimpleDTO extends RepresentationModel<RestauranteSimpleD
 
     @Override
     public Boolean isAberto(){
-        return this.ativo;
+        return this.aberto;
     }
 }

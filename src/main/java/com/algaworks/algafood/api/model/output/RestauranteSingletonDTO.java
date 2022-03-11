@@ -25,6 +25,8 @@ public class RestauranteSingletonDTO extends RepresentationModel<RestauranteSing
 
     private boolean ativo;
 
+    private boolean aberto;
+
     private EnderecoDTO endereco;
 
     private Set<UsuarioDTO> responsaveis;
@@ -45,7 +47,7 @@ public class RestauranteSingletonDTO extends RepresentationModel<RestauranteSing
 
     @Override
     public Boolean isAberto() {
-        return this.ativo;
+        return this.aberto;
     }
 
 }
