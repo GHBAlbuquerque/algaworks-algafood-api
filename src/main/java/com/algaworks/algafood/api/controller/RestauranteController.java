@@ -27,7 +27,6 @@ import javax.validation.groups.Default;
 import javax.websocket.server.PathParam;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/restaurantes")

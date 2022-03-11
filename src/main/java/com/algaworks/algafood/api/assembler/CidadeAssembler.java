@@ -33,9 +33,8 @@ public class CidadeAssembler extends RepresentationModelAssemblerSupport<Cidade,
         try {
             var model = modelMapper.map(cidade, CidadeDTO.class);
 
-            model.add(linkGenerator.linkToCidade(model.getId()));
-
-            model.add(linkGenerator.linkToCidades());
+            model.add(linkGenerator.linkToCidade(model.getId()),
+                    linkGenerator.linkToCidades());
 
             return model;
         } catch (IllegalArgumentException ex) {

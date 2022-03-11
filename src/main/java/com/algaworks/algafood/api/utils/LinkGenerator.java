@@ -135,7 +135,7 @@ public class LinkGenerator {
 
     public Link linkToFormasPagamentoRestaurante(Long restauranteId){
         return linkTo(methodOn(RestauranteFormaPagamentoController.class)
-                .listar(restauranteId)).withRel("formasPagamento");
+                .listar(restauranteId)).withRel("formas-pagamento");
     }
 
     public Link linkToProdutosRestaurante(Long restauranteId){

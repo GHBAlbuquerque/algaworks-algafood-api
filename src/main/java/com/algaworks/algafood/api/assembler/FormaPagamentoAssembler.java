@@ -8,29 +8,33 @@ import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.FormaPagamento;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Component
-public class FormaPagamentoAssembler  extends RepresentationModelAssemblerSupport<FormaPagamento, FormaPagamentoDTO> {
+public class FormaPagamentoAssembler extends RepresentationModelAssemblerSupport<FormaPagamento, FormaPagamentoDTO> {
 
     @Autowired
     private ModelMapper modelMapper;
 
     @Autowired
     private LinkGenerator linkGenerator;
-    
+
     public FormaPagamentoAssembler() {
         super(FormaPagamentoController.class, FormaPagamentoDTO.class);
     }
 
     public FormaPagamentoDTO toModel(FormaPagamento formaPagamento) {
         try {
-            return modelMapper.map(formaPagamento, FormaPagamentoDTO.class);
+            var model = modelMapper.map(formaPagamento, FormaPagamentoDTO.class);
+
+            model.add(linkGenerator.linkToFormaPagamento(model.getId()),
+                    linkGenerator.linkToFormasPagamento());
+
+            return model;
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
         }
@@ -48,11 +52,14 @@ public class FormaPagamentoAssembler  extends RepresentationModelAssemblerSuppor
         try {
             modelMapper.map(formaPagamentoInput, formaPagamento);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.", ex.getCause());
         }
     }
 
-    public List<FormaPagamentoDTO> toCollectionModel(Collection<FormaPagamento> formasPagamento) {
-        return formasPagamento.stream().map(this::toModel).collect(Collectors.toList());
+    @Override
+    public CollectionModel<FormaPagamentoDTO> toCollectionModel(Iterable<? extends FormaPagamento> entities) {
+        return super.toCollectionModel(entities)
+                .add(linkTo(FormaPagamentoController.class)
+                        .withSelfRel());
     }
 }
