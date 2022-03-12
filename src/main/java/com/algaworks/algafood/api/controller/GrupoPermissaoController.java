@@ -3,12 +3,15 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.PermissaoAssembler;
 import com.algaworks.algafood.api.model.output.PermissaoDTO;
 import com.algaworks.algafood.api.openapi.GrupoPermissaoControllerOpenApi;
+import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.GrupoService;
 import com.algaworks.algafood.domain.service.PermissaoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,17 +29,28 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
     @Autowired
     private PermissaoAssembler assembler;
 
+    @Autowired
+    private LinkGenerator linkGenerator;
+
     @GetMapping()
-    public List<PermissaoDTO> listar(@PathVariable Long idGrupo) {
+    public CollectionModel<PermissaoDTO> listar(@PathVariable Long idGrupo) {
         var grupo = grupoService.buscar(idGrupo);
-        return assembler.toCollectionModel(grupo.getPermissoes());
+        var models= assembler.toCollectionModel(grupo.getPermissoes())
+                .removeLinks()
+                .add(linkGenerator.linkToGrupoPermissoes(idGrupo),
+                        linkGenerator.linkToGrupoPermissaoAdicionar(idGrupo));
+
+        models.forEach(model -> model.add(linkGenerator.linkToGrupoPermissaoRemover(idGrupo, model.getId())));
+
+        return models;
     }
 
     @PutMapping("/{idPermissao}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void adicionar(@PathVariable Long idGrupo, @PathVariable Long idPermissao) {
+    public ResponseEntity<Void> adicionar(@PathVariable Long idGrupo, @PathVariable Long idPermissao) {
         try {
             grupoService.adicionarPermissao(idGrupo, idPermissao);
+            return ResponseEntity.noContent().build();
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }
@@ -44,9 +58,10 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
 
     @DeleteMapping("/{idPermissao}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long idGrupo, @PathVariable Long idPermissao) {
+    public ResponseEntity<Void> remover(@PathVariable Long idGrupo, @PathVariable Long idPermissao) {
         try {
             grupoService.removerPermissao(idGrupo, idPermissao);
+            return ResponseEntity.noContent().build();
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }

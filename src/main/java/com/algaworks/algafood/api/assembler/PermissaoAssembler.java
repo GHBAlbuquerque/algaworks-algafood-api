@@ -8,6 +8,7 @@ import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Permissao;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +31,12 @@ public class PermissaoAssembler extends RepresentationModelAssemblerSupport<Perm
 
     public PermissaoDTO toModel(Permissao permissao) {
         try {
-            return modelMapper.map(permissao, PermissaoDTO.class);
+            var model = modelMapper.map(permissao, PermissaoDTO.class);
+
+            model.add(linkGenerator.linkToPermissao(model.getId()),
+                    linkGenerator.linkToPermissoes());
+
+            return model;
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
         }
@@ -49,11 +55,13 @@ public class PermissaoAssembler extends RepresentationModelAssemblerSupport<Perm
         try {
             modelMapper.map(permissaoInput, permissao);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.", ex.getCause());
         }
     }
 
-    public List<PermissaoDTO> toCollectionModel(Collection<Permissao> permissoes) {
-        return permissoes.stream().map(this::toModel).collect(Collectors.toList());
+    @Override
+    public CollectionModel<PermissaoDTO> toCollectionModel(Iterable<? extends Permissao> entities) {
+        return super.toCollectionModel(entities)
+                .add(linkGenerator.linkToPermissoes());
     }
 }

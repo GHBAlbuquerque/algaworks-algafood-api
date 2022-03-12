@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.assembler;
 import com.algaworks.algafood.api.controller.GrupoController;
 import com.algaworks.algafood.api.model.input.GrupoInputDTO;
 import com.algaworks.algafood.api.model.output.GrupoDTO;
+import com.algaworks.algafood.api.model.output.ProdutoDTO;
 import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Grupo;
@@ -37,6 +38,12 @@ public class GrupoAssembler extends RepresentationModelAssemblerSupport<Grupo, G
                         linkGenerator.linkToGrupos(),
                         linkGenerator.linkToGrupoPermissoes(grupo.getId()));
 
+            var permissoes = model.getPermissoes();
+
+            permissoes.forEach(permissao -> permissao.add(linkGenerator.linkToPermissao(grupo.getId()),
+                        linkGenerator.linkToPermissoes(),
+                        linkGenerator.linkToGrupoPermissaoRemover(grupo.getId(), permissao.getId())));
+
             return model;
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
@@ -64,4 +71,5 @@ public class GrupoAssembler extends RepresentationModelAssemblerSupport<Grupo, G
     public CollectionModel<GrupoDTO> toCollectionModel(Iterable<? extends Grupo> entities) {
         return super.toCollectionModel(entities).add(linkGenerator.linkToGrupos());
     }
+
 }

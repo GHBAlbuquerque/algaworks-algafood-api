@@ -81,6 +81,18 @@ public class LinkGenerator {
                 .withRel("permissoes");
     }
 
+    public Link linkToGrupoPermissaoAdicionar(Long idGrupo){
+        return linkTo(methodOn(GrupoPermissaoController.class)
+                .adicionar(idGrupo, null))
+                .withRel("adicionar");
+    }
+
+    public Link linkToGrupoPermissaoRemover(Long idGrupo, Long idPermissao){
+        return linkTo(methodOn(GrupoPermissaoController.class)
+                .remover(idGrupo, idPermissao))
+                .withRel("remover");
+    }
+
     public Link linkToPermissao(Long permissaoId) {
         return linkTo(methodOn(PermissaoController.class)
                 .buscar(permissaoId)).withSelfRel();
