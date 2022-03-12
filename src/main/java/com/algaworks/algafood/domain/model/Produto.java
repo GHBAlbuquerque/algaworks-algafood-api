@@ -35,4 +35,12 @@ public class Produto {
 	@JoinColumn(nullable = false)
 	private Restaurante restaurante;
 
+	public void ativar() {
+		setAtivo(true);
+	}
+
+	public void desativar() {
+		setAtivo(false);
+	}
+
 }

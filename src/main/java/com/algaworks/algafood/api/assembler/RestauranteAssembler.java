@@ -54,11 +54,13 @@ public class RestauranteAssembler extends RepresentationModelAssemblerSupport<Re
     public RestauranteSingletonDTO convertToSingletonModel(Restaurante restaurante) {
         try {
             var model = modelMapper.map(restaurante, RestauranteSingletonDTO.class);
+            var id = model.getId();
 
-            model.add(linkGenerator.linkToRestaurante(model.getId()),
+            model.add(linkGenerator.linkToRestaurante(id),
                     linkGenerator.linkToRestaurantes(),
-                    linkGenerator.linkToFormasPagamentoRestaurante(model.getId()),
-                    linkGenerator.linkToProdutosRestaurante(model.getId()),
+                    linkGenerator.linkToFormasPagamentoRestaurante(id),
+                    linkGenerator.linkToProdutos(id),
+                    linkGenerator.linkToResponsaveisRestaurante(id),
                     adicionarLinkAtivacao(model),
                     adicionarLinkAbertura(model));
 

@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 @Service
 public class RestauranteService {
@@ -253,6 +254,32 @@ public class RestauranteService {
         var produto = buscarProdutoPorRestaurante(idRestaurante, idProduto);
 
         produtoRepository.deleteByIdAndRestaurante(idProduto, restaurante);
+    }
+
+    // ativação/desativação de produtos
+
+    @Transactional
+    public void ativar(Long idProduto, Long idRestaurante) {
+        var restaurante = buscar(idRestaurante);
+        var optional = produtoRepository.getByIdAndRestaurante(idProduto, restaurante);
+
+        if (optional.isPresent()) {
+            var produto = optional.get();
+            produto.ativar();
+            produtoRepository.save(produto);
+        }
+    }
+
+    @Transactional
+    public void desativar(Long idProduto, Long idRestaurante) {
+        var restaurante = buscar(idRestaurante);
+        var optional = produtoRepository.getByIdAndRestaurante(idProduto, restaurante);
+
+        if (optional.isPresent()) {
+            var produto = optional.get();
+            produto.desativar();
+            produtoRepository.save(produto);
+        }
     }
 
     // serviços referentes a usuários

@@ -92,14 +92,18 @@ public class LinkGenerator {
     }
 
     public Link linkToProdutos(Long restauranteId) {
-        var url = linkTo(methodOn(RestauranteProdutoController.class)
-                .listar(restauranteId, false)).toUri().toString();
+        return linkTo(methodOn(RestauranteProdutoController.class)
+                .listar(restauranteId, null)).withRel(IanaLinkRelations.COLLECTION);
+    }
 
-        TemplateVariables filtroVariables = new TemplateVariables(
-                new TemplateVariable("incluirInativos", TemplateVariable.VariableType.REQUEST_PARAM));
+    public Link linkToProdutoAtivar(Long produtoId, Long restauranteId) {
+        return linkTo(methodOn(RestauranteProdutoController.class)
+                .ativar(restauranteId, produtoId)).withRel("ativar");
+    }
 
-        return Link.of(UriTemplate.of(url, filtroVariables),
-                LinkRelation.of("pesquisar"));
+    public Link linkToProdutoDesativar(Long produtoId, Long restauranteId) {
+        return linkTo(methodOn(RestauranteProdutoController.class)
+                .desativar(restauranteId, produtoId)).withRel("desativar");
     }
 
     public Link linkToRestaurante(Long restauranteId) {
@@ -146,11 +150,6 @@ public class LinkGenerator {
     public Link linkToFormasPagamentoRestauranteAdicionar(Long restauranteId) {
         return linkTo(methodOn(RestauranteFormaPagamentoController.class)
                 .remover(restauranteId, null)).withRel("remover");
-    }
-
-    public Link linkToProdutosRestaurante(Long restauranteId) {
-        return linkTo(methodOn(RestauranteProdutoController.class)
-                .listar(restauranteId, false)).withRel("produtos");
     }
 
     public Link linkToResponsaveisRestaurante(Long restauranteId) {

@@ -36,11 +36,11 @@ public class CatalogoFotoProdutoService {
 
         if (fotoExistente.isPresent()){
             nomeArquivoExistente = fotoExistente.get().getNomeArquivo();
-            produtoRepository.delete(fotoExistente.get());
+            produtoRepository.deleteFoto(fotoExistente.get());
         };
 
         foto.setNomeArquivo(novoNomeArquivo);
-        var fotoSalva = produtoRepository.save(foto);
+        var fotoSalva = produtoRepository.saveFoto(foto);
         produtoRepository.flush(); //descarrega assim que deu certo e segue
 
         var novaFoto = FotoStorageService.NovaFoto.builder()
@@ -62,7 +62,7 @@ public class CatalogoFotoProdutoService {
         try {
             var fotoExistente = buscar(idRestaurante, idProduto);
 
-            produtoRepository.delete(fotoExistente);
+            produtoRepository.deleteFoto(fotoExistente);
             produtoRepository.flush();
 
             fotoStorageService.deletar(fotoExistente.getNomeArquivo());

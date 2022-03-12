@@ -5,11 +5,14 @@ import com.algaworks.algafood.api.model.input.ProdutoInputDTO;
 import com.algaworks.algafood.api.model.input.update.ProdutoUpdateDTO;
 import com.algaworks.algafood.api.model.output.ProdutoDTO;
 import com.algaworks.algafood.api.openapi.RestauranteProdutoControllerOpenApi;
+import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,11 +28,14 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
     @Autowired
     private ProdutoAssembler assembler;
 
+    @Autowired
+    private LinkGenerator linkGenerator;
+
     @GetMapping()
-    public List<ProdutoDTO> listar(@PathVariable Long idRestaurante,
-                                   @RequestParam(required=false) boolean incluirInativos) {
+    public CollectionModel<ProdutoDTO> listar(@PathVariable Long idRestaurante,
+                                              @RequestParam(required = false) Boolean incluirInativos) {
         var produtos = restauranteService.listarProdutosPorRestaurante(idRestaurante, incluirInativos);
-        return assembler.toCollectionModel(produtos);
+        return assembler.toCollectionModel(produtos).add(linkGenerator.linkToProdutos(idRestaurante));
     }
 
     @GetMapping("/{idProduto}")
@@ -70,5 +76,19 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }
+    }
+
+    @PutMapping("/{idProduto}/ativo")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> ativar(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
+        restauranteService.ativar(idProduto, idRestaurante);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{idProduto}/inativo")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> desativar(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
+        restauranteService.desativar(idProduto, idRestaurante);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -9,12 +9,10 @@ import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Produto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class ProdutoAssembler extends RepresentationModelAssemblerSupport<Produto, ProdutoDTO> {
@@ -31,7 +29,15 @@ public class ProdutoAssembler extends RepresentationModelAssemblerSupport<Produt
 
     public ProdutoDTO toModel(Produto produto) {
         try {
-            return modelMapper.map(produto, ProdutoDTO.class);
+            var model = modelMapper.map(produto, ProdutoDTO.class);
+            var restauranteId = produto.getRestaurante().getId();
+
+            model.add(linkGenerator.linkToProduto(model.getId(), restauranteId));
+
+            adicionarLinksAtivacao(model, restauranteId);
+
+            return model;
+
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
         }
@@ -62,7 +68,18 @@ public class ProdutoAssembler extends RepresentationModelAssemblerSupport<Produt
         }
     }
 
-    public List<ProdutoDTO> toCollectionModel(Collection<Produto> produtos) {
-        return produtos.stream().map(this::toModel).collect(Collectors.toList());
+    @Override
+    public CollectionModel<ProdutoDTO> toCollectionModel(Iterable<? extends Produto> entities) {
+        return super.toCollectionModel(entities);
+    }
+
+    private void adicionarLinksAtivacao(ProdutoDTO model, Long restauranteId) {
+        if (model.getAtivo()) {
+            model.add(linkGenerator.linkToProdutoDesativar(model.getId(), restauranteId));
+        }
+
+        if (!model.getAtivo()) {
+            model.add(linkGenerator.linkToProdutoAtivar(model.getId(), restauranteId));
+        }
     }
 }

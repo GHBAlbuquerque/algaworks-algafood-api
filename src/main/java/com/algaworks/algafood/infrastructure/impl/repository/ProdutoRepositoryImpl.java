@@ -16,13 +16,13 @@ public class ProdutoRepositoryImpl implements ProdutoRepositoryQueries {
 
     @Override
     @Transactional
-    public FotoProduto save(FotoProduto foto) {
+    public FotoProduto saveFoto(FotoProduto foto) {
         return manager.merge(foto);
     }
 
     @Override
     @Transactional
-    public void delete(FotoProduto foto) {
+    public void deleteFoto(FotoProduto foto) {
         manager.remove(foto);
     }
 }
