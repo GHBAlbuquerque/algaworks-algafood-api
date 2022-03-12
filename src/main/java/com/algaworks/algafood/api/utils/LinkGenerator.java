@@ -153,6 +153,21 @@ public class LinkGenerator {
                 .listar(restauranteId, false)).withRel("produtos");
     }
 
+    public Link linkToResponsaveisRestaurante(Long restauranteId) {
+        return linkTo(methodOn(RestauranteUsuarioController.class)
+                .listar(restauranteId)).withRel("usuarios");
+    }
+
+    public Link linkToResponsavelRestauranteAdicionar(Long restauranteId) {
+        return linkTo(methodOn(RestauranteUsuarioController.class)
+                .adicionar(restauranteId, null)).withRel("adicionar");
+    }
+
+    public Link linkToResponsavelRestauranteRemover(Long restauranteId, Long usuarioId) {
+        return linkTo(methodOn(RestauranteUsuarioController.class)
+                .remover(restauranteId, usuarioId)).withRel("remover");
+    }
+
     public Link linkToUsuario(Long usuarioId) {
         return linkTo(methodOn(UsuarioController.class)
                 .buscar(usuarioId)).withSelfRel();
