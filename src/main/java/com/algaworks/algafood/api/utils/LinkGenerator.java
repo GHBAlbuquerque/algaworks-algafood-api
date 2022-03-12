@@ -75,19 +75,19 @@ public class LinkGenerator {
                 .withRel(IanaLinkRelations.COLLECTION);
     }
 
-    public Link linkToGrupoPermissoes(Long idGrupo){
+    public Link linkToGrupoPermissoes(Long idGrupo) {
         return linkTo(methodOn(GrupoPermissaoController.class)
                 .listar(idGrupo))
                 .withRel("permissoes");
     }
 
-    public Link linkToGrupoPermissaoAdicionar(Long idGrupo){
+    public Link linkToGrupoPermissaoAdicionar(Long idGrupo) {
         return linkTo(methodOn(GrupoPermissaoController.class)
                 .adicionar(idGrupo, null))
                 .withRel("adicionar");
     }
 
-    public Link linkToGrupoPermissaoRemover(Long idGrupo, Long idPermissao){
+    public Link linkToGrupoPermissaoRemover(Long idGrupo, Long idPermissao) {
         return linkTo(methodOn(GrupoPermissaoController.class)
                 .remover(idGrupo, idPermissao))
                 .withRel("remover");
@@ -198,10 +198,22 @@ public class LinkGenerator {
                 IanaLinkRelations.COLLECTION);
     }
 
-    public Link linkToUsuarioGrupos(Long idUsuario){
+    public Link linkToUsuarioGrupos(Long idUsuario) {
         return linkTo(methodOn(UsuarioGrupoController.class)
                 .listar(idUsuario))
                 .withRel(IanaLinkRelations.COLLECTION);
+    }
+
+    public Link linkToUsuarioGruposDesassociar(Long idUsuario, Long idGrupo) {
+        return linkTo(methodOn(UsuarioGrupoController.class)
+                .desassociar(idUsuario, idGrupo))
+                .withRel("desassociar");
+    }
+
+    public Link linkToUsuarioGruposAssociar(Long idUsuario) {
+        return linkTo(methodOn(UsuarioGrupoController.class)
+                .desassociar(idUsuario, null))
+                .withRel("desassociar");
     }
 
 

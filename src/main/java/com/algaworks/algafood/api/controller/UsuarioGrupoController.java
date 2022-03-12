@@ -11,6 +11,7 @@ import com.algaworks.algafood.domain.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,15 +38,18 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
         return assembler.toCollectionModel(usuario.getGrupos())
                 .removeLinks()
                 .add(linkGenerator
-                        .linkToUsuarioGrupos(idUsuario)
-                        .withSelfRel());
+                                .linkToUsuarioGrupos(idUsuario)
+                                .withSelfRel(),
+                        linkGenerator
+                                .linkToUsuarioGruposAssociar(idUsuario));
     }
 
     @PutMapping("/{idGrupo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void associar(@PathVariable Long idUsuario, @PathVariable Long idGrupo) {
+    public ResponseEntity<Void> associar(@PathVariable Long idUsuario, @PathVariable Long idGrupo) {
         try {
             usuarioService.associarGrupo(idUsuario, idGrupo);
+            return ResponseEntity.noContent().build();
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }
@@ -53,9 +57,10 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
 
     @DeleteMapping("/{idGrupo}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void desassociar(@PathVariable Long idUsuario, @PathVariable Long idGrupo) {
+    public ResponseEntity<Void> desassociar(@PathVariable Long idUsuario, @PathVariable Long idGrupo) {
         try {
             usuarioService.desassociarGrupo(idUsuario, idGrupo);
+            return ResponseEntity.noContent().build();
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }

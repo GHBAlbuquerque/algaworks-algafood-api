@@ -36,9 +36,17 @@ public class UsuarioAssembler extends RepresentationModelAssemblerSupport<Usuari
         try {
             var model = modelMapper.map(usuario, UsuarioDTO.class);
 
-            model.add(linkGenerator.linkToUsuario(model.getId()));
+            model.add(linkGenerator.linkToUsuario(model.getId()),
+                    linkGenerator.linkToUsuarios());
 
-            model.add(linkGenerator.linkToUsuarios());
+            var grupos = model.getGrupos();
+
+            grupos.forEach(grupo -> grupo.add(linkGenerator.linkToGrupo(grupo.getId()),
+                    linkGenerator.linkToGrupos(),
+                    linkGenerator.linkToUsuarioGruposDesassociar(usuario.getId(), grupo.getId())));
+
+
+
 
             return model;
         } catch (IllegalArgumentException ex) {
@@ -82,4 +90,5 @@ public class UsuarioAssembler extends RepresentationModelAssemblerSupport<Usuari
         return super.toCollectionModel(entities)
                 .add(link);
     }
+
 }
