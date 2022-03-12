@@ -8,6 +8,7 @@ import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.FotoProduto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -28,9 +29,16 @@ public class FotoProdutoAssembler extends RepresentationModelAssemblerSupport<Fo
         super(RestauranteProdutoFotoController.class, FotoProdutoDTO.class);
     }
 
-    public FotoProdutoDTO toModel(FotoProduto FotoProduto) {
+    public FotoProdutoDTO toModel(FotoProduto fotoProduto) {
         try {
-            return modelMapper.map(FotoProduto, FotoProdutoDTO.class);
+            var model = modelMapper.map(fotoProduto, FotoProdutoDTO.class);
+            var restauranteId = fotoProduto.getRestauranteId();
+
+            model.add(linkGenerator.linkToFotoProduto(model.getId(), restauranteId),
+                    linkGenerator.linkToProduto(model.getId(), restauranteId).withRel("produto"));
+
+            return model;
+
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
         }
@@ -49,11 +57,12 @@ public class FotoProdutoAssembler extends RepresentationModelAssemblerSupport<Fo
         try {
             modelMapper.map(FotoProdutoInput, FotoProduto);
         } catch (IllegalArgumentException ex) {
-            throw new ConversaoException("Erro ao converter o objeto de input para entidade.",  ex.getCause());
+            throw new ConversaoException("Erro ao converter o objeto de input para entidade.", ex.getCause());
         }
     }
 
-    public List<FotoProdutoDTO> toCollectionModel(Collection<FotoProduto> FotoProdutos) {
-        return FotoProdutos.stream().map(this::toModel).collect(Collectors.toList());
+    @Override
+    public CollectionModel<FotoProdutoDTO> toCollectionModel(Iterable<? extends FotoProduto> entities) {
+        return super.toCollectionModel(entities);
     }
 }

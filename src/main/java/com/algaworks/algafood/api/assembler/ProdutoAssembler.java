@@ -32,7 +32,8 @@ public class ProdutoAssembler extends RepresentationModelAssemblerSupport<Produt
             var model = modelMapper.map(produto, ProdutoDTO.class);
             var restauranteId = produto.getRestaurante().getId();
 
-            model.add(linkGenerator.linkToProduto(model.getId(), restauranteId));
+            model.add(linkGenerator.linkToProduto(model.getId(), restauranteId),
+                    linkGenerator.linkToFotoProduto(model.getId(), restauranteId).withRel("foto"));
 
             adicionarLinksAtivacao(model, restauranteId);
 

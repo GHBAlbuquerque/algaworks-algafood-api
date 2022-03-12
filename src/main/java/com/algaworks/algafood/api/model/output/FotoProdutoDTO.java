@@ -10,6 +10,8 @@ import org.springframework.hateoas.server.core.Relation;
 @Relation(collectionRelation = "fotosProduto")
 public class FotoProdutoDTO extends RepresentationModel<FotoProdutoDTO> {
 
+    private Long id;
+
     private String nome;
 
     private String descricao;
