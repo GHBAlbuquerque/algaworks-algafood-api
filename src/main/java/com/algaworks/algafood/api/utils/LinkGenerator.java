@@ -75,6 +75,12 @@ public class LinkGenerator {
                 .withRel(IanaLinkRelations.COLLECTION);
     }
 
+    public Link linkToGrupoPermissoes(Long idGrupo){
+        return linkTo(methodOn(GrupoPermissaoController.class)
+                .listar(idGrupo))
+                .withRel("permissoes");
+    }
+
     public Link linkToPermissao(Long permissaoId) {
         return linkTo(methodOn(PermissaoController.class)
                 .buscar(permissaoId)).withSelfRel();
@@ -179,6 +185,13 @@ public class LinkGenerator {
         return Link.of(UriTemplate.of(url, PAGEABLE_VARIABLES),
                 IanaLinkRelations.COLLECTION);
     }
+
+    public Link linkToUsuarioGrupos(Long idUsuario){
+        return linkTo(methodOn(UsuarioGrupoController.class)
+                .listar(idUsuario))
+                .withRel(IanaLinkRelations.COLLECTION);
+    }
+
 
     public Link linkToPedido(String codigo) {
         return linkTo(methodOn(PedidoController.class)

@@ -8,6 +8,7 @@ import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Grupo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +31,13 @@ public class GrupoAssembler extends RepresentationModelAssemblerSupport<Grupo, G
 
     public GrupoDTO toModel(Grupo grupo) {
         try {
-            return modelMapper.map(grupo, GrupoDTO.class);
+            var model = modelMapper.map(grupo, GrupoDTO.class);
+
+            model.add(linkGenerator.linkToGrupo(model.getId()),
+                        linkGenerator.linkToGrupos(),
+                        linkGenerator.linkToGrupoPermissoes(grupo.getId()));
+
+            return model;
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
         }
@@ -53,7 +60,8 @@ public class GrupoAssembler extends RepresentationModelAssemblerSupport<Grupo, G
         }
     }
 
-    public List<GrupoDTO> toCollectionModel(Collection<Grupo> grupos) {
-        return grupos.stream().map(this::toModel).collect(Collectors.toList());
+    @Override
+    public CollectionModel<GrupoDTO> toCollectionModel(Iterable<? extends Grupo> entities) {
+        return super.toCollectionModel(entities).add(linkGenerator.linkToGrupos());
     }
 }

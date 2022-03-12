@@ -3,11 +3,13 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.api.assembler.GrupoAssembler;
 import com.algaworks.algafood.api.model.output.GrupoDTO;
 import com.algaworks.algafood.api.openapi.UsuarioGrupoControllerOpenApi;
+import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.GrupoService;
 import com.algaworks.algafood.domain.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,10 +28,17 @@ public class UsuarioGrupoController implements UsuarioGrupoControllerOpenApi {
     @Autowired
     private GrupoAssembler assembler;
 
+    @Autowired
+    private LinkGenerator linkGenerator;
+
     @GetMapping()
-    public List<GrupoDTO> listar(@PathVariable Long idUsuario) {
+    public CollectionModel<GrupoDTO> listar(@PathVariable Long idUsuario) {
         var usuario = usuarioService.buscar(idUsuario);
-        return assembler.toCollectionModel(usuario.getGrupos());
+        return assembler.toCollectionModel(usuario.getGrupos())
+                .removeLinks()
+                .add(linkGenerator
+                        .linkToUsuarioGrupos(idUsuario)
+                        .withSelfRel());
     }
 
     @PutMapping("/{idGrupo}")
