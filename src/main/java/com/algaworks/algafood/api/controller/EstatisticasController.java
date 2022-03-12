@@ -1,6 +1,8 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.model.output.EstatisticaDTO;
 import com.algaworks.algafood.api.openapi.EstatisticasControllerOpenApi;
+import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
 import com.algaworks.algafood.domain.model.view.VendaDiaria;
 import com.algaworks.algafood.domain.service.PdfVendaRelatorioService;
@@ -24,6 +26,19 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
 
     @Autowired
     private PdfVendaRelatorioService pdfVendaRelatorioService;
+
+    @Autowired
+    private LinkGenerator linkGenerator;
+
+    @Override
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public EstatisticaDTO estatisticas() {
+        var estatisticasModel = new EstatisticaDTO();
+
+        estatisticasModel.add(linkGenerator.linkToEstatisticasVendasDiarias());
+
+        return estatisticasModel;
+    }
 
     //venda diaria é usado apenas para leitura, não tem constraints de validação.
     // Se necessário, pode ter um DTO e um assembler.

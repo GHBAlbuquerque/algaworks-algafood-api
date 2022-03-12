@@ -243,7 +243,6 @@ public class LinkGenerator {
                 .cancelar(codigo)).withRel("cancelar");
     }
 
-
     public Link linkToPedidosPesquisar() {
         var pedidosUrl = linkTo(PedidoController.class).toUri().toString() + "/pesquisar";
 
@@ -257,6 +256,23 @@ public class LinkGenerator {
 
         return Link.of(UriTemplate.of(pedidosUrl, PAGEABLE_VARIABLES.concat(filtroVariables)),
                 LinkRelation.of("pesquisar"));
+    }
+
+    public Link linkToEstatisticas() {
+        return linkTo(EstatisticasController.class).withRel("estatisticas");
+    }
+
+    public Link linkToEstatisticasVendasDiarias() {
+
+        var url = linkTo(methodOn(EstatisticasController.class)
+                .consultarVendasDiarias(null)).toUri().toString();
+
+        TemplateVariables filtroVariables = new TemplateVariables(
+                new TemplateVariable("data", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("totalVendas", TemplateVariable.VariableType.REQUEST_PARAM),
+                new TemplateVariable("totalFaturado", TemplateVariable.VariableType.REQUEST_PARAM));
+
+        return Link.of(UriTemplate.of(url, filtroVariables), LinkRelation.of("vendas-diarias"));
     }
 
 }
