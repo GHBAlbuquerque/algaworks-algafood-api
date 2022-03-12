@@ -11,6 +11,7 @@ import com.algaworks.algafood.domain.service.RestauranteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,15 +35,22 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
     @GetMapping()
     public CollectionModel<FormaPagamentoDTO> listar(@PathVariable Long idRestaurante) {
         var restaurante = restauranteService.buscar(idRestaurante);
-        return assembler.toCollectionModel(restaurante.getFormasPagamento())
+        var models = assembler.toCollectionModel(restaurante.getFormasPagamento())
                 .removeLinks()
                 .add(linkGenerator.linkToFormasPagamentoRestaurante(idRestaurante).withSelfRel());
+
+        models.forEach(model -> model.add(linkGenerator.linkToFormasPagamentoRestauranteRemover(
+                idRestaurante,
+                model.getId())));
+
+        return models.add(linkGenerator.linkToFormasPagamentoRestauranteAdicionar(idRestaurante));
     }
 
     @PutMapping("/{idFormaPagamento}")
-    public void adicionar(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento) {
+    public ResponseEntity<Void> adicionar(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento) {
         try {
             restauranteService.adicionarFormaPagamento(idRestaurante, idFormaPagamento);
+            return ResponseEntity.noContent().build();
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }
@@ -50,9 +58,10 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
 
     @DeleteMapping("/{idFormaPagamento}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento) {
+    public ResponseEntity<Void> remover(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento) {
         try {
             restauranteService.removerFormaPagamento(idRestaurante, idFormaPagamento);
+            return ResponseEntity.noContent().build();
         } catch (EntidadeNaoEncontradaException ex) {
             throw new EntidadeReferenciadaInexistenteException(ex.getMessage());
         }

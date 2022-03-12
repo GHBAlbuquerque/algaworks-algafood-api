@@ -133,12 +133,22 @@ public class LinkGenerator {
                 .fechar(restauranteId)).withRel("fechar");
     }
 
-    public Link linkToFormasPagamentoRestaurante(Long restauranteId){
+    public Link linkToFormasPagamentoRestaurante(Long restauranteId) {
         return linkTo(methodOn(RestauranteFormaPagamentoController.class)
                 .listar(restauranteId)).withRel("formas-pagamento");
     }
 
-    public Link linkToProdutosRestaurante(Long restauranteId){
+    public Link linkToFormasPagamentoRestauranteRemover(Long restauranteId, Long formaPagamentoId) {
+        return linkTo(methodOn(RestauranteFormaPagamentoController.class)
+                .remover(restauranteId, formaPagamentoId)).withRel("remover");
+    }
+
+    public Link linkToFormasPagamentoRestauranteAdicionar(Long restauranteId) {
+        return linkTo(methodOn(RestauranteFormaPagamentoController.class)
+                .remover(restauranteId, null)).withRel("remover");
+    }
+
+    public Link linkToProdutosRestaurante(Long restauranteId) {
         return linkTo(methodOn(RestauranteProdutoController.class)
                 .listar(restauranteId, false)).withRel("produtos");
     }

@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.openapi;
 import com.algaworks.algafood.api.model.output.FormaPagamentoDTO;
 import io.swagger.annotations.Api;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface RestauranteFormaPagamentoControllerOpenApi {
 
     public CollectionModel<FormaPagamentoDTO> listar(@PathVariable Long idRestaurante);
 
-    public void adicionar(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento);
+    public ResponseEntity<Void> adicionar(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento);
 
-    public void remover(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento);
+    public ResponseEntity<Void>  remover(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento);
 }
