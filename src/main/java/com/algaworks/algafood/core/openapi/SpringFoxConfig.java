@@ -2,21 +2,20 @@ package com.algaworks.algafood.core.openapi;
 
 import com.algaworks.algafood.api.exceptionhandler.CustomProblem;
 import com.algaworks.algafood.api.exceptionhandler.GenericProblem;
-import com.algaworks.algafood.api.model.output.CidadeDTO;
-import com.algaworks.algafood.api.model.output.PedidoSingletonDTO;
-import com.algaworks.algafood.api.model.output.UsuarioDTO;
-import com.algaworks.algafood.api.openapi.model.CollectionModelOpenApi;
-import com.algaworks.algafood.api.openapi.model.LinksModelOpenApi;
+import com.algaworks.algafood.api.model.output.*;
+import com.algaworks.algafood.api.openapi.model.hateoas.CollectionModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.hateoas.CollectionModelPagedOpenApi;
+import com.algaworks.algafood.api.openapi.model.hateoas.LinksModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.PageModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.PageableModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -64,6 +63,15 @@ public class SpringFoxConfig {
                 .alternateTypeRules(buildPageTypeRole(PedidoSingletonDTO.class))
                 .alternateTypeRules(buildPageTypeRole(UsuarioDTO.class))
                 .alternateTypeRules(buildCollectionModelTypeRole(CidadeDTO.class))
+                .alternateTypeRules(buildCollectionModelTypeRole(CozinhaDTO.class))
+                .alternateTypeRules(buildCollectionModelTypeRole(EstadoDTO.class))
+                .alternateTypeRules(buildCollectionModelTypeRole(EstatisticaDTO.class))
+                .alternateTypeRules(buildCollectionModelTypeRole(FormaPagamentoDTO.class))
+                .alternateTypeRules(buildCollectionModelTypeRole(GrupoDTO.class))
+                .alternateTypeRules(buildCollectionModelTypeRole(PedidoDTO.class))
+                .alternateTypeRules(buildCollectionModelPagedTypeRole(PedidoDTO.class))
+                .alternateTypeRules(buildCollectionModelTypeRole(RestauranteDTO.class))
+                .alternateTypeRules(buildCollectionModelPagedTypeRole(UsuarioDTO.class))
                 .ignoredParameterTypes(ServletWebRequest.class)
                 .tags(
                         new Tag("Cidades", "Gerencia as cidades"),
@@ -76,14 +84,14 @@ public class SpringFoxConfig {
                         new Tag("Restaurantes", "Gerencia os restaurantes"),
                         new Tag("Usuários", "Gerencia os usuários"),
                         new Tag("Root Entry Point", "Entrada da API")
-                        )
+                )
                 .apiInfo(apiInfo());
     }
 
     private <T> AlternateTypeRule buildPageTypeRole(Class<T> classModel) {
 
         return AlternateTypeRules.newRule(
-                typeResolver.resolve(Page.class, classModel),
+                typeResolver.resolve(PagedModel.class, classModel),
                 typeResolver.resolve(PageModelOpenApi.class, classModel)
         );
     }
@@ -96,10 +104,24 @@ public class SpringFoxConfig {
         );
     }
 
+    private <T> AlternateTypeRule buildCollectionModelPagedTypeRole(Class<T> classModel) {
+
+        return AlternateTypeRules.newRule(
+                typeResolver.resolve(PagedModel.class, classModel),
+                typeResolver.resolve(CollectionModelPagedOpenApi.class, classModel)
+        );
+    }
+
     private Consumer<RepresentationBuilder> getCustomProblemModelReference() {
         return r -> r.model(m -> m.name("CustomProblem")
                 .referenceModel(ref -> ref.key(k -> k.qualifiedModelName(
                         q -> q.name("CustomProblem").namespace("com.algaworks.algafood.api.exceptionhandler")))));
+    }
+
+    private Consumer<RepresentationBuilder> getGenericProblemModelReference() {
+        return r -> r.model(m -> m.name("GenericProblem")
+                .referenceModel(ref -> ref.key(k -> k.qualifiedModelName(
+                        q -> q.name("GenericProblem").namespace("com.algaworks.algafood.api.exceptionhandler")))));
     }
 
     private List<Response> globalGetResponseMessages() {
@@ -108,7 +130,7 @@ public class SpringFoxConfig {
                         .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                         .description("Erro interno do Servidor")
                         .representation(MediaType.APPLICATION_JSON)
-                        .apply(getCustomProblemModelReference())
+                        .apply(getGenericProblemModelReference())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.NOT_ACCEPTABLE.value()))
@@ -127,9 +149,7 @@ public class SpringFoxConfig {
                         .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                         .description("Erro interno do Servidor")
                         .representation(MediaType.APPLICATION_JSON)
-                        .apply(getCustomProblemModelReference())
-                        .representation(MediaType.APPLICATION_JSON)
-                        .apply(getCustomProblemModelReference())
+                        .apply(getGenericProblemModelReference())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
@@ -145,7 +165,7 @@ public class SpringFoxConfig {
                         .code(String.valueOf(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value()))
                         .description("Requisição recusada porque o corpo está em um formato não suportado")
                         .representation(MediaType.APPLICATION_JSON)
-                        .apply(getCustomProblemModelReference())
+                        .apply(getGenericProblemModelReference())
                         .build()
         );
     }
@@ -156,7 +176,7 @@ public class SpringFoxConfig {
                         .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                         .description("Erro interno do Servidor")
                         .representation(MediaType.APPLICATION_JSON)
-                        .apply(getCustomProblemModelReference())
+                        .apply(getGenericProblemModelReference())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))
@@ -172,7 +192,7 @@ public class SpringFoxConfig {
                         .code(String.valueOf(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value()))
                         .description("Requisição recusada porque o corpo está em um formato não suportado")
                         .representation(MediaType.APPLICATION_JSON)
-                        .apply(getCustomProblemModelReference())
+                        .apply(getGenericProblemModelReference())
                         .build()
         );
     }
@@ -183,7 +203,7 @@ public class SpringFoxConfig {
                         .code(String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()))
                         .description("Erro interno do Servidor")
                         .representation(MediaType.APPLICATION_JSON)
-                        .apply(getCustomProblemModelReference())
+                        .apply(getGenericProblemModelReference())
                         .build(),
                 new ResponseBuilder()
                         .code(String.valueOf(HttpStatus.BAD_REQUEST.value()))

@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.openapi.model;
+package com.algaworks.algafood.api.openapi.model.hateoas;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
