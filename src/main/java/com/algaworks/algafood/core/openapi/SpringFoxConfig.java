@@ -4,12 +4,16 @@ import com.algaworks.algafood.api.exceptionhandler.CustomProblem;
 import com.algaworks.algafood.api.exceptionhandler.GenericProblem;
 import com.algaworks.algafood.api.model.output.PedidoSingletonDTO;
 import com.algaworks.algafood.api.model.output.UsuarioDTO;
+import com.algaworks.algafood.api.openapi.model.LinksModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.PageModelOpenApi;
+import com.algaworks.algafood.api.openapi.model.PageableModelOpenApi;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.Links;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,6 +57,7 @@ public class SpringFoxConfig {
                 .globalResponses(HttpMethod.DELETE, globalDeleteResponseMessages())
                 .additionalModels(typeResolver.resolve(GenericProblem.class), typeResolver.resolve(CustomProblem.class))
                 .directModelSubstitute(Pageable.class, PageableModelOpenApi.class)
+                .directModelSubstitute(Links.class, LinksModelOpenApi.class)
                 .alternateTypeRules(buildPageTypeRole(PedidoSingletonDTO.class))
                 .alternateTypeRules(buildPageTypeRole(UsuarioDTO.class))
                 .ignoredParameterTypes(ServletWebRequest.class)
