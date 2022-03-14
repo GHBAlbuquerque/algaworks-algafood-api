@@ -4,7 +4,7 @@ import com.algaworks.algafood.api.assembler.RestauranteAssembler;
 import com.algaworks.algafood.api.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.api.model.output.RestauranteDTO;
 import com.algaworks.algafood.api.model.output.RestauranteSingletonDTO;
-import com.algaworks.algafood.api.openapi.RestauranteControllerOpenApi;
+import com.algaworks.algafood.api.openapi.controller.RestauranteControllerOpenApi;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.entitynotfound.CozinhaNaoEncontradaException;

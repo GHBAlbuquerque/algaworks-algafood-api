@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.controller;
 
+import com.algaworks.algafood.api.openapi.controller.RootEntryPointControllerOpenApi;
 import com.algaworks.algafood.api.utils.LinkGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.RepresentationModel;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-public class RootEntryPointController {
+public class RootEntryPointController implements RootEntryPointControllerOpenApi {
 
     @Autowired
     private LinkGenerator linkGenerator;
@@ -35,7 +36,7 @@ public class RootEntryPointController {
         return rootEntryPointModel;
     }
 
-    private class RootEntryPointModel extends RepresentationModel<RootEntryPointModel> {
+    public class RootEntryPointModel extends RepresentationModel<RootEntryPointModel> {
 
     }
 }

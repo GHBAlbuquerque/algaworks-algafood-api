@@ -2,8 +2,10 @@ package com.algaworks.algafood.core.openapi;
 
 import com.algaworks.algafood.api.exceptionhandler.CustomProblem;
 import com.algaworks.algafood.api.exceptionhandler.GenericProblem;
+import com.algaworks.algafood.api.model.output.CidadeDTO;
 import com.algaworks.algafood.api.model.output.PedidoSingletonDTO;
 import com.algaworks.algafood.api.model.output.UsuarioDTO;
+import com.algaworks.algafood.api.openapi.model.CollectionModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.LinksModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.PageModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.PageableModelOpenApi;
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Links;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -60,6 +63,7 @@ public class SpringFoxConfig {
                 .directModelSubstitute(Links.class, LinksModelOpenApi.class)
                 .alternateTypeRules(buildPageTypeRole(PedidoSingletonDTO.class))
                 .alternateTypeRules(buildPageTypeRole(UsuarioDTO.class))
+                .alternateTypeRules(buildCollectionModelTypeRole(CidadeDTO.class))
                 .ignoredParameterTypes(ServletWebRequest.class)
                 .tags(
                         new Tag("Cidades", "Gerencia as cidades"),
@@ -70,7 +74,8 @@ public class SpringFoxConfig {
                         new Tag("Grupos", "Gerencia os grupos"),
                         new Tag("Pedidos", "Gerencia os pedidos"),
                         new Tag("Restaurantes", "Gerencia os restaurantes"),
-                        new Tag("Usuários", "Gerencia os usuários")
+                        new Tag("Usuários", "Gerencia os usuários"),
+                        new Tag("Root Entry Point", "Entrada da API")
                         )
                 .apiInfo(apiInfo());
     }
@@ -80,6 +85,14 @@ public class SpringFoxConfig {
         return AlternateTypeRules.newRule(
                 typeResolver.resolve(Page.class, classModel),
                 typeResolver.resolve(PageModelOpenApi.class, classModel)
+        );
+    }
+
+    private <T> AlternateTypeRule buildCollectionModelTypeRole(Class<T> classModel) {
+
+        return AlternateTypeRules.newRule(
+                typeResolver.resolve(CollectionModel.class, classModel),
+                typeResolver.resolve(CollectionModelOpenApi.class, classModel)
         );
     }
 

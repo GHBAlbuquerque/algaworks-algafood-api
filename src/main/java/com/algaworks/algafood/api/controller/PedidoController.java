@@ -4,7 +4,7 @@ import com.algaworks.algafood.api.assembler.PedidoAssembler;
 import com.algaworks.algafood.api.model.input.PedidoInputDTO;
 import com.algaworks.algafood.api.model.output.PedidoDTO;
 import com.algaworks.algafood.api.model.output.PedidoSingletonDTO;
-import com.algaworks.algafood.api.openapi.PedidoControllerOpenApi;
+import com.algaworks.algafood.api.openapi.controller.PedidoControllerOpenApi;
 import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;

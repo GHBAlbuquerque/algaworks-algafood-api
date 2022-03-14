@@ -1,4 +1,4 @@
-package com.algaworks.algafood.api.openapi;
+package com.algaworks.algafood.api.openapi.controller;
 
 import com.algaworks.algafood.api.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.api.model.output.RestauranteDTO;
