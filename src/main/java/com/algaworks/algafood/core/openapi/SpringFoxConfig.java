@@ -8,6 +8,7 @@ import com.algaworks.algafood.api.openapi.model.hateoas.CollectionModelPagedOpen
 import com.algaworks.algafood.api.openapi.model.hateoas.LinksModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.PageModelOpenApi;
 import com.algaworks.algafood.api.openapi.model.PageableModelOpenApi;
+import com.algaworks.algafood.domain.model.FotoProduto;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -67,9 +68,13 @@ public class SpringFoxConfig {
                 .alternateTypeRules(buildCollectionModelTypeRole(EstadoDTO.class))
                 .alternateTypeRules(buildCollectionModelTypeRole(EstatisticaDTO.class))
                 .alternateTypeRules(buildCollectionModelTypeRole(FormaPagamentoDTO.class))
+                .alternateTypeRules(buildCollectionModelTypeRole(FotoProduto.class))
                 .alternateTypeRules(buildCollectionModelTypeRole(GrupoDTO.class))
+                .alternateTypeRules(buildCollectionModelTypeRole(ItemPedidoDTO.class))
                 .alternateTypeRules(buildCollectionModelTypeRole(PedidoDTO.class))
                 .alternateTypeRules(buildCollectionModelPagedTypeRole(PedidoDTO.class))
+                .alternateTypeRules(buildCollectionModelTypeRole(PermissaoDTO.class))
+                .alternateTypeRules(buildCollectionModelTypeRole(ProdutoDTO.class))
                 .alternateTypeRules(buildCollectionModelTypeRole(RestauranteDTO.class))
                 .alternateTypeRules(buildCollectionModelPagedTypeRole(UsuarioDTO.class))
                 .ignoredParameterTypes(ServletWebRequest.class)
