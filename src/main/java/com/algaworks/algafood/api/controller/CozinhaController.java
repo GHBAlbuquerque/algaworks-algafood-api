@@ -32,7 +32,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
     private CozinhaAssembler assembler;
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public CollectionModel<CozinhaDTO> listar() {
         var cozinhas = cozinhaRepository.findAll();
         return assembler.toCollectionModel(cozinhas);
