@@ -19,17 +19,17 @@ public class RestauranteSimpleDTO extends RepresentationModel<RestauranteSimpleD
     private boolean aberto;
 
     @Override
-    public Long getId(){
+    public Long getId() {
         return this.id;
     }
 
     @Override
-    public Boolean isAtivo(){
+    public Boolean isAtivo() {
         return this.ativo;
     }
 
     @Override
-    public Boolean isAberto(){
+    public Boolean isAberto() {
         return this.aberto;
     }
 }

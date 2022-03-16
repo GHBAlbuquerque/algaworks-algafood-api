@@ -49,7 +49,7 @@ public class PedidoController implements PedidoControllerOpenApi {
     @GetMapping
     public CollectionModel<PedidoDTO> listar() {
         var pedidos = pedidoRepository.findAll();
-        return  assembler.toCollectionModel(pedidos);
+        return assembler.toCollectionModel(pedidos);
     }
 
     @ResponseStatus(HttpStatus.OK)

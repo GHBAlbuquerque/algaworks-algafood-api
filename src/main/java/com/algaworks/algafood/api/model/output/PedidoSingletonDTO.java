@@ -45,5 +45,4 @@ public class PedidoSingletonDTO extends RepresentationModel<PedidoSingletonDTO> 
     private FormaPagamentoDTO formaPagamento;
 
 
-
 }

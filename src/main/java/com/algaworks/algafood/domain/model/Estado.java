@@ -12,15 +12,15 @@ import javax.persistence.*;
 @Builder
 public class Estado {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@EqualsAndHashCode.Include
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Long id;
 
-	@Column(nullable = false)
-	private String nome;
+    @Column(nullable = false)
+    private String nome;
 
-	@Column(nullable = false)
-	private String sigla;
+    @Column(nullable = false)
+    private String sigla;
 
 }

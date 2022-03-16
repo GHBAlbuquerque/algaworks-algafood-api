@@ -15,7 +15,7 @@ import javax.validation.groups.Default;
 import java.math.BigDecimal;
 
 @Data
-@Hamburgueria(idField = "cozinha.id", nomeField="nome", nomeObrigatorio="- Hamburgueria")
+@Hamburgueria(idField = "cozinha.id", nomeField = "nome", nomeObrigatorio = "- Hamburgueria")
 public class RestauranteInputDTO {
 
     @NotBlank
@@ -32,8 +32,8 @@ public class RestauranteInputDTO {
     @Embedded
     private EnderecoInputDTO endereco;
 
-    public Long getCidade(){
-        if(ObjectUtils.isNotEmpty(endereco)) return this.getEndereco().getCidadeId();
+    public Long getCidade() {
+        if (ObjectUtils.isNotEmpty(endereco)) return this.getEndereco().getCidadeId();
 
         return null;
     }

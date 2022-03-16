@@ -3,7 +3,6 @@ package com.algaworks.algafood.api.assembler;
 import com.algaworks.algafood.api.controller.GrupoController;
 import com.algaworks.algafood.api.model.input.GrupoInputDTO;
 import com.algaworks.algafood.api.model.output.GrupoDTO;
-import com.algaworks.algafood.api.model.output.ProdutoDTO;
 import com.algaworks.algafood.api.utils.LinkGenerator;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Grupo;
@@ -12,10 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class GrupoAssembler extends RepresentationModelAssemblerSupport<Grupo, GrupoDTO> {
@@ -35,14 +30,14 @@ public class GrupoAssembler extends RepresentationModelAssemblerSupport<Grupo, G
             var model = modelMapper.map(grupo, GrupoDTO.class);
 
             model.add(linkGenerator.linkToGrupo(model.getId()),
-                        linkGenerator.linkToGrupos(),
-                        linkGenerator.linkToGrupoPermissoes(grupo.getId()));
+                    linkGenerator.linkToGrupos(),
+                    linkGenerator.linkToGrupoPermissoes(grupo.getId()));
 
             var permissoes = model.getPermissoes();
 
             permissoes.forEach(permissao -> permissao.add(linkGenerator.linkToPermissao(grupo.getId()),
-                        linkGenerator.linkToPermissoes(),
-                        linkGenerator.linkToGrupoPermissaoRemover(grupo.getId(), permissao.getId())));
+                    linkGenerator.linkToPermissoes(),
+                    linkGenerator.linkToGrupoPermissaoRemover(grupo.getId(), permissao.getId())));
 
             return model;
         } catch (IllegalArgumentException ex) {

@@ -1,8 +1,8 @@
 package com.algaworks.algafood.infrastructure.impl.storage;
 
 import com.algaworks.algafood.core.storage.StorageProperties;
-import com.algaworks.algafood.infrastructure.exception.StorageException;
 import com.algaworks.algafood.domain.service.FotoStorageService;
+import com.algaworks.algafood.infrastructure.exception.StorageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
@@ -24,7 +24,7 @@ public class LocalFotoStorageService implements FotoStorageService {
             var inputStream = Files.newInputStream(pathArquivo);
 
             var fotoRecuperada =
-                            FotoRecuperada.builder()
+                    FotoRecuperada.builder()
                             .inputStream(inputStream).build();
 
             return fotoRecuperada;
@@ -44,7 +44,7 @@ public class LocalFotoStorageService implements FotoStorageService {
         try {
             FileCopyUtils.copy(arquivo, Files.newOutputStream(pathArquivo));
         } catch (IOException e) {
-           throw new StorageException("Não foi possível armazenar o arquivo.", e.getCause());
+            throw new StorageException("Não foi possível armazenar o arquivo.", e.getCause());
         }
     }
 
@@ -58,7 +58,7 @@ public class LocalFotoStorageService implements FotoStorageService {
         }
     }
 
-    private Path getArquivoPath(String nomeArquivo){
+    private Path getArquivoPath(String nomeArquivo) {
         return storageProperties.getLocal().getDir()
                 .resolve(Path.of(nomeArquivo));
     }

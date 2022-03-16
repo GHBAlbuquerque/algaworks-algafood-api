@@ -20,14 +20,14 @@ public class StatusPedidoService {
 
 
     @Transactional
-    public void confirmar(String codigo){
+    public void confirmar(String codigo) {
         var pedido = pedidoService.buscar(codigo);
         pedido.confirmar();
         pedidoRepository.save(pedido);
     }
 
     @Transactional
-    public void cancelar(String codigo){
+    public void cancelar(String codigo) {
         var pedido = pedidoService.buscar(codigo);
         pedido.cancelar();
         pedidoRepository.save(pedido);
@@ -35,7 +35,7 @@ public class StatusPedidoService {
     }
 
     @Transactional
-    public void entregar(String codigo){
+    public void entregar(String codigo) {
         var pedido = pedidoService.buscar(codigo);
         pedido.entregar();
         pedidoRepository.save(pedido);

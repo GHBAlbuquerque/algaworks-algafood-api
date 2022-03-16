@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Relation(collectionRelation = "restaurantes")
-public class RestauranteDTO extends RepresentationModel<RestauranteDTO> implements RestauranteModel{
+public class RestauranteDTO extends RepresentationModel<RestauranteDTO> implements RestauranteModel {
 
     private Long id;
 
@@ -27,17 +27,17 @@ public class RestauranteDTO extends RepresentationModel<RestauranteDTO> implemen
     private boolean aberto;
 
     @Override
-    public Long getId(){
+    public Long getId() {
         return this.id;
     }
 
     @Override
-    public Boolean isAtivo(){
+    public Boolean isAtivo() {
         return this.ativo;
     }
 
     @Override
-    public Boolean isAberto(){
+    public Boolean isAberto() {
         return this.aberto;
     }
 

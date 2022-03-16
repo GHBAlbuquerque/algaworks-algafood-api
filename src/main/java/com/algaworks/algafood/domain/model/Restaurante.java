@@ -61,7 +61,8 @@ public class Restaurante {
 
     @ManyToMany
     @JoinTable(name = "restaurante_responsavel", joinColumns = @JoinColumn(name = "restaurante_id"), inverseJoinColumns = @JoinColumn(name = "usuario_id"))
-    private Set<Usuario> responsaveis = new HashSet<>();;
+    private Set<Usuario> responsaveis = new HashSet<>();
+    ;
 
     public void ativar() {
         setAtivo(true);

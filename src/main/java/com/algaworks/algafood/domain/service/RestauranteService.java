@@ -28,33 +28,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 @Service
 public class RestauranteService {
 
+    private static final String MSG_RESTAURANTE_EM_USO = "Restaurante de id %d não pode ser removido, pois está em uso!";
     @Autowired
     private RestauranteRepository restauranteRepository;
-
     @Autowired
     private CozinhaService cozinhaService;
-
     @Autowired
     private CidadeService cidadeService;
-
     @Autowired
     private FormaPagamentoService formaPagamentoService;
-
     @Autowired
     private UsuarioService usuarioService;
-
     @Autowired
     private ProdutoRepository produtoRepository;
-
     @Autowired
     private SmartValidator validator;
-
-    private static final String MSG_RESTAURANTE_EM_USO = "Restaurante de id %d não pode ser removido, pois está em uso!";
 
     public Restaurante buscar(long id) {
         return restauranteRepository.findById(id)

@@ -30,11 +30,11 @@ public class CozinhaAssembler extends RepresentationModelAssemblerSupport<Cozinh
     public CozinhaDTO toModel(Cozinha cozinha) {
         try {
             var model = modelMapper.map(cozinha, CozinhaDTO.class);
-            
+
             model.add(linkGenerator.linkToCozinha(model.getId()));
 
             model.add(linkGenerator.linkToCozinhas());
-            
+
             return model;
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");
@@ -62,6 +62,6 @@ public class CozinhaAssembler extends RepresentationModelAssemblerSupport<Cozinh
     public CollectionModel<CozinhaDTO> toCollectionModel(Iterable<? extends Cozinha> entities) {
         return super.toCollectionModel(entities)
                 .add(linkTo(CozinhaController.class)
-                .withSelfRel());
+                        .withSelfRel());
     }
 }

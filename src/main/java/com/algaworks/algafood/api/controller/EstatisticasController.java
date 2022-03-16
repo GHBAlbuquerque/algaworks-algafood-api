@@ -43,7 +43,7 @@ public class EstatisticasController implements EstatisticasControllerOpenApi {
     //venda diaria é usado apenas para leitura, não tem constraints de validação.
     // Se necessário, pode ter um DTO e um assembler.
     @GetMapping(value = "/vendas-diarias", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro){
+    public List<VendaDiaria> consultarVendasDiarias(VendaDiariaFilter filtro) {
         return vendaDiariaQueryService.consultarVendasDiarias(filtro);
     }
 

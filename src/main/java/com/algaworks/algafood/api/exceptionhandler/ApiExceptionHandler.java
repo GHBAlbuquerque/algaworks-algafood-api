@@ -37,10 +37,9 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final String MSG_ERRO_GENERICA = "Ocorreu um erro interno inesperado no sistema. Tente novamente e, se o problema persistir, entre em contato com o administrador.";
     @Autowired
     private MessageSource messageSource;
-
-    private static final String MSG_ERRO_GENERICA = "Ocorreu um erro interno inesperado no sistema. Tente novamente e, se o problema persistir, entre em contato com o administrador.";
 
     // ------------ OVERRIDE DO EXCEPTION INTERNAL ---------------------
 

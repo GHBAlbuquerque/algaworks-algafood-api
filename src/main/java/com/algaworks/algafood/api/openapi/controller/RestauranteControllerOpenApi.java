@@ -27,7 +27,7 @@ public interface RestauranteControllerOpenApi {
     public MappingJacksonValue buscar(@PathVariable long id, @RequestParam(required = false) String campos);
 
     public ResponseEntity<CollectionModel<RestauranteDTO>> buscarPorNomeECozinha(@PathParam(value = "nome") String nome,
-                                                                      @PathParam(value = "cozinha_id") Long cozinhaId);
+                                                                                 @PathParam(value = "cozinha_id") Long cozinhaId);
 
     public ResponseEntity<RestauranteDTO> buscarPorNome(@PathParam(value = "nome") String nome);
 

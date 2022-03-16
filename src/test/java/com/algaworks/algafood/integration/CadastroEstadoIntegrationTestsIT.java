@@ -10,12 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 public class CadastroEstadoIntegrationTestsIT {
-    
+
     @Autowired
     private EstadoService service;
 
     @Test
-    public void salvar_estadoCorreto_retornaSucesso(){
+    public void salvar_estadoCorreto_retornaSucesso() {
         // 1. Preparação
         var novoEstado = new Estado();
         novoEstado.setNome("Mato Grosso");
@@ -30,7 +30,7 @@ public class CadastroEstadoIntegrationTestsIT {
     }
 
     @Test
-    public void salvar_estadoSemNome_retornaErro(){
+    public void salvar_estadoSemNome_retornaErro() {
         // 1. Preparação
         var novoEstado = new Estado();
         novoEstado.setSigla("MT");
@@ -41,7 +41,7 @@ public class CadastroEstadoIntegrationTestsIT {
     }
 
     @Test
-    public void salvar_estadoSemSigla_retornaErro(){
+    public void salvar_estadoSemSigla_retornaErro() {
         // 1. Preparação
         var novoEstado = new Estado();
         novoEstado.setNome("Mato Grosso");

@@ -4,7 +4,9 @@ import com.algaworks.algafood.domain.model.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ScenarioFactory {
 
@@ -19,11 +21,11 @@ public class ScenarioFactory {
         data.put(2L, "Indiana");
 
         var cozinhas = new ArrayList<Cozinha>();
-        for(var dados : data.entrySet()) {
+        for (var dados : data.entrySet()) {
             cozinhas.add(Cozinha.builder().id(dados.getKey()).nome(dados.getValue()).build());
         }
 
-       return cozinhas;
+        return cozinhas;
     }
 
     private Restaurante getRestaurante() {
@@ -33,11 +35,11 @@ public class ScenarioFactory {
                 .taxaFrete(BigDecimal.TEN)
                 .dataCadastro(OffsetDateTime.now())
                 .dataAtualizacao(OffsetDateTime.now())
-                .endereco(new Endereco("Logradouro", "numero", "100", "bairro", getCidade(), "98706758" ))
+                .endereco(new Endereco("Logradouro", "numero", "100", "bairro", getCidade(), "98706758"))
                 .build();
     }
 
-    private Cidade getCidade(){
+    private Cidade getCidade() {
         return Cidade.builder()
                 .id(1L)
                 .nome("Palmas")
@@ -52,7 +54,6 @@ public class ScenarioFactory {
                 .sigla("TO")
                 .build();
     }
-
 
 
 }

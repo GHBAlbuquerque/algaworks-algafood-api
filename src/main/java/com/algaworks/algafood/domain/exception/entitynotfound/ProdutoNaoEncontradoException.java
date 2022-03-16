@@ -1,6 +1,6 @@
 package com.algaworks.algafood.domain.exception.entitynotfound;
 
-public class ProdutoNaoEncontradoException extends EntidadeNaoEncontradaException{
+public class ProdutoNaoEncontradoException extends EntidadeNaoEncontradaException {
 
     private static final long serialVersionUID = 1L;
     private static final String MSG_PRODUTO_NAO_ENCONTRADO = "Não existe produto de id %s cadastrado no restaurante de id %s.";

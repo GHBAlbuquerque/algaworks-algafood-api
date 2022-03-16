@@ -34,7 +34,7 @@ public class PedidoInputDTO {
     private String status;
 
     @NotNull
-    @Size(min=1)
+    @Size(min = 1)
     @Valid
     private List<ItemPedidoInputDTO> itens;
 

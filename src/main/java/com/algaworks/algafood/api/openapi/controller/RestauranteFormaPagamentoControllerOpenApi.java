@@ -6,8 +6,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
-
 @Api(tags = "Restaurantes")
 public interface RestauranteFormaPagamentoControllerOpenApi {
 
@@ -15,5 +13,5 @@ public interface RestauranteFormaPagamentoControllerOpenApi {
 
     public ResponseEntity<Void> adicionar(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento);
 
-    public ResponseEntity<Void>  remover(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento);
+    public ResponseEntity<Void> remover(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento);
 }

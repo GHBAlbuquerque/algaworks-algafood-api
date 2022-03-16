@@ -19,7 +19,7 @@ public class GrupoService {
 
     @Autowired
     private GrupoRepository grupoRepository;
-    
+
     @Autowired
     private PermissaoService permissaoService;
 

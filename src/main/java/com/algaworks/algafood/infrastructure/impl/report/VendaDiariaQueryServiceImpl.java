@@ -60,15 +60,15 @@ public class VendaDiariaQueryServiceImpl implements VendaDiariaQueryService {
         var statusPredicate = root.get("status").in(StatusPedidoEnum.ENTREGUE, StatusPedidoEnum.CONFIRMADO);
         predicates.add(statusPredicate);
 
-        if(ObjectUtils.isNotEmpty(filtro.getDataCriacaoInicio())) {
+        if (ObjectUtils.isNotEmpty(filtro.getDataCriacaoInicio())) {
             predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dataCriacao"), filtro.getDataCriacaoInicio()));
         }
 
-        if(ObjectUtils.isNotEmpty(filtro.getDataCriacaoFim())) {
+        if (ObjectUtils.isNotEmpty(filtro.getDataCriacaoFim())) {
             predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("dataCriacao"), filtro.getDataCriacaoFim()));
         }
 
-        if(ObjectUtils.isNotEmpty(filtro.getRestauranteId())) {
+        if (ObjectUtils.isNotEmpty(filtro.getRestauranteId())) {
             predicates.add(criteriaBuilder.equal(root.get("restaurante"), filtro.getRestauranteId()));
         }
 

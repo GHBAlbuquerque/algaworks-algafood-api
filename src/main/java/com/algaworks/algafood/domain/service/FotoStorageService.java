@@ -42,7 +42,7 @@ public interface FotoStorageService {
         private InputStream inputStream;
         private String URL;
 
-        public boolean temUrl(){
+        public boolean temUrl() {
             return StringUtils.isNotBlank(getURL());
         }
     }

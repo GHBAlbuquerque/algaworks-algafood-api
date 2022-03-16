@@ -1,9 +1,9 @@
 package com.algaworks.algafood.infrastructure.impl.report;
 
 import com.algaworks.algafood.domain.filter.VendaDiariaFilter;
-import com.algaworks.algafood.infrastructure.exception.ReportException;
 import com.algaworks.algafood.domain.service.PdfVendaRelatorioService;
 import com.algaworks.algafood.domain.service.VendaDiariaQueryService;
+import com.algaworks.algafood.infrastructure.exception.ReportException;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;

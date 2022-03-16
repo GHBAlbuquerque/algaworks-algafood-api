@@ -6,8 +6,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
-
 @Api(tags = "Usuários")
 public interface UsuarioGrupoControllerOpenApi {
 

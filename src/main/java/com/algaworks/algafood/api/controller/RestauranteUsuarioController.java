@@ -14,8 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-
 @RestController
 @RequestMapping(value = "/restaurantes/{idRestaurante}/responsaveis")
 public class RestauranteUsuarioController implements RestauranteUsuarioControllerOpenApi {

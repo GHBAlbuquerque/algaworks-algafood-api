@@ -33,7 +33,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
     @GetMapping()
     public CollectionModel<PermissaoDTO> listar(@PathVariable Long idGrupo) {
         var grupo = grupoService.buscar(idGrupo);
-        var models= assembler.toCollectionModel(grupo.getPermissoes())
+        var models = assembler.toCollectionModel(grupo.getPermissoes())
                 .removeLinks()
                 .add(linkGenerator.linkToGrupoPermissoes(idGrupo),
                         linkGenerator.linkToGrupoPermissaoAdicionar(idGrupo));

@@ -1,8 +1,8 @@
 package com.algaworks.algafood.infrastructure.impl.storage;
 
 import com.algaworks.algafood.core.storage.StorageProperties;
-import com.algaworks.algafood.infrastructure.exception.StorageException;
 import com.algaworks.algafood.domain.service.FotoStorageService;
+import com.algaworks.algafood.infrastructure.exception.StorageException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
@@ -34,8 +34,8 @@ public class S3FotoStorageService implements FotoStorageService {
         var urlS3 = amazonS3.getUrl(storageProperties.getS3().getBucket(), path);
 
         return FotoRecuperada.builder()
-                        .URL(urlS3.toString())
-                        .build();
+                .URL(urlS3.toString())
+                .build();
     }
 
     @Override

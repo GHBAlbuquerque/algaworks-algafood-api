@@ -19,7 +19,7 @@ public class EmailProperties {
     private String remetente;
 
     private TipoImplementacao impl;
-    
+
     private Sandbox sandbox = new Sandbox();
 
     public enum TipoImplementacao {

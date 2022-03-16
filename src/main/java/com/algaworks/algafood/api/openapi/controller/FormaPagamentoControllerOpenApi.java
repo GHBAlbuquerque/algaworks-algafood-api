@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Api(tags = "Formas de Pagamento")
 public interface FormaPagamentoControllerOpenApi {

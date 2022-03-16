@@ -13,17 +13,17 @@ import javax.persistence.*;
 @Builder
 public class Cidade {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@EqualsAndHashCode.Include
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Long id;
 
-	@Column(nullable = false)
-	private String nome;
+    @Column(nullable = false)
+    private String nome;
 
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	@JsonIgnoreProperties(value = {"nome", "sigla"}, allowGetters = true)
-	private Estado estado;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    @JsonIgnoreProperties(value = {"nome", "sigla"}, allowGetters = true)
+    private Estado estado;
 
 }

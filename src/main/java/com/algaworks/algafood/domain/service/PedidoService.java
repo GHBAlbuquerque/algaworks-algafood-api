@@ -56,7 +56,7 @@ public class PedidoService {
         definirEntidadesAssociadas(pedido, restaurante, formaPagamento, usuario, cidade);
 
         //valida forma de pagamento aceita
-        if(!restaurante.getFormasPagamento()
+        if (!restaurante.getFormasPagamento()
                 .contains(formaPagamento)) {
             throw new NegocioException(String.format("Forma de pagamento %s não é aceita por este restaurante.", formaPagamento.getDescricao()));
         }
@@ -64,7 +64,7 @@ public class PedidoService {
     }
 
     private void definirEntidadesAssociadas(Pedido pedido, Restaurante restaurante, FormaPagamento formaPagamento,
-                                            Usuario cliente, Cidade cidade){
+                                            Usuario cliente, Cidade cidade) {
         pedido.setRestaurante(restaurante);
         pedido.setFormaPagamento(formaPagamento);
         pedido.setCliente(cliente);
@@ -77,7 +77,7 @@ public class PedidoService {
 
         var itens = pedido.getItens();
 
-        for(var item : itens){
+        for (var item : itens) {
             var idProduto = item.getProduto().getId();
             var produto = restauranteService.buscarProdutoPorRestaurante(pedido.getRestaurante().getId(), idProduto);
 

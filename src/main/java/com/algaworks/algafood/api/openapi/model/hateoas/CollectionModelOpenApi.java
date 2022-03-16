@@ -18,7 +18,7 @@ public class CollectionModelOpenApi<T> {
 
     @Data
     @ApiModel("RepresentationModelEmbedded")
-    private class RepresentationModelEmbedded<T>{
+    private class RepresentationModelEmbedded<T> {
         private List<T> models;
     }
 

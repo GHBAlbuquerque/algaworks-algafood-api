@@ -18,7 +18,7 @@ public class CadastroCozinhaIntegrationTestsIT {
     private CozinhaService service;
 
     @Test
-    public void salvar_cozinhaCorreta_retornaSucesso(){
+    public void salvar_cozinhaCorreta_retornaSucesso() {
         // 1. Preparação
         var novaCozinha = new Cozinha();
         novaCozinha.setNome("Chinesa");
@@ -32,17 +32,17 @@ public class CadastroCozinhaIntegrationTestsIT {
     }
 
     @Test
-    public void salvar_cozinhaSemNome_retornaErro(){
+    public void salvar_cozinhaSemNome_retornaErro() {
         // 1. Preparação
         var novaCozinha = new Cozinha();
 
         // 2. Ação e 3. Validação
         Assertions.assertThrows(ConstraintViolationException.class, () ->
-            service.salvar(novaCozinha));
+                service.salvar(novaCozinha));
     }
 
     @Test
-    public void buscar_cozinhaExistente_retornaSucesso(){
+    public void buscar_cozinhaExistente_retornaSucesso() {
         // 2. Ação
         var cozinhaEncontrada = service.buscar(1L);
 
@@ -52,27 +52,25 @@ public class CadastroCozinhaIntegrationTestsIT {
     }
 
     @Test
-    public void buscar_cozinhaInexistente_retornaErro(){
+    public void buscar_cozinhaInexistente_retornaErro() {
         // 1. Preparação, 2. Ação e 3. Validação
         Assertions.assertThrows(CozinhaNaoEncontradaException.class, () ->
                 service.buscar(288L));
     }
 
     @Test
-    public void remover_cozinhaEmUso_retornaErro(){
+    public void remover_cozinhaEmUso_retornaErro() {
         // 1. Preparação, 2. Ação e 3. Validação
         Assertions.assertThrows(EntidadeEmUsoException.class, () ->
                 service.remover(1L));
     }
 
     @Test
-    public void remover_cozinhaInexistente_retornaErro(){
+    public void remover_cozinhaInexistente_retornaErro() {
         // 1. Preparação, 2. Ação e 3. Validação
         Assertions.assertThrows(CozinhaNaoEncontradaException.class, () ->
                 service.remover(288L));
     }
-
-
 
 
 }

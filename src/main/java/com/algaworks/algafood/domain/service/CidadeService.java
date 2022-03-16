@@ -17,16 +17,13 @@ import javax.transaction.Transactional;
 @Service
 public class CidadeService {
 
+    private static final String MSG_CIDADE_EM_USO = "Cidade de id %d não pode ser removida, pois está em uso!";
     @Autowired
     private CidadeRepository cidadeRepository;
-
     @Autowired
     private EstadoService estadoService;
-
     @Autowired
     private SmartValidator validator;
-
-    private static final String MSG_CIDADE_EM_USO = "Cidade de id %d não pode ser removida, pois está em uso!";
 
     public Cidade buscar(long id) {
         return cidadeRepository.findById(id)

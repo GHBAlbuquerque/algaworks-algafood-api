@@ -16,49 +16,47 @@ import javax.transaction.Transactional;
 
 @Service
 public class EstadoService {
-	
-	@Autowired
-	private EstadoRepository estadoRepository;
 
-	@Autowired
-	private SmartValidator validator;
-	
-	private static final String MSG_ESTADO_EM_USO = "Estado de id %d não pode ser removido, pois está em uso!";
-	
-	public Estado buscar(long id) {
-		return estadoRepository.findById(id)
-		.orElseThrow(() -> new EstadoNaoEncontradoException(id));
-	}
+    private static final String MSG_ESTADO_EM_USO = "Estado de id %d não pode ser removido, pois está em uso!";
+    @Autowired
+    private EstadoRepository estadoRepository;
+    @Autowired
+    private SmartValidator validator;
 
-	@Transactional
-	public Estado salvar(Estado estado) {
-		validate(estado, "estado");
+    public Estado buscar(long id) {
+        return estadoRepository.findById(id)
+                .orElseThrow(() -> new EstadoNaoEncontradoException(id));
+    }
 
-		estado.setSigla(estado.getSigla().toUpperCase());
-		return estadoRepository.save(estado);
-	}
+    @Transactional
+    public Estado salvar(Estado estado) {
+        validate(estado, "estado");
 
-	@Transactional
-	public void remover(long id) {
-		try {
-			estadoRepository.deleteById(id);
-			estadoRepository.flush();
+        estado.setSigla(estado.getSigla().toUpperCase());
+        return estadoRepository.save(estado);
+    }
 
-		} catch (DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(
-					String.format(MSG_ESTADO_EM_USO, id));
+    @Transactional
+    public void remover(long id) {
+        try {
+            estadoRepository.deleteById(id);
+            estadoRepository.flush();
 
-		} catch (EmptyResultDataAccessException e) {
-			throw new EstadoNaoEncontradoException(id);
-		}
-	}
+        } catch (DataIntegrityViolationException e) {
+            throw new EntidadeEmUsoException(
+                    String.format(MSG_ESTADO_EM_USO, id));
 
-	private void validate(Estado estado, String objectName) {
-		BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(estado, objectName);
-		validator.validate(estado, bindingResult);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EstadoNaoEncontradoException(id);
+        }
+    }
 
-		if (bindingResult.hasErrors()) {
-			throw new ValidacaoException(bindingResult);
-		}
-	}
+    private void validate(Estado estado, String objectName) {
+        BeanPropertyBindingResult bindingResult = new BeanPropertyBindingResult(estado, objectName);
+        validator.validate(estado, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            throw new ValidacaoException(bindingResult);
+        }
+    }
 }

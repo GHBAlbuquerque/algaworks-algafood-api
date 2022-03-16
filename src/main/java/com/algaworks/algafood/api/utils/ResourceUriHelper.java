@@ -9,7 +9,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @UtilityClass
 public class ResourceUriHelper {
 
-    public static void addUriInResponseHeader(Object resourceId){
+    public static void addUriInResponseHeader(Object resourceId) {
         var uri = ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/{id}")
                 .buildAndExpand(resourceId)

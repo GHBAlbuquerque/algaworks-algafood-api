@@ -46,8 +46,6 @@ public class UsuarioAssembler extends RepresentationModelAssemblerSupport<Usuari
                     linkGenerator.linkToUsuarioGruposDesassociar(usuario.getId(), grupo.getId())));
 
 
-
-
             return model;
         } catch (IllegalArgumentException ex) {
             throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.");

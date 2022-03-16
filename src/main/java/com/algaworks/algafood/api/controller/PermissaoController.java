@@ -18,49 +18,49 @@ import javax.validation.Valid;
 @RequestMapping("/permissoes")
 public class PermissaoController implements PermissaoControllerOpenApi {
 
-	@Autowired
-	private PermissaoRepository permissaoRepository;
+    @Autowired
+    private PermissaoRepository permissaoRepository;
 
-	@Autowired
-	private PermissaoService permissaoService;
+    @Autowired
+    private PermissaoService permissaoService;
 
-	@Autowired
-	private PermissaoAssembler assembler;
+    @Autowired
+    private PermissaoAssembler assembler;
 
-	@ResponseStatus(HttpStatus.OK)
-	@GetMapping
-	public CollectionModel<PermissaoDTO> listar() {
-		var permissoes = permissaoRepository.findAll();
-		return assembler.toCollectionModel(permissoes);
-	}
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping
+    public CollectionModel<PermissaoDTO> listar() {
+        var permissoes = permissaoRepository.findAll();
+        return assembler.toCollectionModel(permissoes);
+    }
 
-	@GetMapping("/{id}")
-	public PermissaoDTO buscar(@PathVariable long id) {
-		var permissao = permissaoService.buscar(id);
-		return assembler.toModel(permissao);
-	}
+    @GetMapping("/{id}")
+    public PermissaoDTO buscar(@PathVariable long id) {
+        var permissao = permissaoService.buscar(id);
+        return assembler.toModel(permissao);
+    }
 
-	@PostMapping()
-	@ResponseStatus(HttpStatus.CREATED)
-	public PermissaoDTO salvar(@RequestBody @Valid PermissaoInputDTO permissaoInput) {
-		var permissao = assembler.toEntity(permissaoInput);
-		permissao = permissaoService.salvar(permissao);
-		return assembler.toModel(permissao);
-	}
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public PermissaoDTO salvar(@RequestBody @Valid PermissaoInputDTO permissaoInput) {
+        var permissao = assembler.toEntity(permissaoInput);
+        permissao = permissaoService.salvar(permissao);
+        return assembler.toModel(permissao);
+    }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<PermissaoDTO> atualizar(@PathVariable long id, @RequestBody @Valid PermissaoInputDTO permissaoInput) {
-		var permissaoExistente = permissaoService.buscar(id);
-		assembler.copyToInstance(permissaoInput, permissaoExistente);
+    @PutMapping("/{id}")
+    public ResponseEntity<PermissaoDTO> atualizar(@PathVariable long id, @RequestBody @Valid PermissaoInputDTO permissaoInput) {
+        var permissaoExistente = permissaoService.buscar(id);
+        assembler.copyToInstance(permissaoInput, permissaoExistente);
 
-		var permissao = permissaoService.salvar(permissaoExistente);
-		return ResponseEntity.ok(assembler.toModel(permissao));
-	}
+        var permissao = permissaoService.salvar(permissaoExistente);
+        return ResponseEntity.ok(assembler.toModel(permissao));
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deletar(@PathVariable long id) {
-		permissaoService.remover(id);
-		return ResponseEntity.noContent().build();
-	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletar(@PathVariable long id) {
+        permissaoService.remover(id);
+        return ResponseEntity.noContent().build();
+    }
 
 }

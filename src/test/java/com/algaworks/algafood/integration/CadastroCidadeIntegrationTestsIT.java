@@ -18,7 +18,7 @@ public class CadastroCidadeIntegrationTestsIT {
     private Estado estado = new Estado(1L, "Amapá", "AM");
 
     @Test
-    public void salvar_cidadeCorreto_retornaSucesso(){
+    public void salvar_cidadeCorreto_retornaSucesso() {
         // 1. Preparação
         var novaCidade = new Cidade();
         novaCidade.setNome("Macapá");
@@ -33,7 +33,7 @@ public class CadastroCidadeIntegrationTestsIT {
     }
 
     @Test
-    public void salvar_cidadeSemNome_retornaErro(){
+    public void salvar_cidadeSemNome_retornaErro() {
         // 1. Preparação
         var novaCidade = new Cidade();
         novaCidade.setEstado(estado);
@@ -44,7 +44,7 @@ public class CadastroCidadeIntegrationTestsIT {
     }
 
     @Test
-    public void salvar_cidadeSemEstado_retornaErro(){
+    public void salvar_cidadeSemEstado_retornaErro() {
         // 1. Preparação
         var novaCidade = new Cidade();
         novaCidade.setNome("Macapá");
@@ -53,7 +53,6 @@ public class CadastroCidadeIntegrationTestsIT {
         Assertions.assertThrows(ValidacaoException.class, () ->
                 service.salvar(novaCidade));
     }
-
 
 
 }

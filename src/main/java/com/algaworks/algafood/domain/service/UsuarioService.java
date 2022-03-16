@@ -39,7 +39,7 @@ public class UsuarioService {
 
         var usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
 
-        if(usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
+        if (usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
             throw new NegocioException(String.format("Já existe um usuário cadastrado com o email %s.", usuario.getEmail()));
         }
 
@@ -67,7 +67,7 @@ public class UsuarioService {
         var usuario = buscar(id);
         var senhaAtual = usuario.getSenha();
 
-        if(senhaAtual.equals(senha.getSenhaAtual())) {
+        if (senhaAtual.equals(senha.getSenhaAtual())) {
             usuario.setSenha(senha.getNovaSenha());
             usuarioRepository.save(usuario);
         } else {

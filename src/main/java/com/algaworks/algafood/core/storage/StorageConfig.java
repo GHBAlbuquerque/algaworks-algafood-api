@@ -1,8 +1,8 @@
 package com.algaworks.algafood.core.storage;
 
+import com.algaworks.algafood.domain.service.FotoStorageService;
 import com.algaworks.algafood.infrastructure.impl.storage.LocalFotoStorageService;
 import com.algaworks.algafood.infrastructure.impl.storage.S3FotoStorageService;
-import com.algaworks.algafood.domain.service.FotoStorageService;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -18,7 +18,7 @@ public class StorageConfig {
     private StorageProperties storageProperties;
 
     @Bean
-    public AmazonS3 amazonS3(){
+    public AmazonS3 amazonS3() {
         var credentials = new BasicAWSCredentials(
                 storageProperties.getS3().getIdAcesso(),
                 storageProperties.getS3().getChaveAcesso());
@@ -30,8 +30,8 @@ public class StorageConfig {
     }
 
     @Bean
-    public FotoStorageService fotoStorageService(){
-        if(StorageProperties.TipoStorage.S3.equals(storageProperties.getTipo())){
+    public FotoStorageService fotoStorageService() {
+        if (StorageProperties.TipoStorage.S3.equals(storageProperties.getTipo())) {
             return new S3FotoStorageService();
         } else {
             return new LocalFotoStorageService();

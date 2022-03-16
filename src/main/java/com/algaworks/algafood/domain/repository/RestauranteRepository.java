@@ -11,16 +11,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante>  {
-	
-	//query no arquivo orm.xml
-	List<Restaurante> consultarPorNomeECozinha(String nome, @Param("id") Long cozinha);
-	
-	Optional<Restaurante> findFirstRestauranteByNomeContaining(String nome);
-	
-	List<Restaurante> findTop2ByNomeContaining(String nome);
-	
-	List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
-	
-	int countByCozinhaId(Long cozinha);
+public interface RestauranteRepository extends JpaRepository<Restaurante, Long>, RestauranteRepositoryQueries, JpaSpecificationExecutor<Restaurante> {
+
+    //query no arquivo orm.xml
+    List<Restaurante> consultarPorNomeECozinha(String nome, @Param("id") Long cozinha);
+
+    Optional<Restaurante> findFirstRestauranteByNomeContaining(String nome);
+
+    List<Restaurante> findTop2ByNomeContaining(String nome);
+
+    List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
+
+    int countByCozinhaId(Long cozinha);
 }

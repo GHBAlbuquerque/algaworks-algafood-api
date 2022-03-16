@@ -34,7 +34,7 @@ public class CidadeController implements CidadeControllerOpenApi {
     @GetMapping
     public CollectionModel<CidadeDTO> listar() {
         var cidades = cidadeRepository.findAll();
-       return assembler.toCollectionModel(cidades);
+        return assembler.toCollectionModel(cidades);
     }
 
     @GetMapping("/{id}")

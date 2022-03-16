@@ -7,7 +7,6 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 @Getter
 @Setter

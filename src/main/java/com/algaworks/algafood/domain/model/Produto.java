@@ -13,34 +13,34 @@ import java.math.BigDecimal;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
 public class Produto {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@EqualsAndHashCode.Include
-	private Long id;
-	
-	@Column(nullable = false)
-	private String nome;
-	
-	private String descricao;
-	
-	@Column(nullable = false)
-	private BigDecimal preco;
-	
-	@Column(nullable = false)
-	private Boolean ativo;
 
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private Restaurante restaurante;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Long id;
 
-	public void ativar() {
-		setAtivo(true);
-	}
+    @Column(nullable = false)
+    private String nome;
 
-	public void desativar() {
-		setAtivo(false);
-	}
+    private String descricao;
+
+    @Column(nullable = false)
+    private BigDecimal preco;
+
+    @Column(nullable = false)
+    private Boolean ativo;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Restaurante restaurante;
+
+    public void ativar() {
+        setAtivo(true);
+    }
+
+    public void desativar() {
+        setAtivo(false);
+    }
 
 }

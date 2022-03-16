@@ -12,39 +12,39 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ItemPedido {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@EqualsAndHashCode.Include
-	private Long id;
-	
-	@Column(nullable = false)
-	private Integer quantidade;
-	
-	@Column(nullable = false)
-	private BigDecimal precoUnitario;
-	
-	@Column(nullable = false)
-	private BigDecimal precoTotal;
-	
-	private String observacao;
 
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private Pedido pedido;
-	
-	@ManyToOne
-	@JoinColumn(nullable = false)
-	private Produto produto;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Long id;
 
-	public void definirPrecoTotal(){
-		definirPrecoUnitario();
-		this.precoTotal = this.precoUnitario
-				.multiply(BigDecimal.valueOf(this.quantidade));
-	}
+    @Column(nullable = false)
+    private Integer quantidade;
 
-	private void definirPrecoUnitario(){
-		this.precoUnitario = this.produto.getPreco();
-	}
+    @Column(nullable = false)
+    private BigDecimal precoUnitario;
+
+    @Column(nullable = false)
+    private BigDecimal precoTotal;
+
+    private String observacao;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Pedido pedido;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Produto produto;
+
+    public void definirPrecoTotal() {
+        definirPrecoUnitario();
+        this.precoTotal = this.precoUnitario
+                .multiply(BigDecimal.valueOf(this.quantidade));
+    }
+
+    private void definirPrecoUnitario() {
+        this.precoUnitario = this.produto.getPreco();
+    }
 
 }

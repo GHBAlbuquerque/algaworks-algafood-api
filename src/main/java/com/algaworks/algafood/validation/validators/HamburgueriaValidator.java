@@ -22,10 +22,10 @@ public class HamburgueriaValidator implements ConstraintValidator<Hamburgueria, 
 
     @Override
     public boolean isValid(RestauranteInputDTO value, ConstraintValidatorContext context) {
-            Long id = value.getCozinhaId();
-            Long idHamburgueria = 8l;
-            if (idHamburgueria.equals(id)) return value.getNome().contains(this.nomeObrigatorio);
+        Long id = value.getCozinhaId();
+        Long idHamburgueria = 8l;
+        if (idHamburgueria.equals(id)) return value.getNome().contains(this.nomeObrigatorio);
 
-            return true;
+        return true;
     }
 }

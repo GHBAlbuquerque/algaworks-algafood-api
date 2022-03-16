@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @ApiModel("CollectionModel - Paged")
-public class CollectionModelPagedOpenApi<T> extends CollectionModelOpenApi<T>{
+public class CollectionModelPagedOpenApi<T> extends CollectionModelOpenApi<T> {
 
     private PagedModelOpenApi page;
 }

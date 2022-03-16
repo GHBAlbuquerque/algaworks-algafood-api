@@ -112,7 +112,7 @@ public class Pedido extends AbstractAggregateRoot<Pedido> {
     }
 
     private void updateStatus(StatusPedidoEnum novoStatus) {
-        if(!this.status.podeSerAlterado(novoStatus)) {
+        if (!this.status.podeSerAlterado(novoStatus)) {
             throw new NegocioException(String.format("O pedido %s não pode ser alterado de %s para %s.", id,
                     this.status, novoStatus));
         }

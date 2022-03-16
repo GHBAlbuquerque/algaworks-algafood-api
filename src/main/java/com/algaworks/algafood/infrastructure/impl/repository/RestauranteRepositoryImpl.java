@@ -14,14 +14,15 @@ import static com.algaworks.algafood.infrastructure.spec.RestauranteSpecs.comNom
 
 @Repository
 public class RestauranteRepositoryImpl implements RestauranteRepositoryQueries {
-	
-	//Referencia ciruclar. O repo implementa o Queries, mas Queries usa o repo.
-	@Autowired @Lazy
-	private RestauranteRepository restauranteRepository;
 
-	@Override
-	public List<Restaurante> buscarComFreteGratis(String nome) {
-		return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
-	}
+    //Referencia ciruclar. O repo implementa o Queries, mas Queries usa o repo.
+    @Autowired
+    @Lazy
+    private RestauranteRepository restauranteRepository;
+
+    @Override
+    public List<Restaurante> buscarComFreteGratis(String nome) {
+        return restauranteRepository.findAll(comFreteGratis().and(comNomeSemelhante(nome)));
+    }
 
 }

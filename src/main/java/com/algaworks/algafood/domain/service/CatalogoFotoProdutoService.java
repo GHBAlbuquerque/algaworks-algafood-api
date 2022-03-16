@@ -34,10 +34,11 @@ public class CatalogoFotoProdutoService {
 
         var fotoExistente = produtoRepository.findFotoById(restaurantId, produtoId);
 
-        if (fotoExistente.isPresent()){
+        if (fotoExistente.isPresent()) {
             nomeArquivoExistente = fotoExistente.get().getNomeArquivo();
             produtoRepository.deleteFoto(fotoExistente.get());
-        };
+        }
+        ;
 
         foto.setNomeArquivo(novoNomeArquivo);
         var fotoSalva = produtoRepository.saveFoto(foto);
@@ -54,7 +55,7 @@ public class CatalogoFotoProdutoService {
         return fotoSalva;
     }
 
-    public FotoStorageService.FotoRecuperada recuperar(String nomeArquivo){
+    public FotoStorageService.FotoRecuperada recuperar(String nomeArquivo) {
         return fotoStorageService.recuperar(nomeArquivo);
     }
 
