@@ -1,6 +1,6 @@
 package com.algaworks.algafood.validation.validators;
 
-import com.algaworks.algafood.api.model.input.RestauranteInputDTO;
+import com.algaworks.algafood.api.v1.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.validation.annotations.Hamburgueria;
 
 import javax.validation.ConstraintValidator;

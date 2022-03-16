@@ -1,13 +1,13 @@
 package com.algaworks.algafood.core.openapi;
 
-import com.algaworks.algafood.api.exceptionhandler.CustomProblem;
-import com.algaworks.algafood.api.exceptionhandler.GenericProblem;
-import com.algaworks.algafood.api.model.output.*;
-import com.algaworks.algafood.api.openapi.model.PageModelOpenApi;
-import com.algaworks.algafood.api.openapi.model.PageableModelOpenApi;
-import com.algaworks.algafood.api.openapi.model.hateoas.CollectionModelOpenApi;
-import com.algaworks.algafood.api.openapi.model.hateoas.CollectionModelPagedOpenApi;
-import com.algaworks.algafood.api.openapi.model.hateoas.LinksModelOpenApi;
+import com.algaworks.algafood.api.v1.exceptionhandler.CustomProblem;
+import com.algaworks.algafood.api.v1.exceptionhandler.GenericProblem;
+import com.algaworks.algafood.api.v1.model.output.*;
+import com.algaworks.algafood.api.v1.openapi.model.PageModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.PageableModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.hateoas.CollectionModelOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.hateoas.CollectionModelPagedOpenApi;
+import com.algaworks.algafood.api.v1.openapi.model.hateoas.LinksModelOpenApi;
 import com.algaworks.algafood.domain.model.FotoProduto;
 import com.fasterxml.classmate.TypeResolver;
 import org.springframework.context.annotation.Bean;
@@ -120,13 +120,13 @@ public class SpringFoxConfig {
     private Consumer<RepresentationBuilder> getCustomProblemModelReference() {
         return r -> r.model(m -> m.name("CustomProblem")
                 .referenceModel(ref -> ref.key(k -> k.qualifiedModelName(
-                        q -> q.name("CustomProblem").namespace("com.algaworks.algafood.api.exceptionhandler")))));
+                        q -> q.name("CustomProblem").namespace("com.algaworks.algafood.api.v1.exceptionhandler")))));
     }
 
     private Consumer<RepresentationBuilder> getGenericProblemModelReference() {
         return r -> r.model(m -> m.name("GenericProblem")
                 .referenceModel(ref -> ref.key(k -> k.qualifiedModelName(
-                        q -> q.name("GenericProblem").namespace("com.algaworks.algafood.api.exceptionhandler")))));
+                        q -> q.name("GenericProblem").namespace("com.algaworks.algafood.api.v1.exceptionhandler")))));
     }
 
     private List<Response> globalGetResponseMessages() {

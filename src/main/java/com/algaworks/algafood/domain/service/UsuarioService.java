@@ -1,6 +1,6 @@
 package com.algaworks.algafood.domain.service;
 
-import com.algaworks.algafood.api.model.input.update.SenhaUpdateDTO;
+import com.algaworks.algafood.api.v1.model.input.update.SenhaUpdateDTO;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.entitynotfound.UsuarioNaoEncontradoException;
