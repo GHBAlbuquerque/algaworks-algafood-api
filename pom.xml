@@ -25,6 +25,8 @@
         <spring-boot-starter-mail.version>2.5.6</spring-boot-starter-mail.version>
         <springfox.version>3.0.0</springfox.version>
         <loggly.version>0.1.5</loggly.version>
+        <spring-resource-server.version>5.6.1</spring-resource-server.version>
+        <oauth2-oidc-sdk.version>6.21.2</oauth2-oidc-sdk.version>
     </properties>
 
     <dependencies>
@@ -143,6 +145,17 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-oauth2-resource-server -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-resource-server</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>oauth2-oidc-sdk</artifactId>
+            <version>${oauth2-oidc-sdk.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
