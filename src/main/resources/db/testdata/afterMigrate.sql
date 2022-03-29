@@ -67,7 +67,7 @@ insert into usuario (id, nome, email, senha, data_cadastro) values (3, 'James Do
 insert into usuario (id, nome, email, senha, data_cadastro) values (4, 'Heather Connor', 'connor@gmail.com', '12345aa', utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (5, 'Rick Snozcumber', 'snozcumber@gmail.com', '12345aa', utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (6, 'Zoe Ramsbottom', 'ramsbottom@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (7, 'Jenna Fish', 'fish@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (7, 'Jenna Fish', 'fish@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (8, 'Warwick Cockle', 'fuvain@gmail.com', '12345aa', utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (9, 'Dan Bundler', 'bundler@gmail.com', '12345aa', utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (10, 'Zach Nolan', 'fuvain@gmail.com', '12345aa', utc_timestamp);
