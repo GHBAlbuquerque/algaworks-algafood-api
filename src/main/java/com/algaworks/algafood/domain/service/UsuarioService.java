@@ -9,6 +9,7 @@ import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -28,6 +29,9 @@ public class UsuarioService {
     @Autowired
     private EntityManager entityManager;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public Usuario buscar(long id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new UsuarioNaoEncontradoException(id));
@@ -41,6 +45,11 @@ public class UsuarioService {
 
         if (usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
             throw new NegocioException(String.format("Já existe um usuário cadastrado com o email %s.", usuario.getEmail()));
+        }
+
+        if (usuario.isNovo()) {
+            var senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
+            usuario.setSenha(senhaCriptografada);
         }
 
         return usuarioRepository.save(usuario);
@@ -67,12 +76,12 @@ public class UsuarioService {
         var usuario = buscar(id);
         var senhaAtual = usuario.getSenha();
 
-        if (senhaAtual.equals(senha.getSenhaAtual())) {
-            usuario.setSenha(senha.getNovaSenha());
-            usuarioRepository.save(usuario);
-        } else {
+        if (!passwordEncoder.matches(senha.getSenhaAtual(), senhaAtual))
             throw new NegocioException("Senha atual não coincide com a senha do usuário.");
-        }
+
+        var senhaCriptograda = passwordEncoder.encode(senha.getNovaSenha());
+        usuario.setSenha(senha.getNovaSenha());
+        usuarioRepository.save(usuario);
     }
 
     // MANIPULAÇÃO DE GRUPOS

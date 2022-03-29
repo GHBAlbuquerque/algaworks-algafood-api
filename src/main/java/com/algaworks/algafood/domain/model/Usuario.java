@@ -40,4 +40,8 @@ public class Usuario {
             inverseJoinColumns = @JoinColumn(name = "grupo_id"))
     private Set<Grupo> grupos = new HashSet<>();
 
+    public boolean isNovo() {
+        return getId() == null;
+    }
+
 }

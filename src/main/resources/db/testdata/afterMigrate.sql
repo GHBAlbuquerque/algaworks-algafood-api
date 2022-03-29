@@ -61,27 +61,27 @@ insert into permissao (id, nome, descricao) values (4, 'EDITAR_RESTAURANTES', 'P
 insert into grupo (id, nome) values (1, 'ADMIN_RESTAURANTE');
 insert into grupo (id, nome) values (2, 'FUNCIONARIO_RESTAURANTE');
 
-insert into usuario (id, nome, email, senha, data_cadastro) values (1, 'Fred Jolie', 'jolie@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (2, 'Felicity Wilson', 'wilson@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (3, 'James Doop', 'doop@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (4, 'Heather Connor', 'connor@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (5, 'Rick Snozcumber', 'snozcumber@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (6, 'Zoe Ramsbottom', 'ramsbottom@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (1, 'Fred Jolie', 'jolie@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (2, 'Felicity Wilson', 'wilson@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (3, 'James Doop', 'doop@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (4, 'Heather Connor', 'connor@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (5, 'Rick Snozcumber', 'snozcumber@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (6, 'Zoe Ramsbottom', 'ramsbottom@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
 insert into usuario (id, nome, email, senha, data_cadastro) values (7, 'Jenna Fish', 'fish@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (8, 'Warwick Cockle', 'fuvain@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (9, 'Dan Bundler', 'bundler@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (10, 'Zach Nolan', 'fuvain@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (11, 'Dan Meadows', 'meadows@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (12, 'Beth Hemingway', 'hemingway@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (13, 'Roy Fish', 'rfish@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (14, 'Luke Pitt', 'pitt@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (15, 'Saskia Schwartz', 'Schwartz@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (16, 'Sabrina Zuniga', 'Zuniga@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (17, 'Shakira Larsen', 'Larsen@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (18, 'Sumaya Burton', 'hemingway@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (19, 'Serena Rice', 'Rice@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (20, 'Sylvia Lane', 'Lane@gmail.com', '12345aa', utc_timestamp);
-insert into usuario (id, nome, email, senha, data_cadastro) values (21, 'Aurora Gemini', 'auroragemini0@gmail.com', '12345aa', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (8, 'Warwick Cockle', 'fuvain@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (9, 'Dan Bundler', 'bundler@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (10, 'Zach Nolan', 'fuvain@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (11, 'Dan Meadows', 'meadows@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (12, 'Beth Hemingway', 'hemingway@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (13, 'Roy Fish', 'rfish@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (14, 'Luke Pitt', 'pitt@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (15, 'Saskia Schwartz', 'Schwartz@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (16, 'Sabrina Zuniga', 'Zuniga@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (17, 'Shakira Larsen', 'Larsen@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (18, 'Sumaya Burton', 'hemingway@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (19, 'Serena Rice', 'Rice@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (20, 'Sylvia Lane', 'Lane@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
+insert into usuario (id, nome, email, senha, data_cadastro) values (21, 'Aurora Gemini', 'auroragemini0@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
 
 
 insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values ('Senhor Glutão', 12.50, 5, 1, '38400999', 'Rua João Pinheiro', '1000', 'Centro', utc_timestamp, utc_timestamp, true, true);
