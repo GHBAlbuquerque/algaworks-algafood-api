@@ -22,9 +22,10 @@ public class PedidoInputDTO {
     @JsonProperty("restaurante")
     private Long restauranteId;
 
+    /*
     @NotNull
     @JsonProperty("cliente")
-    private Long clienteId;
+    private Long clienteId; >>> FEITO VIA AUTH em AlgaSecurity*/
 
     @NotNull
     @Valid

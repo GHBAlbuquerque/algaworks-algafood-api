@@ -6,11 +6,13 @@ import com.algaworks.algafood.api.v1.model.output.PedidoDTO;
 import com.algaworks.algafood.api.v1.model.output.PedidoSingletonDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.PedidoControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.ResourceUriHelper;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.filter.PedidoFilter;
 import com.algaworks.algafood.domain.model.Pedido;
+import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.PedidoRepository;
 import com.algaworks.algafood.domain.service.PedidoService;
 import com.algaworks.algafood.domain.service.StatusPedidoService;
@@ -46,6 +48,9 @@ public class PedidoController implements PedidoControllerOpenApi {
     @Autowired
     private PagedResourcesAssembler<Pedido> pagedResourcesAssembler;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public CollectionModel<PedidoDTO> listar() {
@@ -79,8 +84,11 @@ public class PedidoController implements PedidoControllerOpenApi {
     public PedidoSingletonDTO salvar(@RequestBody @Valid PedidoInputDTO pedidoInput) {
         try {
             var status = StatusPedidoEnum.traduzir(pedidoInput.getStatus());
-
             var pedido = assembler.toEntity(pedidoInput);
+
+            pedido.setCliente(new Usuario());
+            pedido.getCliente().setId(algaSecurity.getUsuarioId());
+
             pedido = pedidoService.salvar(pedido);
             var model = assembler.toSingletonModel(pedido);
 
