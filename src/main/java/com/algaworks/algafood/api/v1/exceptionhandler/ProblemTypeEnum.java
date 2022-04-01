@@ -15,12 +15,11 @@ public enum ProblemTypeEnum {
     ERRO_AO_VALIDAR("Erro ao validar", "/erro-ao-validar"),
     ERRO_AO_CONVERTER("Erro ao converter", "/erro-ao-converter"),
     ERRO_AO_MANIPULAR_ARQUIVO("Erro ao manipular arquivo", "/erro-ao-manipular-arquivo"),
-    ERRO_DE_EMAIL("Erro de e-mail", "/erro-de-email");
-
+    ERRO_DE_EMAIL("Erro de e-mail", "/erro-de-email"),
+    ACESSO_NEGADO("/acesso-negado", "Acesso negado");
 
     private final String title;
     private final String uri;
-
 
     private ProblemTypeEnum(String title, String path) {
         this.title = title;

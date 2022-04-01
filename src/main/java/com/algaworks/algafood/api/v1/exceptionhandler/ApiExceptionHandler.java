@@ -17,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -284,10 +285,25 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(status).headers(headers).build();
     }
 
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAcessDenied(AccessDeniedException ex, WebRequest request) {
+
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        var problemType = ProblemTypeEnum.ACESSO_NEGADO;
+        var detail = ex.getMessage();
+
+        GenericProblem problem = genericProblemBuilder(status, problemType, detail)
+                .build();
+`
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
     // ------------ BUILDERS ---------------------
 
     private GenericProblem.GenericProblemBuilder genericProblemBuilder(HttpStatus status,
-                                                                       ProblemTypeEnum problemTypeEnum, String detail) {
+                                                                       ProblemTypeEnum problemTypeEnum,
+                                                                       String detail) {
         return GenericProblem.builder()
                 .status(status.value())
                 .type(problemTypeEnum.getUri())
@@ -296,7 +312,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private CustomProblem.CustomProblemBuilder customProblemBuilder(HttpStatus status,
-                                                                    ProblemTypeEnum problemTypeEnum, String detail, String userMessage, OffsetDateTime dataHora, List<CustomProblem.Field> fields) {
+                                                                    ProblemTypeEnum problemTypeEnum,
+                                                                    String detail, String userMessage,
+                                                                    OffsetDateTime dataHora,
+                                                                    List<CustomProblem.Field> fields) {
 
         return CustomProblem.customProblemBuilder()
                 .status(status.value())
