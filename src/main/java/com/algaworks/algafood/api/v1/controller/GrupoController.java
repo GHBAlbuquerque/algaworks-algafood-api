@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,6 +29,7 @@ public class GrupoController implements GrupoControllerOpenApi {
     @Autowired
     private GrupoAssembler assembler;
 
+    @PreAuthorize("isAuthenticated()")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public CollectionModel<GrupoDTO> listar() {
