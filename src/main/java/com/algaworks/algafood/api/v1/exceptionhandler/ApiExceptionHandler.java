@@ -295,7 +295,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         GenericProblem problem = genericProblemBuilder(status, problemType, detail)
                 .build();
-`
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
 
