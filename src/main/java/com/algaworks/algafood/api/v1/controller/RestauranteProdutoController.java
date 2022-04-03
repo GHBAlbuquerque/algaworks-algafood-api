@@ -32,6 +32,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
     @Autowired
     private LinkGenerator linkGenerator;
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @GetMapping()
     public CollectionModel<ProdutoDTO> listar(@PathVariable Long idRestaurante,
                                               @RequestParam(required = false) Boolean incluirInativos) {
@@ -39,6 +40,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
         return assembler.toCollectionModel(produtos).add(linkGenerator.linkToProdutos(idRestaurante));
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @GetMapping("/{idProduto}")
     public ProdutoDTO buscar(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
         var produto = restauranteService.buscarProdutoPorRestaurante(idRestaurante, idProduto);
