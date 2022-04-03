@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.v1.assembler.UsuarioAssembler;
 import com.algaworks.algafood.api.v1.model.output.UsuarioDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteUsuarioControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.LinkGenerator;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.RestauranteService;
@@ -30,6 +31,7 @@ public class RestauranteUsuarioController implements RestauranteUsuarioControlle
     @Autowired
     private LinkGenerator linkGenerator;
 
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @GetMapping()
     public CollectionModel<UsuarioDTO> listar(@PathVariable Long idRestaurante) {
         var restaurante = restauranteService.buscar(idRestaurante);
@@ -46,6 +48,7 @@ public class RestauranteUsuarioController implements RestauranteUsuarioControlle
                         linkGenerator.linkToResponsavelRestauranteAdicionar(idRestaurante));
     }
 
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @PutMapping("/{idUsuario}")
     public ResponseEntity<Void> adicionar(@PathVariable Long idRestaurante, @PathVariable Long idUsuario) {
         try {
@@ -56,6 +59,7 @@ public class RestauranteUsuarioController implements RestauranteUsuarioControlle
         }
     }
 
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @DeleteMapping("/{idUsuario}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> remover(@PathVariable Long idRestaurante, @PathVariable Long idUsuario) {
