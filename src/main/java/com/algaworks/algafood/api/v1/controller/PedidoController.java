@@ -76,8 +76,8 @@ public class PedidoController implements PedidoControllerOpenApi {
 
     @CheckSecurity.Pedidos.PodeBuscar
     @GetMapping("/{codigo}")
-    public PedidoSingletonDTO buscar(@PathVariable String codigoPedido) {
-        var pedido = pedidoService.buscar(codigoPedido);
+    public PedidoSingletonDTO buscar(@PathVariable String codigo) {
+        var pedido = pedidoService.buscar(codigo);
         return assembler.toSingletonModel(pedido);
     }
 
