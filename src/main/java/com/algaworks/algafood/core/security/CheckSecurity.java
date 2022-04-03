@@ -49,13 +49,28 @@ public @interface CheckSecurity {
 
     public @interface Pedidos {
 
-        @PreAuthorize("isAuthenticated() and isAuthenticated()")
+        @PreAuthorize("isAuthenticated()")
+        @PostAuthorize("hasAuthority('CONSULTAR_PEDIDOS')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeListar {
+        }
+
+        @PreAuthorize("isAuthenticated()")
         @PostAuthorize("hasAuthority('CONSULTAR_PEDIDOS') or " //executado depois da busca ser feita, antes do resultado ser deserializado
                 + "@algaSecurity.getUsuarioId() == returnObject.cliente.id or " //posso chamar o objeto retornado via returnObject
                 + "@algaSecurity.gerenciaRestaurante(returnObject.restaurante.id)")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeBuscar {
+        }
+
+        @PreAuthorize("hasAuthority('CONSULTAR_PEDIDOS') or "
+                + "@algaSecurity.getUsuarioId() == #filter.clienteId or"
+                + "@algaSecurity.gerenciaRestaurante(#filter.restauranteId)")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodePesquisar {
         }
 
     }

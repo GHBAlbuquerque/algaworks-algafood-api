@@ -52,6 +52,7 @@ public class PedidoController implements PedidoControllerOpenApi {
     @Autowired
     private AlgaSecurity algaSecurity;
 
+    @CheckSecurity.Pedidos.PodeListar
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public CollectionModel<PedidoDTO> listar() {
@@ -59,6 +60,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         return assembler.toCollectionModel(pedidos);
     }
 
+    @CheckSecurity.Pedidos.PodeListar
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(params = "view=resumo")
     public CollectionModel<PedidoDTO> listarResumido() {
@@ -66,6 +68,7 @@ public class PedidoController implements PedidoControllerOpenApi {
     }
 
 
+    @CheckSecurity.Pedidos.PodePesquisar
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/pesquisar")
     public PagedModel<PedidoDTO> pesquisar(PedidoFilter filter, @PageableDefault(size = 10) Pageable pageable) {
