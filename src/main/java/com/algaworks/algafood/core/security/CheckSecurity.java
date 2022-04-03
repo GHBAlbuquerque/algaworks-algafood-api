@@ -90,15 +90,13 @@ public @interface CheckSecurity {
 
     public @interface FormasPagamento {
 
-        @PreAuthorize("isAuthenticated()")
-        @PostAuthorize("hasAuthority('CONSULTAR_FORMAS_PAGAMENTO')")
+        @PreAuthorize("hasAuthority('CONSULTAR_FORMAS_PAGAMENTO')")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeConsultar {
         }
 
-        @PreAuthorize("isAuthenticated()")
-        @PostAuthorize("hasAuthority('EDITAR_FORMAS_PAGAMENTO')")
+        @PreAuthorize("hasAuthority('EDITAR_FORMAS_PAGAMENTO')")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeEditar {
@@ -106,15 +104,13 @@ public @interface CheckSecurity {
     }
 
     public @interface Cidades {
-        @PreAuthorize("isAuthenticated()")
-        @PostAuthorize("hasAuthority('CONSULTAR_CIDADES')")
+        @PreAuthorize("hasAuthority('CONSULTAR_CIDADES')")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeConsultar {
         }
 
-        @PreAuthorize("isAuthenticated()")
-        @PostAuthorize("hasAuthority('EDITAR_CIDADES')")
+        @PreAuthorize("hasAuthority('EDITAR_CIDADES')")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeEditar {
@@ -122,15 +118,13 @@ public @interface CheckSecurity {
     }
 
     public @interface Estados {
-        @PreAuthorize("isAuthenticated()")
-        @PostAuthorize("hasAuthority('CONSULTAR_ESTADOS')")
+        @PreAuthorize("hasAuthority('CONSULTAR_ESTADOS')")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeConsultar {
         }
 
-        @PreAuthorize("isAuthenticated()")
-        @PostAuthorize("hasAuthority('EDITAR_ESTADOS')")
+        @PreAuthorize("hasAuthority('EDITAR_ESTADOS')")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeEditar {
