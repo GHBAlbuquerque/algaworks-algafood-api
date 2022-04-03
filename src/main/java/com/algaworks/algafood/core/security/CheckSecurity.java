@@ -73,6 +73,19 @@ public @interface CheckSecurity {
         public @interface PodePesquisar {
         }
 
+        @PreAuthorize("hasAuthority('GERENCIAR_PEDIDOS') or "
+                + "@algaSecurity.gerenciaRestauranteDoPedido(#codigoPedido)")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeGerenciarStatus {
+        }
+
+        @PreAuthorize("isAuthenticated()")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeCriar {
+        }
+
     }
 
 }

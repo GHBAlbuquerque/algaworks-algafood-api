@@ -84,6 +84,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         return assembler.toSingletonModel(pedido);
     }
 
+    @CheckSecurity.Pedidos.PodeCriar
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public PedidoSingletonDTO salvar(@RequestBody @Valid PedidoInputDTO pedidoInput) {
@@ -104,6 +105,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         }
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarStatus
     @PutMapping("/{codigo}/confirmacao")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> confirmar(@PathVariable String codigo) {
@@ -111,6 +113,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarStatus
     @PutMapping("/{codigo}/entrega")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> entregar(@PathVariable String codigo) {
@@ -118,6 +121,7 @@ public class PedidoController implements PedidoControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Pedidos.PodeGerenciarStatus
     @DeleteMapping("/{codigo}/cancelamento")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> cancelar(@PathVariable String codigo) {
