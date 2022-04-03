@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.v1.assembler.PermissaoAssembler;
 import com.algaworks.algafood.api.v1.model.output.PermissaoDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.GrupoPermissaoControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.LinkGenerator;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.GrupoService;
@@ -30,6 +31,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
     @Autowired
     private LinkGenerator linkGenerator;
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @GetMapping()
     public CollectionModel<PermissaoDTO> listar(@PathVariable Long idGrupo) {
         var grupo = grupoService.buscar(idGrupo);
@@ -43,6 +45,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
         return models;
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @PutMapping("/{idPermissao}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> adicionar(@PathVariable Long idGrupo, @PathVariable Long idPermissao) {
@@ -54,6 +57,7 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
         }
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @DeleteMapping("/{idPermissao}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> remover(@PathVariable Long idGrupo, @PathVariable Long idPermissao) {
