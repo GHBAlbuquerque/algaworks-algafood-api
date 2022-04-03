@@ -6,6 +6,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 //classe de meta anotações de segurança
@@ -33,10 +34,10 @@ public @interface CheckSecurity {
 
     public @interface Pedidos {
 
-        @PreAuthorize("isAuthenticated() and" +
-                "(hasAuthority('CONSULTAR_PEDIDOS') or " +
-                "@algasecurity.clienteDoPedido(#codigoPedido) or" +
-                "@algasecurity.gerenciaRestaurantePedido(#codigoPedido))")
+        @PreAuthorize("isAuthenticated() and isAuthenticated()")
+        @PostAuthorize("hasAuthority('CONSULTAR_PEDIDOS') or "
+                + "@algaSecurity.getUsuarioId() == returnObject.cliente.id or " //posso chama ro objeto retornado via returnObject
+                + "@algaSecurity.gerenciaRestaurante(returnObject.restaurante.id)")//executado depois da busca ser feita, antes do resultado ser deserializado
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeBuscar { }

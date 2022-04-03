@@ -27,11 +27,4 @@ public class AlgaSecurity {
         return ehResponsavel;
     }
 
-    public boolean clienteDoPedido(String codigoPedido) {
-        return true;
-    }
-
-    public boolean gerenciaRestaurantePedido(String codigoPedido) {
-        return true;
-    }
 }
