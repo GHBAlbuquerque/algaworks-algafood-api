@@ -23,4 +23,7 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long>,
     List<Restaurante> queryByTaxaFreteBetween(BigDecimal taxaInicial, BigDecimal taxaFinal);
 
     int countByCozinhaId(Long cozinha);
+
+    //query no arquivo orm.xml
+    boolean existeResponsavel(Long restauranteId, Long usuarioId);
 }
