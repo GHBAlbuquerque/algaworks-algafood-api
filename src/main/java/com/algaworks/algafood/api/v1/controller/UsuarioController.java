@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.v1.model.input.update.UsuarioUpdateDTO;
 import com.algaworks.algafood.api.v1.model.output.UsuarioDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.UsuarioControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.ResourceUriHelper;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
 import com.algaworks.algafood.domain.service.UsuarioService;
@@ -36,6 +37,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
     @Autowired
     private PagedResourcesAssembler<Usuario> pagedResourcesAssembler;
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public PagedModel<UsuarioDTO> listar(Pageable pageable) {
@@ -43,12 +45,14 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         return pagedResourcesAssembler.toModel(usuariosPage, assembler);
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @GetMapping("/{id}")
     public UsuarioDTO buscar(@PathVariable long id) {
         var usuario = usuarioService.buscar(id);
         return assembler.toModel(usuario);
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioDTO salvar(@RequestBody @Valid UsuarioInputDTO usuarioInput) {
@@ -60,6 +64,7 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         return model;
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeAlterarUsuario
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioDTO> atualizar(@PathVariable long id, @RequestBody @Valid UsuarioUpdateDTO usuarioInput) {
         var usuarioExistente = usuarioService.buscar(id);
@@ -69,12 +74,14 @@ public class UsuarioController implements UsuarioControllerOpenApi {
         return ResponseEntity.ok(assembler.toModel(usuario));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable long id) {
         usuarioService.remover(id);
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeAlterarPropriaSenha
     @PutMapping("/{id}/senha")
     public ResponseEntity<UsuarioDTO> alterarSenha(@PathVariable long id, @RequestBody @Valid SenhaUpdateDTO senha) {
 

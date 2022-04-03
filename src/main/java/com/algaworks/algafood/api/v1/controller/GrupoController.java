@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.model.input.GrupoInputDTO;
 import com.algaworks.algafood.api.v1.model.output.GrupoDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.GrupoControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.ResourceUriHelper;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.repository.GrupoRepository;
 import com.algaworks.algafood.domain.service.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class GrupoController implements GrupoControllerOpenApi {
     @Autowired
     private GrupoAssembler assembler;
 
-    @PreAuthorize("isAuthenticated()")
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public CollectionModel<GrupoDTO> listar() {
@@ -37,12 +38,14 @@ public class GrupoController implements GrupoControllerOpenApi {
         return assembler.toCollectionModel(grupos);
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @GetMapping("/{id}")
     public GrupoDTO buscar(@PathVariable long id) {
         var grupo = grupoService.buscar(id);
         return assembler.toModel(grupo);
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public GrupoDTO salvar(@RequestBody @Valid GrupoInputDTO grupoInput) {
@@ -54,6 +57,7 @@ public class GrupoController implements GrupoControllerOpenApi {
         return model;
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @PutMapping("/{id}")
     public ResponseEntity<GrupoDTO> atualizar(@PathVariable long id, @RequestBody @Valid GrupoInputDTO grupoInput) {
         var grupoExistente = grupoService.buscar(id);
@@ -63,6 +67,7 @@ public class GrupoController implements GrupoControllerOpenApi {
         return ResponseEntity.ok(assembler.toModel(grupo));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable long id) {
         grupoService.remover(id);

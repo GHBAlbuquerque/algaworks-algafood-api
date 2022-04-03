@@ -13,6 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface CheckSecurity {
 
     public @interface Cozinhas {
+
         @PreAuthorize("hasAuthority('EDITAR_COZINHAS')")
         @Retention(RUNTIME)
         @Target(METHOD)
@@ -27,6 +28,7 @@ public @interface CheckSecurity {
     }
 
     public @interface Restaurantes {
+
         @PreAuthorize("hasAuthority('EDITAR_RESTAURANTES')")
         @Retention(RUNTIME)
         @Target(METHOD)
@@ -129,6 +131,35 @@ public @interface CheckSecurity {
         @Target(METHOD)
         public @interface PodeEditar {
         }
+    }
+
+    public @interface UsuariosGruposPermissoes {
+
+        @PreAuthorize("hasAuthority('CONSULTAR_USUARIOS_GRUPOS_PERMISSOES')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeConsultar {
+        }
+
+        @PreAuthorize("hasAuthority('EDITAR_USUARIOS_GRUPOS_PERMISSOES')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeEditar {
+        }
+
+        @PreAuthorize("isAuthenticated() and @algaSecurity.getUsuarioId() == #id")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeAlterarPropriaSenha {
+        }
+
+        @PreAuthorize("(isAuthenticated() and @algaSecurity.getUsuarioId() == #id)" +
+                "or hasAuthority('EDITAR_USUARIOS_GRUPOS_PERMISSOES')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeAlterarUsuario {
+        }
+
     }
 
 }

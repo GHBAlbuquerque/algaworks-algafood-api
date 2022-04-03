@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.model.input.PermissaoInputDTO;
 import com.algaworks.algafood.api.v1.model.output.PermissaoDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.PermissaoControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.ResourceUriHelper;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.repository.PermissaoRepository;
 import com.algaworks.algafood.domain.service.PermissaoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ public class PermissaoController implements PermissaoControllerOpenApi {
     @Autowired
     private PermissaoAssembler assembler;
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public CollectionModel<PermissaoDTO> listar() {
@@ -35,12 +37,14 @@ public class PermissaoController implements PermissaoControllerOpenApi {
         return assembler.toCollectionModel(permissoes);
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @GetMapping("/{id}")
     public PermissaoDTO buscar(@PathVariable long id) {
         var permissao = permissaoService.buscar(id);
         return assembler.toModel(permissao);
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public PermissaoDTO salvar(@RequestBody @Valid PermissaoInputDTO permissaoInput) {
@@ -52,6 +56,7 @@ public class PermissaoController implements PermissaoControllerOpenApi {
         return model;
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @PutMapping("/{id}")
     public ResponseEntity<PermissaoDTO> atualizar(@PathVariable long id, @RequestBody @Valid PermissaoInputDTO permissaoInput) {
         var permissaoExistente = permissaoService.buscar(id);
@@ -61,6 +66,7 @@ public class PermissaoController implements PermissaoControllerOpenApi {
         return ResponseEntity.ok(assembler.toModel(permissao));
     }
 
+    @CheckSecurity.UsuariosGruposPermissoes.PodeEditar
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable long id) {
         permissaoService.remover(id);
