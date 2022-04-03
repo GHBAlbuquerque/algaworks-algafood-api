@@ -88,4 +88,21 @@ public @interface CheckSecurity {
 
     }
 
+    public @interface FormasPagamento {
+
+        @PreAuthorize("isAuthenticated()")
+        @PostAuthorize("hasAuthority('CONSULTAR_FORMAS_PAGAMENTO')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeConsultar {
+        }
+
+        @PreAuthorize("isAuthenticated()")
+        @PostAuthorize("hasAuthority('EDITAR_FORMAS_PAGAMENTO')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeEditar {
+        }
+    }
+
 }
