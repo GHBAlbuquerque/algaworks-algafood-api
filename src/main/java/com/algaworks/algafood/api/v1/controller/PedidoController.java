@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.v1.model.output.PedidoSingletonDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.PedidoControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.ResourceUriHelper;
 import com.algaworks.algafood.core.security.AlgaSecurity;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
@@ -73,9 +74,10 @@ public class PedidoController implements PedidoControllerOpenApi {
         return pagedResourcesAssembler.toModel(pedidosPage, assembler);
     }
 
+    @CheckSecurity.Pedidos.PodeBuscar
     @GetMapping("/{codigo}")
-    public PedidoSingletonDTO buscar(@PathVariable String codigo) {
-        var pedido = pedidoService.buscar(codigo);
+    public PedidoSingletonDTO buscar(@PathVariable String codigoPedido) {
+        var pedido = pedidoService.buscar(codigoPedido);
         return assembler.toSingletonModel(pedido);
     }
 
