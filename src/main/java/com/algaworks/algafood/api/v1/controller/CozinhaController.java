@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.model.input.CozinhaInputDTO;
 import com.algaworks.algafood.api.v1.model.output.CozinhaDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.CozinhaControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.ResourceUriHelper;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CozinhaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
     @Autowired
     private CozinhaAssembler assembler;
 
+    @CheckSecurity.Cozinhas.PodeConsultar
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public CollectionModel<CozinhaDTO> listar() {
@@ -39,12 +41,14 @@ public class CozinhaController implements CozinhaControllerOpenApi {
         return assembler.toCollectionModel(cozinhas);
     }
 
+    @CheckSecurity.Cozinhas.PodeConsultar
     @GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
     public List<CozinhaDTO> listarXML() {
         var cozinhas = cozinhaRepository.findAll();
         return cozinhas.stream().map(cozinha -> assembler.toModel(cozinha)).collect(Collectors.toList());
     }
 
+    @CheckSecurity.Cozinhas.PodeConsultar
     @GetMapping("/{id}")
     public CozinhaDTO buscar(@PathVariable long id) {
         var cozinha = cozinhaService.buscar(id);
@@ -52,6 +56,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
 
     }
 
+    @CheckSecurity.Cozinhas.PodeConsultar
     @GetMapping("/por-nome")
     public ResponseEntity<List<CozinhaDTO>> buscarPorNome(@PathParam(value = "nome") String nome) {
         var cozinhas = cozinhaRepository.findByNomeContaining(nome);
@@ -61,6 +66,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
         return ResponseEntity.ok(cozinhaModels);
     }
 
+    @CheckSecurity.Cozinhas.PodeEditar
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public CozinhaDTO salvar(@RequestBody @Valid CozinhaInputDTO cozinhaInput) {
@@ -72,6 +78,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
         return model;
     }
 
+    @CheckSecurity.Cozinhas.PodeEditar
     @PutMapping("/{id}")
     public ResponseEntity<CozinhaDTO> atualizar(@PathVariable long id, @RequestBody @Valid CozinhaInputDTO cozinhaInput) {
         var cozinhaExistente = cozinhaService.buscar(id);
@@ -81,6 +88,7 @@ public class CozinhaController implements CozinhaControllerOpenApi {
         return ResponseEntity.ok(assembler.toModel(cozinha));
     }
 
+    @CheckSecurity.Cozinhas.PodeEditar
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable long id) {
         cozinhaService.remover(id);

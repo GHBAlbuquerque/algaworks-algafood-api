@@ -1,34 +1,49 @@
 package com.algaworks.algafood.core.security;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 //classe de meta anotações de segurança
 public @interface CheckSecurity {
 
-    public @interface Restaurantes {
-
-
-        @PreAuthorize("hasAuthority('EDITAR_RESTAURANTES')")
+    public @interface Cozinhas {
+        @PreAuthorize("hasAuthority('EDITAR_COZINHAS')")
         @Retention(RUNTIME)
         @Target(METHOD)
-        public @interface PodeGerenciarCadastro { }
-
-        @PreAuthorize("(hasAuthority('EDITAR_RESTAURANTES') or @algaSecurity.gerenciaRestaurante(#restauranteId))")
-        @Retention(RUNTIME)
-        @Target(METHOD)
-        public @interface PodeGerenciarFuncionamento { }
+        public @interface PodeEditar {
+        }
 
         @PreAuthorize("isAuthenticated()")
         @Retention(RUNTIME)
         @Target(METHOD)
-        public @interface PodeConsultar { }
+        public @interface PodeConsultar {
+        }
+    }
+
+    public @interface Restaurantes {
+        @PreAuthorize("hasAuthority('EDITAR_RESTAURANTES')")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeGerenciarCadastro {
+        }
+
+        @PreAuthorize("(hasAuthority('EDITAR_RESTAURANTES') or @algaSecurity.gerenciaRestaurante(#restauranteId))")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeGerenciarFuncionamento {
+        }
+
+        @PreAuthorize("isAuthenticated()")
+        @Retention(RUNTIME)
+        @Target(METHOD)
+        public @interface PodeConsultar {
+        }
 
     }
 
@@ -40,7 +55,8 @@ public @interface CheckSecurity {
                 + "@algaSecurity.gerenciaRestaurante(returnObject.restaurante.id)")
         @Retention(RUNTIME)
         @Target(METHOD)
-        public @interface PodeBuscar { }
+        public @interface PodeBuscar {
+        }
 
     }
 
