@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.model.input.CidadeInputDTO;
 import com.algaworks.algafood.api.v1.model.output.CidadeDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.CidadeControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.ResourceUriHelper;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EstadoNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Estado;
@@ -31,18 +32,21 @@ public class CidadeController implements CidadeControllerOpenApi {
     @Autowired
     private CidadeAssembler assembler;
 
+    @CheckSecurity.Cidades.PodeConsultar
     @GetMapping
     public CollectionModel<CidadeDTO> listar() {
         var cidades = cidadeRepository.findAll();
         return assembler.toCollectionModel(cidades);
     }
 
+    @CheckSecurity.Cidades.PodeConsultar
     @GetMapping("/{id}")
     public CidadeDTO buscar(@PathVariable long id) {
         var cidade = cidadeService.buscar(id);
         return assembler.toModel(cidade);
     }
 
+    @CheckSecurity.Cidades.PodeEditar
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CidadeDTO adicionar(@RequestBody @Valid CidadeInputDTO cidadeInput) {
@@ -60,6 +64,7 @@ public class CidadeController implements CidadeControllerOpenApi {
 
     }
 
+    @CheckSecurity.Cidades.PodeEditar
     @PutMapping("/{id}")
     public ResponseEntity<CidadeDTO> atualizar(@PathVariable long id, @RequestBody @Valid CidadeInputDTO cidadeInput) {
         var cidadeExistente = cidadeService.buscar(id);
@@ -74,6 +79,7 @@ public class CidadeController implements CidadeControllerOpenApi {
         }
     }
 
+    @CheckSecurity.Cidades.PodeEditar
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable long id) {
         cidadeService.remover(id);

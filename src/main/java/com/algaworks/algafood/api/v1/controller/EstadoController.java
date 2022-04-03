@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.model.input.EstadoInputDTO;
 import com.algaworks.algafood.api.v1.model.output.EstadoDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.EstadoControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.ResourceUriHelper;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
 import com.algaworks.algafood.domain.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,19 +29,22 @@ public class EstadoController implements EstadoControllerOpenApi {
     @Autowired
     private EstadoAssembler assembler;
 
+
+    @CheckSecurity.Estados.PodeConsultar
     @GetMapping
     public CollectionModel<EstadoDTO> listar() {
         var estados = estadoRepository.findAll();
         return assembler.toCollectionModel(estados);
     }
 
-
+    @CheckSecurity.Estados.PodeConsultar
     @GetMapping("/{id}")
     public EstadoDTO buscar(@PathVariable long id) {
         var estado = estadoService.buscar(id);
         return assembler.toModel(estado);
     }
 
+    @CheckSecurity.Estados.PodeEditar
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public EstadoDTO adicionar(@RequestBody @Valid EstadoInputDTO estadoInput) {
@@ -52,6 +56,7 @@ public class EstadoController implements EstadoControllerOpenApi {
         return model;
     }
 
+    @CheckSecurity.Estados.PodeEditar
     @PutMapping("/{id}")
     public ResponseEntity<EstadoDTO> atualizar(@PathVariable long id, @RequestBody @Valid EstadoInputDTO estadoInput) {
         var estadoExistente = estadoService.buscar(id);
@@ -61,7 +66,7 @@ public class EstadoController implements EstadoControllerOpenApi {
         return ResponseEntity.ok(assembler.toModel(estado));
     }
 
-
+    @CheckSecurity.Estados.PodeEditar
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletar(@PathVariable long id) {
         estadoService.remover(id);
