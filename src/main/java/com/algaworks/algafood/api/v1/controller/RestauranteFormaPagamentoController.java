@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.v1.assembler.FormaPagamentoAssembler;
 import com.algaworks.algafood.api.v1.model.output.FormaPagamentoDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteFormaPagamentoControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.LinkGenerator;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.FormaPagamentoService;
@@ -44,6 +45,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
         return models.add(linkGenerator.linkToFormasPagamentoRestauranteAdicionar(idRestaurante));
     }
 
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @PutMapping("/{idFormaPagamento}")
     public ResponseEntity<Void> adicionar(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento) {
         try {
@@ -54,6 +56,7 @@ public class RestauranteFormaPagamentoController implements RestauranteFormaPaga
         }
     }
 
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @DeleteMapping("/{idFormaPagamento}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> remover(@PathVariable Long idRestaurante, @PathVariable Long idFormaPagamento) {

@@ -7,6 +7,7 @@ import com.algaworks.algafood.api.v1.model.output.ProdutoDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteProdutoControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.LinkGenerator;
 import com.algaworks.algafood.api.v1.utils.ResourceUriHelper;
+import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.service.RestauranteService;
@@ -44,6 +45,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
         return assembler.toModel(produto);
     }
 
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @PostMapping("/{idProduto}")
     @ResponseStatus(HttpStatus.CREATED)
     public ProdutoDTO adicionar(@PathVariable Long idRestaurante, @RequestBody @Valid ProdutoInputDTO produtoInputDTO) {
@@ -59,6 +61,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
         }
     }
 
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @PutMapping("/{idProduto}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void atualizar(@PathVariable Long idRestaurante, @PathVariable Long idProduto, @RequestBody @Valid ProdutoUpdateDTO produtoInputDTO) {
@@ -71,6 +74,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
         }
     }
 
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @DeleteMapping("/{idProduto}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void remover(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
@@ -81,6 +85,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
         }
     }
 
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @PutMapping("/{idProduto}/ativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> ativar(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
@@ -88,6 +93,7 @@ public class RestauranteProdutoController implements RestauranteProdutoControlle
         return ResponseEntity.noContent().build();
     }
 
+    @CheckSecurity.Restaurantes.PodeGerenciarFuncionamento
     @PutMapping("/{idProduto}/inativo")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> desativar(@PathVariable Long idRestaurante, @PathVariable Long idProduto) {
