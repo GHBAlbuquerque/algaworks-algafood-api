@@ -22,17 +22,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.ServletWebRequest;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.RepresentationBuilder;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.builders.ResponseBuilder;
+import springfox.documentation.builders.*;
 import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.schema.AlternateTypeRules;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.Response;
-import springfox.documentation.service.Tag;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
 import java.util.Arrays;
@@ -48,6 +43,7 @@ public class SpringFoxConfig {
     @Bean
     public Docket apiDocket() {
 
+        assert securityScheme() != null;
         return new Docket(DocumentationType.OAS_30) //classe do springfox que representa a configuracao da API para gerar a doc
                 .select() //builder
                 .apis(RequestHandlerSelectors.basePackage("com.algaworks.algafood.api")) //seletor de endpoints, onde posso filtrar
@@ -90,6 +86,7 @@ public class SpringFoxConfig {
                         new Tag("Usuários", "Gerencia os usuários"),
                         new Tag("Root Entry Point", "Entrada da API")
                 )
+                .securitySchemes(List.of(securityScheme())) //descreve o protocolo de segurança
                 .apiInfo(apiInfo());
     }
 
@@ -226,5 +223,16 @@ public class SpringFoxConfig {
                 .contact(new Contact("Giovanna Albuquerque", "https://github.com/GHBAlbuquerque",
                         "ghb.albuquerque@gmail.com"))
                 .build();
+    }
+
+    private SecurityScheme securityScheme() {
+        var securityScheme= OAuth2Scheme.OAUTH2_PASSWORD_FLOW_BUILDER
+                .name("AlgaFood")
+                .tokenUrl("/oauth/token")
+                .scopes(List.of(new AuthorizationScope("write", "permite escrita"),
+                                new AuthorizationScope("read", "permite leitura")))
+                .build();
+
+        return securityScheme;
     }
 }
