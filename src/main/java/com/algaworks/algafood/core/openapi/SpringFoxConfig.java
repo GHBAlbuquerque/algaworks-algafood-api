@@ -22,7 +22,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.ServletWebRequest;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
-import springfox.documentation.builders.*;
+import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.RepresentationBuilder;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.builders.ResponseBuilder;
 import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.schema.AlternateTypeRules;
 import springfox.documentation.service.*;
@@ -87,6 +90,7 @@ public class SpringFoxConfig {
                         new Tag("Root Entry Point", "Entrada da API")
                 )
                 .securitySchemes(List.of(securityScheme())) //descreve o protocolo de segurança
+                .securityContexts(List.of(securityContext()))
                 .apiInfo(apiInfo());
     }
 
@@ -226,13 +230,27 @@ public class SpringFoxConfig {
     }
 
     private SecurityScheme securityScheme() {
-        var securityScheme= OAuth2Scheme.OAUTH2_PASSWORD_FLOW_BUILDER
+        var securityScheme = OAuth2Scheme.OAUTH2_PASSWORD_FLOW_BUILDER
                 .name("AlgaFood")
                 .tokenUrl("/oauth/token")
                 .scopes(List.of(new AuthorizationScope("write", "permite escrita"),
-                                new AuthorizationScope("read", "permite leitura")))
+                        new AuthorizationScope("read", "permite leitura")))
                 .build();
 
         return securityScheme;
+    }
+
+    private SecurityContext securityContext() {
+        var securityReference = SecurityReference.builder()
+                .reference("AlgaFood")
+                .scopes(List.of(new AuthorizationScope("write", "permite escrita"),
+                                new AuthorizationScope("read", "permite leitura"))
+                        .toArray(new AuthorizationScope[0]))
+                .build();
+
+        return SecurityContext.builder()
+                .securityReferences(Arrays.asList(securityReference))
+                .operationSelector(operationContext -> true)
+                .build();
     }
 }
