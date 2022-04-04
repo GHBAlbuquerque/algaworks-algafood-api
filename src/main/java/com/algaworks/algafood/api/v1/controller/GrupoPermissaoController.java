@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.v1.assembler.PermissaoAssembler;
 import com.algaworks.algafood.api.v1.model.output.PermissaoDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.GrupoPermissaoControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.LinkGenerator;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.core.security.CheckSecurity;
 import com.algaworks.algafood.domain.exception.EntidadeReferenciadaInexistenteException;
 import com.algaworks.algafood.domain.exception.entitynotfound.EntidadeNaoEncontradaException;
@@ -31,16 +32,22 @@ public class GrupoPermissaoController implements GrupoPermissaoControllerOpenApi
     @Autowired
     private LinkGenerator linkGenerator;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     @CheckSecurity.UsuariosGruposPermissoes.PodeConsultar
     @GetMapping()
     public CollectionModel<PermissaoDTO> listar(@PathVariable Long idGrupo) {
         var grupo = grupoService.buscar(idGrupo);
         var models = assembler.toCollectionModel(grupo.getPermissoes())
                 .removeLinks()
-                .add(linkGenerator.linkToGrupoPermissoes(idGrupo),
-                        linkGenerator.linkToGrupoPermissaoAdicionar(idGrupo));
+                .add(linkGenerator.linkToGrupoPermissoes(idGrupo));
 
-        models.forEach(model -> model.add(linkGenerator.linkToGrupoPermissaoRemover(idGrupo, model.getId())));
+        if (algaSecurity.podeEditarUsuariosGruposPermissoes()) {
+            models.add(linkGenerator.linkToGrupoPermissaoAdicionar(idGrupo));
+
+            models.forEach(model -> model.add(linkGenerator.linkToGrupoPermissaoRemover(idGrupo, model.getId())));
+        }
 
         return models;
     }

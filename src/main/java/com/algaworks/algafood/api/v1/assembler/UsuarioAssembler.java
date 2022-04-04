@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.model.input.UsuarioInputDTO;
 import com.algaworks.algafood.api.v1.model.input.update.UsuarioUpdateDTO;
 import com.algaworks.algafood.api.v1.model.output.UsuarioDTO;
 import com.algaworks.algafood.api.v1.utils.LinkGenerator;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Usuario;
 import org.modelmapper.ModelMapper;
@@ -27,6 +28,9 @@ public class UsuarioAssembler extends RepresentationModelAssemblerSupport<Usuari
     @Autowired
     private LinkGenerator linkGenerator;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     public UsuarioAssembler() {
         super(UsuarioController.class, UsuarioDTO.class);
     }
@@ -41,9 +45,11 @@ public class UsuarioAssembler extends RepresentationModelAssemblerSupport<Usuari
 
             var grupos = model.getGrupos();
 
-            grupos.forEach(grupo -> grupo.add(linkGenerator.linkToGrupo(grupo.getId()),
-                    linkGenerator.linkToGrupos(),
-                    linkGenerator.linkToUsuarioGruposDesassociar(usuario.getId(), grupo.getId())));
+            if (algaSecurity.podeConsultarUsuariosGruposPermissoes()) {
+                grupos.forEach(grupo -> grupo.add(linkGenerator.linkToGrupo(grupo.getId()),
+                        linkGenerator.linkToGrupos(),
+                        linkGenerator.linkToUsuarioGruposDesassociar(usuario.getId(), grupo.getId())));
+            }
 
 
             return model;

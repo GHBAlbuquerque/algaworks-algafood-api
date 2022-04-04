@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.model.input.ProdutoInputDTO;
 import com.algaworks.algafood.api.v1.model.input.update.ProdutoUpdateDTO;
 import com.algaworks.algafood.api.v1.model.output.ProdutoDTO;
 import com.algaworks.algafood.api.v1.utils.LinkGenerator;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Produto;
 import org.modelmapper.ModelMapper;
@@ -23,6 +24,9 @@ public class ProdutoAssembler extends RepresentationModelAssemblerSupport<Produt
     @Autowired
     private LinkGenerator linkGenerator;
 
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
     public ProdutoAssembler() {
         super(RestauranteProdutoController.class, ProdutoDTO.class);
     }
@@ -32,10 +36,12 @@ public class ProdutoAssembler extends RepresentationModelAssemblerSupport<Produt
             var model = modelMapper.map(produto, ProdutoDTO.class);
             var restauranteId = produto.getRestaurante().getId();
 
-            model.add(linkGenerator.linkToProduto(model.getId(), restauranteId),
-                    linkGenerator.linkToFotoProduto(model.getId(), restauranteId).withRel("foto"));
+            if (algaSecurity.podeConsultarRestaurantes()) {
+                model.add(linkGenerator.linkToProduto(model.getId(), restauranteId),
+                        linkGenerator.linkToFotoProduto(model.getId(), restauranteId).withRel("foto"));
 
-            adicionarLinksAtivacao(model, restauranteId);
+                adicionarLinksAtivacao(model, restauranteId);
+            }
 
             return model;
 
@@ -75,6 +81,7 @@ public class ProdutoAssembler extends RepresentationModelAssemblerSupport<Produt
     }
 
     private void adicionarLinksAtivacao(ProdutoDTO model, Long restauranteId) {
+
         if (model.getAtivo()) {
             model.add(linkGenerator.linkToProdutoDesativar(model.getId(), restauranteId));
         }
@@ -82,5 +89,6 @@ public class ProdutoAssembler extends RepresentationModelAssemblerSupport<Produt
         if (!model.getAtivo()) {
             model.add(linkGenerator.linkToProdutoAtivar(model.getId(), restauranteId));
         }
+
     }
 }

@@ -1,4 +1,4 @@
-package com.algaworks.algafood.core.security;
+package com.algaworks.algafood.domain.listener;
 
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -161,7 +161,7 @@ public @interface CheckSecurity {
 
     public @interface Estatisticas {
 
-        @PreAuthorize("@algaSecurity.podeConsultarEstatisticas()")
+        @PreAuthorize("hasAuthority('GERAR_RELATORIOS')")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeConsultar { }

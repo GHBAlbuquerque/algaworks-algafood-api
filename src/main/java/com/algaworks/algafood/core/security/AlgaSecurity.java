@@ -35,6 +35,15 @@ public class AlgaSecurity {
         return pedidoRepository.isPedidoGerenciadoPor(codigoPedido, getUsuarioId());
     }
 
+    public boolean isAutenticado() {
+        return getAuthentication().isAuthenticated();
+    }
+
+    public boolean usuarioAutenticadoIgual(Long usuarioId) {
+        return getUsuarioId() != null && usuarioId != null
+                && getUsuarioId().equals(usuarioId);
+    }
+
     public boolean hasAuthority(String authorityName) {
         return getAuthentication().getAuthorities()
                 .stream()
@@ -50,6 +59,56 @@ public class AlgaSecurity {
 
     public boolean podeGerenciarRestaurante(Long restauranteId) {
         return hasAuthority("GERENCIAR_RESTAURANTES") || gerenciaRestaurante(restauranteId);
+    }
+
+    public boolean podeConsultarRestaurantes() {
+        return isAutenticado();
+    }
+
+    public boolean podeGerenciarCadastroRestaurantes() {
+        return hasAuthority("EDITAR_RESTAURANTES");
+    }
+
+    public boolean podeGerenciarFuncionamentoRestaurantes(Long restauranteId) {
+        return (hasAuthority("EDITAR_RESTAURANTES")
+                || gerenciaRestaurante(restauranteId));
+    }
+
+    public boolean podeConsultarUsuariosGruposPermissoes() {
+        return hasAuthority("CONSULTAR_USUARIOS_GRUPOS_PERMISSOES");
+    }
+
+    public boolean podeEditarUsuariosGruposPermissoes() {
+        return hasAuthority("EDITAR_USUARIOS_GRUPOS_PERMISSOES");
+    }
+
+    public boolean podePesquisarPedidos(Long clienteId, Long restauranteId) {
+        return (hasAuthority("CONSULTAR_PEDIDOS")
+                || usuarioAutenticadoIgual(clienteId) || gerenciaRestaurante(restauranteId));
+    }
+
+    public boolean podePesquisarPedidos() {
+        return isAutenticado();
+    }
+
+    public boolean podeConsultarFormasPagamento() {
+        return isAutenticado();
+    }
+
+    public boolean podeConsultarCidades() {
+        return isAutenticado();
+    }
+
+    public boolean podeConsultarEstados() {
+        return isAutenticado();
+    }
+
+    public boolean podeConsultarCozinhas() {
+        return isAutenticado();
+    }
+
+    public boolean podeConsultarEstatisticas() {
+        return hasAuthority("GERAR_RELATORIOS");
     }
 
 }
