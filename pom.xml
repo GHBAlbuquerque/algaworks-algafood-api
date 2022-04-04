@@ -18,7 +18,6 @@
         <java.version>11</java.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-
         <modelmapper.version>3.0.0</modelmapper.version>
         <jasperreports.version>6.18.1</jasperreports.version>
         <aws-java-sdk-s3.version>1.12.150</aws-java-sdk-s3.version>
@@ -27,6 +26,8 @@
         <loggly.version>0.1.5</loggly.version>
         <spring-resource-server.version>5.6.1</spring-resource-server.version>
         <oauth2-oidc-sdk.version>6.21.2</oauth2-oidc-sdk.version>
+        <spring-security-oauth2.version>2.5.1.RELEASE</spring-security-oauth2.version>
+        <spring-security-jwt.version>1.0.11.RELEASE</spring-security-jwt.version>
     </properties>
 
     <dependencies>
@@ -160,6 +161,19 @@
             <groupId>com.nimbusds</groupId>
             <artifactId>oauth2-oidc-sdk</artifactId>
             <version>${oauth2-oidc-sdk.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security.oauth/spring-security-oauth2 -->
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>${spring-security-oauth2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
+            <version>${spring-security-jwt.version}</version>
         </dependency>
 
     </dependencies>
