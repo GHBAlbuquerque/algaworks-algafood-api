@@ -6,6 +6,7 @@ import com.algaworks.algafood.api.v1.model.output.RestauranteDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteModel;
 import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonDTO;
 import com.algaworks.algafood.api.v1.utils.LinkGenerator;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
@@ -28,6 +29,10 @@ public class RestauranteAssembler extends RepresentationModelAssemblerSupport<Re
 
     @Autowired
     private LinkGenerator linkGenerator;
+
+    @Autowired
+    private AlgaSecurity algaSecurity;
+
 
     public RestauranteAssembler() {
         super(RestauranteController.class, RestauranteDTO.class);
@@ -125,24 +130,31 @@ public class RestauranteAssembler extends RepresentationModelAssemblerSupport<Re
     }
 
     private Link adicionarLinkAtivacao(RestauranteModel model) {
-        if (!model.isAtivo()) {
-            return linkGenerator.linkToRestauranteAtivar(model.getId());
-        }
 
-        if (model.isAtivo()) {
-            return linkGenerator.linkToRestauranteDesativar(model.getId());
+        if (algaSecurity.podeGerenciarRestaurante(model.getId())) {
+            if (!model.isAtivo()) {
+                return linkGenerator.linkToRestauranteAtivar(model.getId());
+            }
+
+            if (model.isAtivo()) {
+                return linkGenerator.linkToRestauranteDesativar(model.getId());
+            }
         }
 
         return null;
+
     }
 
     private Link adicionarLinkAbertura(RestauranteModel model) {
-        if (!model.isAberto()) {
-            return linkGenerator.linkToRestauranteAbrir(model.getId());
-        }
 
-        if (model.isAberto()) {
-            return linkGenerator.linkToRestauranteFechar(model.getId());
+        if (algaSecurity.podeGerenciarRestaurante(model.getId())) {
+            if (!model.isAberto()) {
+                return linkGenerator.linkToRestauranteAbrir(model.getId());
+            }
+
+            if (model.isAberto()) {
+                return linkGenerator.linkToRestauranteFechar(model.getId());
+            }
         }
 
         return null;

@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.model.input.PedidoInputDTO;
 import com.algaworks.algafood.api.v1.model.output.PedidoDTO;
 import com.algaworks.algafood.api.v1.model.output.PedidoSingletonDTO;
 import com.algaworks.algafood.api.v1.utils.LinkGenerator;
+import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.enums.StatusPedidoEnum;
 import com.algaworks.algafood.domain.exception.ConversaoException;
 import com.algaworks.algafood.domain.model.Pedido;
@@ -24,6 +25,9 @@ public class PedidoAssembler extends RepresentationModelAssemblerSupport<Pedido,
 
     @Autowired
     private LinkGenerator linkGenerator;
+
+    @Autowired
+    private AlgaSecurity algaSecurity;
 
     public PedidoAssembler() {
         super(PedidoController.class, PedidoDTO.class);
@@ -113,21 +117,23 @@ public class PedidoAssembler extends RepresentationModelAssemblerSupport<Pedido,
 
     private void adicionarLinksStatus(PedidoSingletonDTO model) {
 
-        if (StatusPedidoEnum.valueOf(model.getStatus())
-                .podeSerAlterado(StatusPedidoEnum.CONFIRMADO)) {
-            model.add(linkGenerator.linkToConfirmarPedido(model.getCodigo()));
+        if(algaSecurity.podeGerenciarPedidos(model.getCodigo())) {
+
+            if (StatusPedidoEnum.valueOf(model.getStatus())
+                    .podeSerAlterado(StatusPedidoEnum.CONFIRMADO)) {
+                model.add(linkGenerator.linkToConfirmarPedido(model.getCodigo()));
+            }
+
+            if (StatusPedidoEnum.valueOf(model.getStatus())
+                    .podeSerAlterado(StatusPedidoEnum.CANCELADO)) {
+                model.add(linkGenerator.linkToCancelarPedido(model.getCodigo()));
+
+            }
+
+            if (StatusPedidoEnum.valueOf(model.getStatus())
+                    .podeSerAlterado(StatusPedidoEnum.ENTREGUE)) {
+                model.add(linkGenerator.linkToEntregarPedido(model.getCodigo()));
+            }
         }
-
-        if (StatusPedidoEnum.valueOf(model.getStatus())
-                .podeSerAlterado(StatusPedidoEnum.CANCELADO)) {
-            model.add(linkGenerator.linkToCancelarPedido(model.getCodigo()));
-
-        }
-
-        if (StatusPedidoEnum.valueOf(model.getStatus())
-                .podeSerAlterado(StatusPedidoEnum.ENTREGUE)) {
-            model.add(linkGenerator.linkToEntregarPedido(model.getCodigo()));
-        }
-
     }
 }
