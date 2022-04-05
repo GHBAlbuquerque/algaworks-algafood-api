@@ -1,9 +1,12 @@
 package com.algaworks.algafood.core.security.authorizationserver;
 
+import com.nimbusds.jose.JWSAlgorithm;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.KeyUse;
+import com.nimbusds.jose.jwk.RSAKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +20,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import java.security.KeyPair;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Arrays;
 
 @Configuration
@@ -45,7 +49,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .accessTokenValiditySeconds(60 * 60 * 12)
                 .refreshTokenValiditySeconds(60 * 60 * 24)
 
-                .and()
+                /*.and()
                 .withClient("client_backend")
                 .secret(passwordEncoder.encode("password_backend"))
                 .authorizedGrantTypes("client_credentials")
@@ -56,7 +60,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .secret(passwordEncoder.encode("password_analytics"))
                 .authorizedGrantTypes("authorization_code")
                 .scopes("write", "read")
-                .redirectUris("http://aplicacao-cliente.com.br")
+                .redirectUris("http://aplicacao-cliente.com.br")*/
 
                 .and()
                 .withClient("checktoken")
@@ -85,18 +89,33 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     }
 
     @Bean
-    public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        String keyStorePass = jwtKeyStoreProperties.getPassword();
-        String keyPairAlias = jwtKeyStoreProperties.getKeypairAlias();
-        KeyStoreKeyFactory keyStoreKeyFatory = new KeyStoreKeyFactory(jwtKeyStoreProperties.getJksLocation(),
-                keyStorePass.toCharArray());
+    public JWKSet jwkSet() {
+        var keyPair = keyPair();
+        RSAKey.Builder builder = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
+                .keyUse(KeyUse.SIGNATURE)
+                .algorithm(JWSAlgorithm.RS256)
+                .keyID("algafood-key-id");
 
-        KeyPair keyPair = keyStoreKeyFatory.getKeyPair(keyPairAlias);
+        return new JWKSet(builder.build());
+    }
+
+    @Bean
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
+        var keyPair = keyPair();
 
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
         jwtAccessTokenConverter.setKeyPair(keyPair);
 
         return jwtAccessTokenConverter;
+    }
+
+    private KeyPair keyPair() {
+        String keyStorePass = jwtKeyStoreProperties.getPassword();
+        String keyPairAlias = jwtKeyStoreProperties.getKeypairAlias();
+        KeyStoreKeyFactory keyStoreKeyFatory = new KeyStoreKeyFactory(jwtKeyStoreProperties.getJksLocation(),
+                keyStorePass.toCharArray());
+
+        return keyStoreKeyFatory.getKeyPair(keyPairAlias);
     }
 
 

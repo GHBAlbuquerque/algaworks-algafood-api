@@ -250,7 +250,7 @@ public class SpringFoxConfig {
 
         return SecurityContext.builder()
                 .securityReferences(Arrays.asList(securityReference))
-                .operationSelector(operationContext -> true)
+                .operationSelector(operationConext -> true)
                 .build();
     }
 }
