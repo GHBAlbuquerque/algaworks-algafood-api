@@ -1,0 +1,20 @@
+# CRIAR NETWORK
+docker network create -driver bridge algafood-network
+
+# CRIAR CONTAINER BANCO DE DADOS SQL
+docker container run -d -p 3307:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=yes --name algafood-mysql mysql:8.0
+
+# CRIAR IMAGEM VIA DOCKER
+docker image build -t algafood-api
+
+# CRIAR IMAGEM VIA MAVEN DOCKER
+/.mvnw package -Pdocker
+
+# TAGEAR IMAGEM
+docker tag algafood-api:latest ghbalbuquerque/algafood-api-ghba:latest
+
+# ENVIAR IMAGEM PARA DOCKER HUB
+docker push ghbalbuquerque/agafood-api-ghba:latest
+
+# CRIAR CONTAINER A PARTIR DE IMAGEM DO REPO
+docker container run --rm -p 8080:8080 -e DB_HOST=algafood-mysql --network algafood-network ghbalbuquerque/algafood-api
