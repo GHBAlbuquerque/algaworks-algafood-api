@@ -1,3 +1,9 @@
+ALTER TABLE `algafood`.`item_pedido`
+DROP FOREIGN KEY `fk_item_pedido_pedido`;
+ALTER TABLE `algafood`.`item_pedido`
+DROP COLUMN `itens_id`,
+DROP INDEX `fk_item_pedido_pedido` ;
+
 ALTER TABLE item_pedido ADD COLUMN pedido_id BIGINT NOT NULL;
 
 update item_pedido set pedido_id = 1;
