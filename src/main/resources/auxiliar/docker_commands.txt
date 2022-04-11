@@ -14,7 +14,7 @@ docker image build -t algafood-api
 docker tag algafood-api:latest ghbalbuquerque/algafood-api-ghba:latest
 
 # ENVIAR IMAGEM PARA DOCKER HUB
-docker push ghbalbuquerque/agafood-api-ghba:latest
+docker push ghbalbuquerque/algafood-api-ghba:latest
 
 # CRIAR CONTAINER A PARTIR DE IMAGEM DO REPO
 docker container run --rm -p 8080:8080 -e DB_HOST=algafood-mysql --network algafood-network ghbalbuquerque/algafood-api
