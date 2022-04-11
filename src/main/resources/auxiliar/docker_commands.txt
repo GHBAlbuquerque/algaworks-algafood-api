@@ -23,4 +23,5 @@ docker container run --rm -p 8080:8080 -e DB_HOST=algafood-mysql --network algaf
 ### COMPOSE
 
 docker-compose up
-docker-compose down volumes
+docker-compose down --volumes
+docker-compose up --scale algafood-api=2
