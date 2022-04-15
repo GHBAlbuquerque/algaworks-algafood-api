@@ -19,6 +19,7 @@ services:
     command: ["/wait-for-it.sh", "algafood-mysql:3306", "-t", "120", "--", "java", "-jar", "api.jar"]
     environment:
       DB_HOST: algafood-mysql
+      SPRING_PROFILES_ACTIVE: dev
     networks:
       - algafood-network
     depends_on:
