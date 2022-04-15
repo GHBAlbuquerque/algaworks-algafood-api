@@ -17,12 +17,14 @@ public class EmailConfig {
     @Bean
     public EnvioEmailService envioEmailService() {
         switch (emailProperties.getImpl()) {
+            case FAKE:
+                return new FakeEnvioEmailService();
             case SMTP:
                 return new SmtpEnvioEmailService();
             case SANDBOX:
                 return new SandBoxEnvioEmailService();
             default:
-                return new FakeEnvioEmailService();
+                return null;
         }
 
     }

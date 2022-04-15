@@ -3,29 +3,25 @@ package com.algaworks.algafood.infrastructure.impl.email;
 import com.algaworks.algafood.core.email.EmailProperties;
 import com.algaworks.algafood.domain.service.EnvioEmailService;
 import com.algaworks.algafood.infrastructure.exception.EmailException;
-import freemarker.template.Configuration;
-import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 
 @Service
 public class SmtpEnvioEmailService implements EnvioEmailService {
 
-    @Autowired
+    @Autowired(required = false)
     private JavaMailSender mailSender;
 
     @Autowired
     private EmailProperties properties;
 
     @Autowired
-    private Configuration freeMarkerConfig;
+    private ProcessadorEmailTemplate processadorEmailTemplate;
 
     @Override
     public void enviar(Mensagem mensagem) {
@@ -40,7 +36,7 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
     }
 
     protected MimeMessage criarMimeMessage(Mensagem mensagem) throws MessagingException {
-        String corpo = processarTemplate(mensagem);
+        String corpo = processadorEmailTemplate.processarTemplate(mensagem);
         var mimeMessage = mailSender.createMimeMessage();
 
         //encapsula o mimemssage e ajuda a atribuir os valores
@@ -54,12 +50,5 @@ public class SmtpEnvioEmailService implements EnvioEmailService {
         return mimeMessage;
     }
 
-    private String processarTemplate(Mensagem mensagem) {
-        try {
-            var template = freeMarkerConfig.getTemplate(mensagem.getCorpo());
-            return FreeMarkerTemplateUtils.processTemplateIntoString(template, mensagem.getVariaveis());
-        } catch (IOException | TemplateException ex) {
-            throw new EmailException("Não foi possível montar o template do e-mail.", ex.getCause());
-        }
-    }
+
 }

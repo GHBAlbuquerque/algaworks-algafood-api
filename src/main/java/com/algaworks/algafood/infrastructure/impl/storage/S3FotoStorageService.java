@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-@Service
 public class S3FotoStorageService implements FotoStorageService {
 
     @Autowired
