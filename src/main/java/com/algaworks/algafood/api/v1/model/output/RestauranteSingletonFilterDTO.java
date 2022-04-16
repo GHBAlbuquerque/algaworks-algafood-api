@@ -12,7 +12,8 @@ import java.util.Set;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RestauranteSingletonPostDTO extends RepresentationModel<RestauranteSingletonPostDTO> implements RestauranteModel {
+@JsonFilter("filtroRestaurante")
+public class RestauranteSingletonDTO extends RepresentationModel<RestauranteSingletonDTO> implements RestauranteModel {
 
     private Long id;
 

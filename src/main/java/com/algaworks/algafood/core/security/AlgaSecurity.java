@@ -18,7 +18,9 @@ public class AlgaSecurity {
     private PedidoRepository pedidoRepository;
 
     public Authentication getAuthentication() {
-        return SecurityContextHolder.getContext().getAuthentication();
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal().equals("anonymousUser")) return null;
+        return authentication;
     }
 
     public Long getUsuarioId() {
@@ -40,7 +42,9 @@ public class AlgaSecurity {
     }
 
     public boolean isAutenticado() {
-        return getAuthentication().isAuthenticated();
+        var authentication = getAuthentication();
+        if (authentication == null) return false;
+        return authentication.isAuthenticated();
     }
 
     public boolean usuarioAutenticadoIgual(Long usuarioId) {
@@ -49,7 +53,7 @@ public class AlgaSecurity {
     }
 
     public boolean hasAuthority(String authorityName) {
-        return  getAuthentication().getAuthorities()
+        return getAuthentication().getAuthorities()
                 .stream()
                 .anyMatch(authority -> authority
                         .getAuthority()
