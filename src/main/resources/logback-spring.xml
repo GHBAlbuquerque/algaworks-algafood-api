@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-
+    <property name="LOG_PATH" value="./logs/"/>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
     <springProfile name="local">
         <springProperty name="logglyToken" source="logging.loggly.token"/>
+
 
         <appender name="loggly" class="ch.qos.logback.ext.loggly.LogglyAppender">
             <endpointUrl>https://logs-01.loggly.com/inputs/${logglyToken}/tag/logback</endpointUrl>

@@ -25,3 +25,8 @@ docker container run --rm -p 8080:8080 -e DB_HOST=algafood-mysql --network algaf
 docker-compose up
 docker-compose down --volumes
 docker-compose up --scale algafood-api=2
+
+
+### Call endpoints
+http://localhost/v1/
+http://localhost/oauth/token
