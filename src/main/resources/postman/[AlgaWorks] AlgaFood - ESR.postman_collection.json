@@ -1,0 +1,2337 @@
+{
+	"info": {
+		"_postman_id": "50ab0e7b-73b2-414f-935c-7e1fb8aafed2",
+		"name": "[AlgaWorks] AlgaFood - ESR",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "cidades",
+			"item": [
+				{
+					"name": "cidades",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "password",
+									"value": "dfgff",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "{{url-token}}",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "Pedido Pesquisar - Algafood",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "fuvain@gmail.com",
+									"type": "string"
+								},
+								{
+									"key": "clientSecret",
+									"value": "password",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "algafood-web",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "password_credentials",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}cidades",
+							"host": [
+								"{{url-v1}}cidades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cidades/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}cidades/1",
+							"host": [
+								"{{url-v1}}cidades"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cidades",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"nome\": \"Uberlândia\",\r\n        \"estado\": 6\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}cidades",
+							"host": [
+								"{{url-v1}}cidades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cidades/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"nome\": \"Avaré\",\r\n        \"estado\": 6\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}cidades/5",
+							"host": [
+								"{{url-v1}}cidades"
+							],
+							"path": [
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cidades/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}cidades/1",
+							"host": [
+								"{{url-v1}}cidades"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cozinhas",
+			"item": [
+				{
+					"name": "cozinhas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url-v1}}cozinhas",
+							"host": [
+								"{{url-v1}}cozinhas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cozinhas/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}cozinhas/8",
+							"host": [
+								"{{url-v1}}cozinhas"
+							],
+							"path": [
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cozinhas",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\":\"Chinesa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}cozinhas",
+							"host": [
+								"{{url-v1}}cozinhas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cozinhas/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\":\"Chinesa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}cozinhas/1",
+							"host": [
+								"{{url-v1}}cozinhas"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cozinhas/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}cozinhas/1",
+							"host": [
+								"{{url-v1}}cozinhas"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cozinhas/por-nome",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}cozinhas/por-nome?nome=esa",
+							"host": [
+								"{{url-v1}}cozinhas"
+							],
+							"path": [
+								"por-nome"
+							],
+							"query": [
+								{
+									"key": "nome",
+									"value": "esa"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "estados",
+			"item": [
+				{
+					"name": "estados",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{url-v1}}estados",
+							"host": [
+								"{{url-v1}}estados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "estados/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}estados/5",
+							"host": [
+								"{{url-v1}}estados"
+							],
+							"path": [
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "estados",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"nome\": \"Rio de Janeiro\",\r\n        \"sigla\": \"RJ\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}estados",
+							"host": [
+								"{{url-v1}}estados"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "estados/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"nome\": \"Rio de Janeiro\",\r\n        \"sigla\": \"RJ\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}estados/2",
+							"host": [
+								"{{url-v1}}estados"
+							],
+							"path": [
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "estados/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}estados/1",
+							"host": [
+								"{{url-v1}}estados"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "formas-pagamento",
+			"item": [
+				{
+					"name": "formas-pagamento",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url-v1}}formas-pagamento",
+							"host": [
+								"{{url-v1}}formas-pagamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "formas-pagamento/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}formas-pagamento/1",
+							"host": [
+								"{{url-v1}}formas-pagamento"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "formas-pagamento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"descricao\":\"Vale-Refeição\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}formas-pagamento",
+							"host": [
+								"{{url-v1}}formas-pagamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "formas-pagamento/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"descricao\":\"Vale-Alimentação\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}formas-pagamento/4",
+							"host": [
+								"{{url-v1}}formas-pagamento"
+							],
+							"path": [
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "formas-pagamento/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}formas-pagamento/1",
+							"host": [
+								"{{url-v1}}formas-pagamento"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "grupos",
+			"item": [
+				{
+					"name": "permissoes",
+					"item": [
+						{
+							"name": "gupos/{id}/permissoes",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}grupos/2/permissoes",
+									"host": [
+										"{{url-v1}}grupos"
+									],
+									"path": [
+										"2",
+										"permissoes"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "gupos/{id}/permissoes/{id}",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}grupos/2/permissoes/2",
+									"host": [
+										"{{url-v1}}grupos"
+									],
+									"path": [
+										"2",
+										"permissoes",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "gupos/{id}/permissoes/{id} Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}grupos/2/permissoes/2",
+									"host": [
+										"{{url-v1}}grupos"
+									],
+									"path": [
+										"2",
+										"permissoes",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "grupos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url-v1}}grupos",
+							"host": [
+								"{{url-v1}}grupos"
+							],
+							"query": [
+								{
+									"key": "campos",
+									"value": "nome",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupos/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}grupos/1",
+							"host": [
+								"{{url-v1}}grupos"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"nome\": \"CAIXA_RESTAURANTE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}grupos",
+							"host": [
+								"{{url-v1}}grupos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupos/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n      \"nome\": \"CAIXA_RESTAURANTE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}grupos/4",
+							"host": [
+								"{{url-v1}}grupos"
+							],
+							"path": [
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "grupos/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}grupos/1",
+							"host": [
+								"{{url-v1}}grupos"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "pedido",
+			"item": [
+				{
+					"name": "/pedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}pedidos",
+							"host": [
+								"{{url-v1}}pedidos"
+							],
+							"query": [
+								{
+									"key": "campos",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos resumo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}pedidos?view=resumo",
+							"host": [
+								"{{url-v1}}pedidos"
+							],
+							"query": [
+								{
+									"key": "view",
+									"value": "resumo"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos/pesquisar (specification filter)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}pedidos/pesquisar?clienteId=1",
+							"host": [
+								"{{url-v1}}pedidos"
+							],
+							"path": [
+								"pesquisar"
+							],
+							"query": [
+								{
+									"key": "clienteId",
+									"value": "1"
+								},
+								{
+									"key": "restauranteId",
+									"value": "4",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "ENTREGUE",
+									"disabled": true
+								},
+								{
+									"key": "dataCriacaoInicio",
+									"value": "2019-10-30T10:00:00Z",
+									"disabled": true
+								},
+								{
+									"key": "dataCriacaoFim",
+									"value": "2019-12-31T10:00:00Z",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "3",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "valorTotal",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos/{codigo}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}pedidos/f9981ca4-5a5e-4da3-af04-933861df3e55",
+							"host": [
+								"{{url-v1}}pedidos"
+							],
+							"path": [
+								"f9981ca4-5a5e-4da3-af04-933861df3e55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos/{codigo} - gerente",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}pedidos/f9981ca4-5a5e-4da3-af04-933861df3e55",
+							"host": [
+								"{{url-v1}}pedidos"
+							],
+							"path": [
+								"f9981ca4-5a5e-4da3-af04-933861df3e55"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos - versão AUTH",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"restaurante\": 2,\r\n    \"enderecoEntrega\": {\r\n        \"logradouro\": \"Rua Floriano Peixoto\",\r\n        \"numero\": \"500\",\r\n        \"complemento\": \"Apto 801\",\r\n        \"bairro\": \"Brasil\",\r\n        \"cidade\": 1,\r\n        \"cep\": \"38400-000\"\r\n    },\r\n    \"status\": \"CRIADO\",\r\n    \"itens\": [\r\n        {\r\n            \"quantidade\": 2,\r\n            \"observacao\": \"Menos picante, por favor\",\r\n            \"produto\": 2\r\n        }\r\n    ],\r\n    \"formaPagamento\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}pedidos",
+							"host": [
+								"{{url-v1}}pedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos/{codigo}/confirmacao",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}pedidos/5316c09d-8b64-11ec-b957-8cec4b0339fa/confirmacao",
+							"host": [
+								"{{url-v1}}pedidos"
+							],
+							"path": [
+								"5316c09d-8b64-11ec-b957-8cec4b0339fa",
+								"confirmacao"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos/{codigo}/entrega",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}pedidos/5316c09d-8b64-11ec-b957-8cec4b0339fa/entrega",
+							"host": [
+								"{{url-v1}}pedidos"
+							],
+							"path": [
+								"5316c09d-8b64-11ec-b957-8cec4b0339fa",
+								"entrega"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/pedidos/{codigo}/cancelamento",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}pedidos/f9981ca4-5a5e-4da3-af04-933861df3e55/cancelamento",
+							"host": [
+								"{{url-v1}}pedidos"
+							],
+							"path": [
+								"f9981ca4-5a5e-4da3-af04-933861df3e55",
+								"cancelamento"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "--deprecated /pedidos - versão OLD (com cliente)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"restaurante\": 2,\r\n    \"cliente\": 1,\r\n    \"enderecoEntrega\": {\r\n        \"logradouro\": \"Rua Floriano Peixoto\",\r\n        \"numero\": \"500\",\r\n        \"complemento\": \"Apto 801\",\r\n        \"bairro\": \"Brasil\",\r\n        \"cidade\": 1,\r\n        \"cep\": \"38400-000\"\r\n    },\r\n    \"status\": \"CRIADO\",\r\n    \"itens\": [\r\n        {\r\n            \"quantidade\": 2,\r\n            \"observacao\": \"Menos picante, por favor\",\r\n            \"produto\": 2\r\n        }\r\n    ],\r\n    \"formaPagamento\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}pedidos",
+							"host": [
+								"{{url-v1}}pedidos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "permissoes",
+			"item": [
+				{
+					"name": "permissoes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}permissoes",
+							"host": [
+								"{{url-v1}}permissoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "permissoes/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}permissoes/5",
+							"host": [
+								"{{url-v1}}permissoes"
+							],
+							"path": [
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "permissoes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"nome\": \"CONSULTAR_TAXAS_FRETE\",\r\n        \"descricao\": \"Permite consultar FRETES\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}permissoes",
+							"host": [
+								"{{url-v1}}permissoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "permissoes/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"nome\": \"CONSULTAR_COZINHAS\",\r\n        \"descricao\": \"Permite consultar cozinhas\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}permissoes/2",
+							"host": [
+								"{{url-v1}}permissoes"
+							],
+							"path": [
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "permissoes/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}permissoes/1",
+							"host": [
+								"{{url-v1}}permissoes"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "restaurantes",
+			"item": [
+				{
+					"name": "formas-pagamento",
+					"item": [
+						{
+							"name": "/restaurantes/{id}/formas-pagamento",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/formas-pagamento",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"formas-pagamento"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/restaurantes/{id}/formas-pagamento",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/formas-pagamento/2",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"formas-pagamento",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/restaurantes/{id}/formas-pagamento",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/formas-pagamento/1",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"formas-pagamento",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "produtos",
+					"item": [
+						{
+							"name": "foto",
+							"item": [
+								{
+									"name": "/restaurantes/{id}/produtos/{id}/foto - IMAGEM",
+									"protocolProfileBehavior": {
+										"disabledSystemHeaders": {
+											"accept": true
+										}
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "image/*",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-v1}}restaurantes/1/produtos/14/foto",
+											"host": [
+												"{{url-v1}}restaurantes"
+											],
+											"path": [
+												"1",
+												"produtos",
+												"14",
+												"foto"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/restaurantes/{id}/produtos/{id}/foto - JSON Copy",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-v1}}restaurantes/1/produtos/14/foto",
+											"host": [
+												"{{url-v1}}restaurantes"
+											],
+											"path": [
+												"1",
+												"produtos",
+												"14",
+												"foto"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/restaurantes/{id}/produtos/{id}/foto",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url-v1}}restaurantes/1/produtos/14/foto",
+											"host": [
+												"{{url-v1}}restaurantes"
+											],
+											"path": [
+												"1",
+												"produtos",
+												"14",
+												"foto"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/restaurantes/{id}/produtos/{id}/foto",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "descricao",
+													"value": "hamburguer do chef",
+													"type": "text"
+												},
+												{
+													"key": "arquivo",
+													"type": "file",
+													"src": "/C:/Users/Giovanna/Pictures/hamburguer_1.jpeg"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url-v1}}restaurantes/1/produtos/14/foto",
+											"host": [
+												"{{url-v1}}restaurantes"
+											],
+											"path": [
+												"1",
+												"produtos",
+												"14",
+												"foto"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "/restaurantes/{id}/produtos/{id}/foto Copy",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "descricao",
+													"value": "murg curry",
+													"type": "text"
+												},
+												{
+													"key": "arquivo",
+													"type": "file",
+													"src": "/C:/Users/Giovanna/Pictures/murcurry.png"
+												}
+											]
+										},
+										"url": {
+											"raw": "{{url-v1}}restaurantes/4/produtos/5/foto",
+											"host": [
+												"{{url-v1}}restaurantes"
+											],
+											"path": [
+												"4",
+												"produtos",
+												"5",
+												"foto"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "/restaurantes/{id}/produtos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/produtos?incluirInativos=true",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"produtos"
+									],
+									"query": [
+										{
+											"key": "incluirInativos",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/restaurantes/{id}/produtos/{id}",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/produtos/14",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"produtos",
+										"14"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/restaurantes/{id}/produtos/{id}",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nome\": \"Hamburguer da Casa\",\r\n    \"descricao\": \"Hamburguer de patinho com queijo brie e rúcula em pão italiano\",\r\n    \"preco\": 27.20,\r\n    \"ativo\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/produtos/2",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"produtos",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/restaurantes/{id}/produtos/{id} Copy",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n    \"preco\": 28.70\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/produtos/12",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"produtos",
+										"12"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/restaurantes/{id}/produtos/{id}",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/produtos/12",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"produtos",
+										"12"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/restaurantes/{id}/produtos/{id} Copy 2",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n    \"preco\": 28.70\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/produtos/12/ativar",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"produtos",
+										"12",
+										"ativar"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/restaurantes/{id}/produtos/{id} Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/produtos/12/desativar",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"produtos",
+										"12",
+										"desativar"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "responsaveis",
+					"item": [
+						{
+							"name": "/restaurantes/{id}/responsaveis",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/responsaveis",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"responsaveis"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/restaurantes/{id}/responsaveis/{id}",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/responsaveis/3",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"responsaveis",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/restaurantes/{id}/responsaveis/{id} Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/responsaveis/2",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"responsaveis",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "restaurantes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}restaurantes",
+							"host": [
+								"{{url-v1}}restaurantes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurantes/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}restaurantes/1",
+							"host": [
+								"{{url-v1}}restaurantes"
+							],
+							"path": [
+								"1"
+							],
+							"query": [
+								{
+									"key": "campos",
+									"value": "nome,taxaFrete,cozinha",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurantes?nome%id_cozinha",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}restaurantes/por-nome-e-id-cozinha?nome=u&cozinhaId=5",
+							"host": [
+								"{{url-v1}}restaurantes"
+							],
+							"path": [
+								"por-nome-e-id-cozinha"
+							],
+							"query": [
+								{
+									"key": "nome",
+									"value": "u"
+								},
+								{
+									"key": "cozinhaId",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "specification",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}restaurantes/specification?nome=ki",
+							"host": [
+								"{{url-v1}}restaurantes"
+							],
+							"path": [
+								"specification"
+							],
+							"query": [
+								{
+									"key": "nome",
+									"value": "ki"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurantes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"nome\": \"Quinta do Marquês\",\r\n        \"taxaFrete\": 4.00,\r\n        \"cozinha\": 5,\r\n        \"endereco\": {\r\n            \"logradouro\": \"rua x\",\r\n            \"numero\": \"234\",\r\n            \"bairro\": \"bairro y\",\r\n            \"cidade\": 1,\r\n            \"cep\": \"2345466\"\r\n        }\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}restaurantes",
+							"host": [
+								"{{url-v1}}restaurantes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurantes/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"nome\": \"Segredo de Minas\",\r\n        \"taxaFrete\": 2.00,\r\n        \"cozinha\": 2\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}restaurantes/1",
+							"host": [
+								"{{url-v1}}restaurantes"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurantes/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}restaurantes/1",
+							"host": [
+								"{{url-v1}}restaurantes"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurantes/{id}",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n    \"nome\": \"Larica dos Moleque\",\r\n    \"taxaFrete\": 3.50\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}restaurantes/3",
+							"host": [
+								"{{url-v1}}restaurantes"
+							],
+							"path": [
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurante/{id}/ativo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}restaurantes/1/ativo",
+							"host": [
+								"{{url-v1}}restaurantes"
+							],
+							"path": [
+								"1",
+								"ativo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurante/{id}/inativo",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}restaurantes/1/inativo",
+							"host": [
+								"{{url-v1}}restaurantes"
+							],
+							"path": [
+								"1",
+								"inativo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurante/{id}/aberto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}restaurantes/1/aberto",
+							"host": [
+								"{{url-v1}}restaurantes"
+							],
+							"path": [
+								"1",
+								"aberto"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurante/{id}/fechado",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}restaurantes/1/fechado",
+							"host": [
+								"{{url-v1}}restaurantes"
+							],
+							"path": [
+								"1",
+								"fechado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurante/ativos",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    1,\r\n    2,\r\n    3\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}restaurantes/ativos",
+							"host": [
+								"{{url-v1}}restaurantes"
+							],
+							"path": [
+								"ativos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restaurante/inativos",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    1,\r\n    2,\r\n    3\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}restaurantes/inativos",
+							"host": [
+								"{{url-v1}}restaurantes"
+							],
+							"path": [
+								"inativos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "usuarios",
+			"item": [
+				{
+					"name": "grupos",
+					"item": [
+						{
+							"name": "usuarios/{}id/grupos",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}usuarios/1/grupos",
+									"host": [
+										"{{url-v1}}usuarios"
+									],
+									"path": [
+										"1",
+										"grupos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "usuarios/{}id/grupos/{id}",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}usuarios/1/grupos/2",
+									"host": [
+										"{{url-v1}}usuarios"
+									],
+									"path": [
+										"1",
+										"grupos",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "usuarios/{}id/grupos/{id} Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}usuarios/1/grupos/2",
+									"host": [
+										"{{url-v1}}usuarios"
+									],
+									"path": [
+										"1",
+										"grupos",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "usuarios",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url-v1}}usuarios?size=10&page=0&sort=nome",
+							"host": [
+								"{{url-v1}}usuarios"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "sort",
+									"value": "nome"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usuarios/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}usuarios/1",
+							"host": [
+								"{{url-v1}}usuarios"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usuarios",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n        \"nome\": \"Tenar Lint\",\r\n        \"email\": \"tenar@gmail.com\",\r\n        \"senha\": \"12345aa\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}usuarios",
+							"host": [
+								"{{url-v1}}usuarios"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usuarios/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Tenar Lint\",\r\n    \"email\": \"tenarlint@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}usuarios/3",
+							"host": [
+								"{{url-v1}}usuarios"
+							],
+							"path": [
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usuarios/{id}/senha",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"novaSenha\": \"123456\",\r\n    \"senhaAtual\": \"12345aa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url-v1}}usuarios/22/senha",
+							"host": [
+								"{{url-v1}}usuarios"
+							],
+							"path": [
+								"22",
+								"senha"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usuarios/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}usuarios/1",
+							"host": [
+								"{{url-v1}}usuarios"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "estatisticas",
+			"item": [
+				{
+					"name": "/vendas-diarias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url-v1}}estatisticas/vendas-diarias",
+							"host": [
+								"{{url-v1}}estatisticas"
+							],
+							"path": [
+								"vendas-diarias"
+							],
+							"query": [
+								{
+									"key": "restauranteId",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "dataCriacaoInicio",
+									"value": "2019-10-30T10:00:00Z",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/vendas-diarias pdf",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/pdf",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url-v1}}estatisticas/vendas-diarias/pdf?restauranteId=1",
+							"host": [
+								"{{url-v1}}estatisticas"
+							],
+							"path": [
+								"vendas-diarias",
+								"pdf"
+							],
+							"query": [
+								{
+									"key": "restauranteId",
+									"value": "1"
+								},
+								{
+									"key": "dataCriacaoInicio",
+									"value": "2019-10-30T10:00:00Z",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "doc",
+			"item": [
+				{
+					"name": "Docs OpenAPI 3.0",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/v3/api-docs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v3",
+								"api-docs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Docs Swagger UI html",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/swagger-ui/index.html",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"swagger-ui",
+								"index.html"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "oauth",
+			"item": [
+				{
+					"name": "/oauth/token",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "algafood-web",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "fish@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345aa",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/oauth/token",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check-token",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "algafood-web",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvX2lkIjo3LCJ1c2VyX25hbWUiOiJmaXNoQGdtYWlsLmNvbSIsInNjb3BlIjpbIndyaXRlIiwicmVhZCJdLCJleHAiOjE2NDg3NzM0MTksImF1dGhvcml0aWVzIjpbIkVESVRBUl9DT1pJTkhBUyIsIkNPTlNVTFRBUl9SRVNUQVVSQU5URVMiLCJFRElUQVJfRk9STUFTX1BBR0FNRU5UTyIsIkVESVRBUl9SRVNUQVVSQU5URVMiLCJDT05TVUxUQVJfVVNVQVJJT1MiLCJFRElUQVJfVVNVQVJJT1MiLCJDT05TVUxUQVJfUFJPRFVUT1MiLCJDT05TVUxUQVJfQ09aSU5IQVMiLCJHRVJBUl9SRUxBVE9SSU9TIiwiRURJVEFSX0NJREFERVMiLCJHRVJFTkNJQVJfUEVESURPUyIsIkNPTlNVTFRBUl9DSURBREVTIiwiQ09OU1VMVEFSX0VTVEFET1MiLCJDT05TVUxUQVJfRk9STUFTX1BBR0FNRU5UTyIsIkNPTlNVTFRBUl9QRURJRE9TIiwiRURJVEFSX1BST0RVVE9TIiwiRURJVEFSX0VTVEFET1MiXSwianRpIjoiZlhNZ1dwcTQ1OE4tdlFSUDFaSTFrd0lNc0RZIiwibm9tZV9jb21wbGV0byI6Ikplbm5hIEZpc2giLCJjbGllbnRfaWQiOiJhbGdhZm9vZC13ZWIifQ.fEEZYWY0GCRUGRhWQ1UeN8GyUd5XWyI3oqUzxk6io-ZRehtWeq2zqUEpmhvIjOI8_0VgERev10Mm3NacMLkTvLlPA6rQ0ofedForxBP3dDJQHLAMVITGTgjOh7tHXzstSQGLeIurUk7BtfE9Sa7VwA1IauylKHmqJcDJZPQere12jnVcTFPAtknWdxJZbqdocAojV_UszooK3Z9sRuI-5N8xN67xfF4d9JE3Td222uIIaXWswEZZiPtD50e6aRb9T7TCsX0Y4pcqiXchdq0rbgd1Jl00T52CJfMsDHXjtOFdijvwugTCW-0o65D56kKW9OOcRbWkf0crzg5jWtJbeg",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "12345",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8080/oauth/check_token",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"oauth",
+								"check_token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "(teste) github",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.github.com/users/GHBAlbuquerque/repos",
+					"protocol": "https",
+					"host": [
+						"api",
+						"github",
+						"com"
+					],
+					"path": [
+						"users",
+						"GHBAlbuquerque",
+						"repos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Root Entry Point",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url-v1}}",
+					"host": [
+						"{{url-v1}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "accessTokenUrl",
+				"value": "{{url-token}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "jolie@gmail.com",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "12345aa",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "password",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "algafood-web",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "password_credentials",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "Algafood Token",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url-v1",
+			"value": "http://localhost:8080/v1/",
+			"type": "string"
+		},
+		{
+			"key": "url-token",
+			"value": "http://localhost:8080/oauth/token",
+			"type": "string"
+		},
+		{
+			"key": "url-docker",
+			"value": "http://localhost/v1/",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}
