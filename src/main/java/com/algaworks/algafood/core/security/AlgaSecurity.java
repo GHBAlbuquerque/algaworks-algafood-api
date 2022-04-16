@@ -56,7 +56,6 @@ public class AlgaSecurity {
         return hasAuthority("GERENCIAR_PEDIDOS") || gerenciaRestauranteDoPedido(codigoPedido);
     }
 
-
     public boolean podeGerenciarRestaurante(Long restauranteId) {
         return hasAuthority("GERENCIAR_RESTAURANTES") || gerenciaRestaurante(restauranteId);
     }

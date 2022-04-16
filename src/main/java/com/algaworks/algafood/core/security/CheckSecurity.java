@@ -89,13 +89,13 @@ public @interface CheckSecurity {
 
     public @interface FormasPagamento {
 
-        @PreAuthorize("hasAuthority('CONSULTAR_FORMAS_PAGAMENTO')")
+        @PreAuthorize("@algaSecurity.podeConsultarFormasPagamento()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeConsultar {
         }
 
-        @PreAuthorize("@algaSecurity.podeConsultarFormasPagamento()")
+        @PreAuthorize("hasAuthority('EDITAR_FORMAS_PAGAMENTO')")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeEditar {
@@ -103,13 +103,13 @@ public @interface CheckSecurity {
     }
 
     public @interface Cidades {
-        @PreAuthorize("hasAuthority('CONSULTAR_CIDADES')")
+        @PreAuthorize("@algaSecurity.podeConsultarCidades()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeConsultar {
         }
 
-        @PreAuthorize("@algaSecurity.podeConsultarCidades()")
+        @PreAuthorize("hasAuthority('EDITAR_CIDADES')")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeEditar {
@@ -117,13 +117,13 @@ public @interface CheckSecurity {
     }
 
     public @interface Estados {
-        @PreAuthorize("hasAuthority('CONSULTAR_ESTADOS')")
+        @PreAuthorize("@algaSecurity.podeConsultarEstados()")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeConsultar {
         }
 
-        @PreAuthorize("@algaSecurity.podeConsultarEstados()")
+        @PreAuthorize("hasAuthority('EDITAR_ESTADOS')")
         @Retention(RUNTIME)
         @Target(METHOD)
         public @interface PodeEditar {
