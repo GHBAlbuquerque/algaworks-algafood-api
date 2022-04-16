@@ -75,6 +75,7 @@ insert into permissao (id, nome, descricao) values (14, 'EDITAR_PRODUTOS', 'Perm
 insert into permissao (id, nome, descricao) values (15, 'CONSULTAR_PEDIDOS', 'Permite consultar pedidos');
 insert into permissao (id, nome, descricao) values (16, 'GERENCIAR_PEDIDOS', 'Permite gerenciar pedidos');
 insert into permissao (id, nome, descricao) values (17, 'GERAR_RELATORIOS', 'Permite gerar relatórios');
+insert into permissao (id, nome, descricao) values (18, 'GERENCIAR_RESTAURANTES', 'Permite gerenciar restaurantes');
 
 insert into grupo (id, nome) values (1, 'GERENTE');
 insert into grupo (id, nome) values (2, 'VENDEDOR');

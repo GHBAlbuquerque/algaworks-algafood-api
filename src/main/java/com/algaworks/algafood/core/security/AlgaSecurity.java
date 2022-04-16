@@ -45,7 +45,7 @@ public class AlgaSecurity {
     }
 
     public boolean hasAuthority(String authorityName) {
-        return getAuthentication().getAuthorities()
+        return  getAuthentication().getAuthorities()
                 .stream()
                 .anyMatch(authority -> authority
                         .getAuthority()

@@ -4,6 +4,7 @@ import com.algaworks.algafood.api.v1.assembler.RestauranteAssembler;
 import com.algaworks.algafood.api.v1.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonDTO;
+import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonPostDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.ResourceUriHelper;
 import com.algaworks.algafood.core.security.CheckSecurity;
@@ -96,11 +97,11 @@ public class RestauranteController implements RestauranteControllerOpenApi {
     @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestauranteSingletonDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteInputDTO restauranteInput) {
+    public RestauranteSingletonPostDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteInputDTO restauranteInput) {
         var restaurante = assembler.toEntity(restauranteInput);
         try {
             var restauranteSalvo = restauranteService.salvar(restaurante);
-            var model = assembler.convertToSingletonModel(restauranteSalvo);
+            var model = assembler.convertToSingletonPostModel(restauranteSalvo);
 
             ResourceUriHelper.addUriInResponseHeader(model.getId());
             return model;

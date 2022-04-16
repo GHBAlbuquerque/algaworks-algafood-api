@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.v1.openapi.controller;
 import com.algaworks.algafood.api.v1.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonDTO;
+import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonPostDTO;
 import com.algaworks.algafood.validation.OrderedChecksTaxaFrete;
 import io.swagger.annotations.Api;
 import org.springframework.hateoas.CollectionModel;
@@ -35,7 +36,7 @@ public interface RestauranteControllerOpenApi {
 
     public CollectionModel<RestauranteDTO> queryPorSpecification(String nome);
 
-    public RestauranteSingletonDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class})
+    public RestauranteSingletonPostDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class})
                                                      RestauranteInputDTO restauranteInput);
 
     public ResponseEntity<RestauranteSingletonDTO> atualizar(@PathVariable long id,

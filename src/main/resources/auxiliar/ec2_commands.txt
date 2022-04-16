@@ -1,10 +1,32 @@
-### copy to ec2
+### COPIAR JAR PARA O EC2
 scp -i algafood.pem algaworks-algafood-api-0.0.1-SNAPSHOT.jar ec2-user@ec2-3-145-215-208.us-east-2.compute.amazonaws.com:~
 
-### start jar
+### START JAR EM DEV
 java -DDB_HOST=algafood-sql.cjrbesbldzlx.us-east-2.rds.amazonaws.com:3306 -Dspring.profiles.active=dev -Dspring.datasource.username=algafood-api -Dspring.datasource.password=algafoodsql -jar algaworks-algafood-api-0.0.1-SNAPSHOT.jar
+
+### START JAR EM PROD
+java -DDB_HOST=algafood-sql.cjrbesbldzlx.us-east-2.rds.amazonaws.com:3306 -Dspring.profiles.active=prod -Dspring.datasource.username=algafood-api -Dspring.datasource.password=algafoodsql -jar algaworks-algafood-api-0.0.1-SNAPSHOT.jar
 
 
 ## call endpoint
 http://ec2-3-145-215-208.us-east-2.compute.amazonaws.com:8080/v1/
 http://ec2-3-145-215-208.us-east-2.compute.amazonaws.com:8080/oauth/token
+
+## VARIABLES
+-DDB_HOST=
+-Dspring.datasource.username=
+-Dspring.datasource.password=
+-Dalgafood.storage.s3.id-acesso=
+-Dalgafood.storage.s3.chave-acesso=
+-Dalgafood.storage.s3.bucket=
+-Dalgafood.storage.s3.region=
+-Dalgafood.storage.s3.dir=
+-Dspring.mail.host=
+-Dspring.mail.port=
+-Dspring.mail.username=
+-Dspring.mail.password=
+-Dalgafood.email.remetente=
+-Dlogging.loggly.token=
+-Dalgafood.jwt.keystore.jks-location=
+-Dalgafood.jwt.keystore.password=
+-Dalgafood.jwt.keystore.keypair-alias=

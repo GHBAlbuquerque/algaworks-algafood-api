@@ -5,6 +5,7 @@ import com.algaworks.algafood.api.v1.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteModel;
 import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonDTO;
+import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonPostDTO;
 import com.algaworks.algafood.api.v1.utils.LinkGenerator;
 import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.exception.ConversaoException;
@@ -65,9 +66,69 @@ public class RestauranteAssembler extends RepresentationModelAssemblerSupport<Re
                     linkGenerator.linkToRestaurantes(),
                     linkGenerator.linkToFormasPagamentoRestaurante(id),
                     linkGenerator.linkToProdutos(id),
-                    linkGenerator.linkToResponsaveisRestaurante(id),
-                    adicionarLinkAtivacao(model),
-                    adicionarLinkAbertura(model));
+                    linkGenerator.linkToResponsaveisRestaurante(id));
+
+            var linkAtivacao = adicionarLinkAtivacao(model);
+            var linkAbertura = adicionarLinkAbertura(model);
+
+            if (linkAtivacao != null) {
+                model.add(linkAtivacao);
+            }
+
+            if (linkAbertura != null) {
+                model.add(linkAbertura);
+            }
+
+            var cozinha = model.getCozinha();
+
+            cozinha.add(linkGenerator.linkToCozinha(cozinha.getId()),
+                    linkGenerator.linkToCozinhas());
+
+            var usuarios = model.getResponsaveis();
+
+            usuarios.forEach((usuario) -> usuario.add(
+                    linkGenerator.linkToUsuario(usuario.getId()),
+                    linkGenerator.linkToUsuarios()));
+
+            var formasPagamento = model.getFormasPagamento();
+
+            formasPagamento.forEach((formaPagamento) -> formaPagamento.add(
+                    linkGenerator.linkToFormaPagamento(formaPagamento.getId()),
+                    linkGenerator.linkToFormasPagamento()));
+
+            var produtos = model.getProdutos();
+
+            produtos.forEach((produto) -> produto.add(
+                    linkGenerator.linkToProduto(produto.getId(), restaurante.getId()),
+                    linkGenerator.linkToProdutos(restaurante.getId())));
+
+            return model;
+        } catch (IllegalArgumentException ex) {
+            throw new ConversaoException("Erro ao converter a entidade para um objeto de saída.", ex.getCause());
+        }
+    }
+
+    public RestauranteSingletonPostDTO convertToSingletonPostModel(Restaurante restaurante) {
+        try {
+            var model = modelMapper.map(restaurante, RestauranteSingletonPostDTO.class);
+            var id = model.getId();
+
+            model.add(linkGenerator.linkToRestaurante(id),
+                    linkGenerator.linkToRestaurantes(),
+                    linkGenerator.linkToFormasPagamentoRestaurante(id),
+                    linkGenerator.linkToProdutos(id),
+                    linkGenerator.linkToResponsaveisRestaurante(id));
+
+            var linkAtivacao = adicionarLinkAtivacao(model);
+            var linkAbertura = adicionarLinkAbertura(model);
+
+            if (linkAtivacao != null) {
+                model.add(linkAtivacao);
+            }
+
+            if (linkAbertura != null) {
+                model.add(linkAbertura);
+            }
 
             var cozinha = model.getCozinha();
 
