@@ -26,8 +26,12 @@ public class AlgaSecurity {
         return jwt.getClaim("usuario_id");
     }
 
-    public boolean gerenciaRestaurante(Long RestauranteId) {
-        var ehResponsavel = restauranteRepository.existeResponsavel(RestauranteId, getUsuarioId());
+    public boolean gerenciaRestaurante(Long restauranteId) {
+        if (restauranteId == null) {
+            return false;
+        }
+
+        var ehResponsavel = restauranteRepository.existeResponsavel(restauranteId, getUsuarioId());
         return ehResponsavel;
     }
 
