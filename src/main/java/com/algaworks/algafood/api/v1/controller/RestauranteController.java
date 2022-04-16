@@ -4,7 +4,7 @@ import com.algaworks.algafood.api.v1.assembler.RestauranteAssembler;
 import com.algaworks.algafood.api.v1.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonDTO;
-import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonPostDTO;
+import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonFilterDTO;
 import com.algaworks.algafood.api.v1.openapi.controller.RestauranteControllerOpenApi;
 import com.algaworks.algafood.api.v1.utils.ResourceUriHelper;
 import com.algaworks.algafood.core.security.CheckSecurity;
@@ -17,7 +17,6 @@ import com.algaworks.algafood.validation.OrderedChecksTaxaFrete;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.Check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
@@ -57,13 +56,14 @@ public class RestauranteController implements RestauranteControllerOpenApi {
     @GetMapping("/{id}")
     public MappingJacksonValue buscar(@PathVariable long id, @RequestParam(required = false) String campos) {
         var restaurante = restauranteService.buscar(id);
-        var model = assembler.convertToSingletonModel(restaurante);
+        var model = assembler.convertToSingletonFilterModel(restaurante);
 
         var wrapper = criarFiltro(model, campos);
 
         return wrapper;
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @GetMapping("/por-nome-e-id-cozinha") // query no orm.xml
     public ResponseEntity<CollectionModel<RestauranteDTO>> buscarPorNomeECozinha(@PathParam(value = "nome") String nome,
                                                                                  @PathParam(value = "cozinha_id") Long cozinhaId) {
@@ -72,6 +72,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         return ResponseEntity.ok(models);
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @GetMapping("/por-nome")
     public ResponseEntity<RestauranteDTO> buscarPorNome(@PathParam(value = "nome") String nome) {
         var restaurante = restauranteRepository.findFirstRestauranteByNomeContaining(nome);
@@ -82,12 +83,14 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         return ResponseEntity.notFound().build();
     }
 
+    @CheckSecurity.Restaurantes.PodeConsultar
     @GetMapping("/count-por-cozinhaId")
     public int quantidadePorCozinhaId(Long cozinhaId) {
         return restauranteRepository.countByCozinhaId(cozinhaId);
     }
 
     // SPECIFICATION
+    @CheckSecurity.Restaurantes.PodeConsultar
     @GetMapping("/specification")
     public CollectionModel<RestauranteDTO> queryPorSpecification(String nome) {
         var restaurantes = restauranteRepository.buscarComFreteGratis(nome);
@@ -97,11 +100,11 @@ public class RestauranteController implements RestauranteControllerOpenApi {
     @CheckSecurity.Restaurantes.PodeGerenciarCadastro
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public RestauranteSingletonPostDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteInputDTO restauranteInput) {
+    public RestauranteSingletonDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class}) RestauranteInputDTO restauranteInput) {
         var restaurante = assembler.toEntity(restauranteInput);
         try {
             var restauranteSalvo = restauranteService.salvar(restaurante);
-            var model = assembler.convertToSingletonPostModel(restauranteSalvo);
+            var model = assembler.convertToSingletonModel(restauranteSalvo);
 
             ResourceUriHelper.addUriInResponseHeader(model.getId());
             return model;
@@ -185,7 +188,7 @@ public class RestauranteController implements RestauranteControllerOpenApi {
         return ResponseEntity.noContent().build();
     }
 
-    public MappingJacksonValue criarFiltro(RestauranteSingletonDTO model, String campos) {
+    public MappingJacksonValue criarFiltro(RestauranteSingletonFilterDTO model, String campos) {
         var wrapper = new MappingJacksonValue(model);
 
         var filterProvider = new SimpleFilterProvider();

@@ -2,8 +2,8 @@ package com.algaworks.algafood.api.v1.openapi.controller;
 
 import com.algaworks.algafood.api.v1.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteDTO;
+import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonFilterDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonDTO;
-import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonPostDTO;
 import com.algaworks.algafood.validation.OrderedChecksTaxaFrete;
 import io.swagger.annotations.Api;
 import org.springframework.hateoas.CollectionModel;
@@ -36,18 +36,18 @@ public interface RestauranteControllerOpenApi {
 
     public CollectionModel<RestauranteDTO> queryPorSpecification(String nome);
 
-    public RestauranteSingletonPostDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class})
+    public RestauranteSingletonDTO adicionar(@RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class})
                                                      RestauranteInputDTO restauranteInput);
 
     public ResponseEntity<RestauranteSingletonDTO> atualizar(@PathVariable long id,
-                                                             @RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class})
+                                                                   @RequestBody @Validated({OrderedChecksTaxaFrete.class, Default.class})
                                                                      RestauranteInputDTO restauranteInput);
 
     public ResponseEntity<?> deletar(@PathVariable long id);
 
     public ResponseEntity<RestauranteSingletonDTO> atualizarParcial(@PathVariable long id,
-                                                                    @RequestBody Map<String, Object> campos,
-                                                                    HttpServletRequest request);
+                                                                          @RequestBody Map<String, Object> campos,
+                                                                          HttpServletRequest request);
 
     public ResponseEntity<Void> ativar(@PathVariable long id);
 

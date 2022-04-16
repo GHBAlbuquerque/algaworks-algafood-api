@@ -4,8 +4,8 @@ import com.algaworks.algafood.api.v1.controller.RestauranteController;
 import com.algaworks.algafood.api.v1.model.input.RestauranteInputDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteModel;
+import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonFilterDTO;
 import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonDTO;
-import com.algaworks.algafood.api.v1.model.output.RestauranteSingletonPostDTO;
 import com.algaworks.algafood.api.v1.utils.LinkGenerator;
 import com.algaworks.algafood.core.security.AlgaSecurity;
 import com.algaworks.algafood.domain.exception.ConversaoException;
@@ -57,9 +57,9 @@ public class RestauranteAssembler extends RepresentationModelAssemblerSupport<Re
         }
     }
 
-    public RestauranteSingletonDTO convertToSingletonModel(Restaurante restaurante) {
+    public RestauranteSingletonFilterDTO convertToSingletonFilterModel(Restaurante restaurante) {
         try {
-            var model = modelMapper.map(restaurante, RestauranteSingletonDTO.class);
+            var model = modelMapper.map(restaurante, RestauranteSingletonFilterDTO.class);
             var id = model.getId();
 
             model.add(linkGenerator.linkToRestaurante(id),
@@ -108,9 +108,9 @@ public class RestauranteAssembler extends RepresentationModelAssemblerSupport<Re
         }
     }
 
-    public RestauranteSingletonPostDTO convertToSingletonPostModel(Restaurante restaurante) {
+    public RestauranteSingletonDTO convertToSingletonModel(Restaurante restaurante) {
         try {
-            var model = modelMapper.map(restaurante, RestauranteSingletonPostDTO.class);
+            var model = modelMapper.map(restaurante, RestauranteSingletonDTO.class);
             var id = model.getId();
 
             model.add(linkGenerator.linkToRestaurante(id),

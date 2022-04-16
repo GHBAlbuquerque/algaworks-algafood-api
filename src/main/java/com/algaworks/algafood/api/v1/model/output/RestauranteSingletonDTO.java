@@ -1,6 +1,5 @@
 package com.algaworks.algafood.api.v1.model.output;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RestauranteSingletonPostDTO extends RepresentationModel<RestauranteSingletonPostDTO> implements RestauranteModel {
+public class RestauranteSingletonDTO extends RepresentationModel<RestauranteSingletonDTO> implements RestauranteModel {
 
     private Long id;
 
