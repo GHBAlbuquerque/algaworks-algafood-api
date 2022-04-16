@@ -35,9 +35,11 @@ public class GrupoAssembler extends RepresentationModelAssemblerSupport<Grupo, G
 
             var permissoes = model.getPermissoes();
 
-            permissoes.forEach(permissao -> permissao.add(linkGenerator.linkToPermissao(grupo.getId()),
-                    linkGenerator.linkToPermissoes(),
-                    linkGenerator.linkToGrupoPermissaoRemover(grupo.getId(), permissao.getId())));
+            if(permissoes != null) {
+                permissoes.forEach(permissao -> permissao.add(linkGenerator.linkToPermissao(grupo.getId()),
+                        linkGenerator.linkToPermissoes(),
+                        linkGenerator.linkToGrupoPermissaoRemover(grupo.getId(), permissao.getId())));
+            }
 
             return model;
         } catch (IllegalArgumentException ex) {
