@@ -1,0 +1,8 @@
+### DEPLOY
+git push heroku main
+
+### RESTART
+heroku restart
+
+### LOGS
+heroku logs
