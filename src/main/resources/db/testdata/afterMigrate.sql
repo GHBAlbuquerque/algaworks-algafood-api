@@ -118,13 +118,13 @@ insert into usuario (id, nome, email, senha, data_cadastro) values (19, 'Serena 
 insert into usuario (id, nome, email, senha, data_cadastro) values (20, 'Sylvia Lane', 'Lane@gmail.com', '$2a$12$z2U9xVyBeRMiTp1QcTMm6.Zs0dOUiVUYPSPO7OhaGFFrSfOwMlAki', utc_timestamp);
 insert into usuario_grupo (usuario_id, grupo_id) values (1, 1), (2, 2), (3, 3), (4, 4), (5,2), (6,2), (7,1);
 
-insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values ('Senhor Glutão', 12.50, 5, 1, '38400999', 'Rua João Pinheiro', '1000', 'Centro', utc_timestamp, utc_timestamp, true, true);
-insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values ('Thai Gourmet', 15.50, 1, 2, '38400999', 'Rua João Pinheiro', '1000', 'Centro', utc_timestamp, utc_timestamp, true, true);
-insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values ('Larica', 3.00, 5, 3, '38400999', 'Rua João Pinheiro', '1000', 'Centro',  utc_timestamp, utc_timestamp, true, true);
-insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values ('TukTuk Delivery', 1.00, 6, 4, '38400999', 'Rua João Pinheiro', '1000', 'Centro',  utc_timestamp, utc_timestamp, true, true);
-insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values ('La Pururuca', 0.50, 7, 5, '38400999', 'Rua João Pinheiro', '1000', 'Centro',  utc_timestamp, utc_timestamp, true, true);
-insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values ('Fish and Chips', 18.50, 2, 1, '38400999', 'Rua João Pinheiro', '1000', 'Centro',  utc_timestamp, utc_timestamp, true, true);
-insert into restaurante (nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values ('Burguer King', 0, 8, 2, '38400999', 'Rua João Pinheiro', '1000', 'Centro',  utc_timestamp, utc_timestamp, true, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values (1, 'Senhor Glutão', 12.50, 5, 1, '38400999', 'Rua João Pinheiro', '1000', 'Centro', utc_timestamp, utc_timestamp, true, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values (2, 'Thai Gourmet', 15.50, 1, 2, '38400999', 'Rua João Pinheiro', '1000', 'Centro', utc_timestamp, utc_timestamp, true, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values (3, 'Larica', 3.00, 5, 3, '38400999', 'Rua João Pinheiro', '1000', 'Centro',  utc_timestamp, utc_timestamp, true, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values (4, 'TukTuk Delivery', 1.00, 6, 4, '38400999', 'Rua João Pinheiro', '1000', 'Centro',  utc_timestamp, utc_timestamp, true, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values (5, 'La Pururuca', 0.50, 7, 5, '38400999', 'Rua João Pinheiro', '1000', 'Centro',  utc_timestamp, utc_timestamp, true, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values (6, 'Fish and Chips', 18.50, 2, 1, '38400999', 'Rua João Pinheiro', '1000', 'Centro',  utc_timestamp, utc_timestamp, true, true);
+insert into restaurante (id, nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, data_cadastro, data_atualizacao, ativo, aberto) values (7, 'Burguer King', 0, 8, 2, '38400999', 'Rua João Pinheiro', '1000', 'Centro',  utc_timestamp, utc_timestamp, true, true);
 
 insert into forma_pagamento (id, descricao) values (1, 'Cartão de crédito');
 insert into forma_pagamento (id, descricao) values (2, 'Cartão de débito');
@@ -134,20 +134,20 @@ insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) val
 
 insert into restaurante_responsavel (restaurante_id, usuario_id) values (1, 1), (1, 2), (2, 2), (3, 2), (4, 2), (5, 1);
 
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 1, 5);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Camarão tailandês', '16 camarões grandes ao molho picante', 110, 1, 2);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Salada picante com carne grelhada', 'Salada de folhas com cortes finos de carne bovina grelhada e nosso molho especial de pimenta vermelha', 87.20, 1, 1);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Garlic Naan', 'Pão tradicional indiano com cobertura de alho', 21, 1, 4);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Murg Curry', 'Cubos de frango preparados com molho curry e especiarias', 43, 1, 4);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Bife Ancho', 'Corte macio e suculento, com dois dedos de espessura, retirado da parte dianteira do contrafilé', 79, 1, 5);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('T-Bone', 'Corte muito saboroso, com um osso em formato de T, sendo de um lado o contrafilé e do outro o filé mignon', 89, 1, 5);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, bacon, ovo, salada e maionese', 19, 1, 3);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 1);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Whooper', 'Acompanha Coca-cola e fritas', 22, 1, 7);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Peixe com fritas', 'Tradicional prato inglës', 48, 1, 7);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Feijoada da Casa', 'Clássico prato brasileiro a base de feijões e carne', 180, 0, 1);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Lombo à milanesa', 'Deliciosas fatias de lombo feitas à milanesa. Acompanha arroz e fritas.', 98, 1, 1);
-insert into produto (nome, descricao, preco, ativo, restaurante_id) values ('Hamburguer do Chef', 'Delicioso hamburguer artesanal com queijo prato, alface, tomate e maionese da casa no pão com gergelim.', 38.50, 1, 1);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (1,'Porco com molho agridoce', 'Deliciosa carne suína ao molho especial', 78.90, 1, 5);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (2, 'Camarão tailandês', '16 camarões grandes ao molho picante', 110, 1, 2);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (3, 'Salada picante com carne grelhada', 'Salada de folhas com cortes finos de carne bovina grelhada e nosso molho especial de pimenta vermelha', 87.20, 1, 1);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (4, 'Garlic Naan', 'Pão tradicional indiano com cobertura de alho', 21, 1, 4);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (5, 'Murg Curry', 'Cubos de frango preparados com molho curry e especiarias', 43, 1, 4);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (6, 'Bife Ancho', 'Corte macio e suculento, com dois dedos de espessura, retirado da parte dianteira do contrafilé', 79, 1, 5);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (7, 'T-Bone', 'Corte muito saboroso, com um osso em formato de T, sendo de um lado o contrafilé e do outro o filé mignon', 89, 1, 5);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (8, 'Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, bacon, ovo, salada e maionese', 19, 1, 3);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (9, 'Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 1);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (10, 'Whooper', 'Acompanha Coca-cola e fritas', 22, 1, 7);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (11, 'Peixe com fritas', 'Tradicional prato inglës', 48, 1, 7);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (12, 'Feijoada da Casa', 'Clássico prato brasileiro a base de feijões e carne', 180, 0, 1);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (13, 'Lombo à milanesa', 'Deliciosas fatias de lombo feitas à milanesa. Acompanha arroz e fritas.', 98, 1, 1);
+insert into produto (id, nome, descricao, preco, ativo, restaurante_id) values (14, 'Hamburguer do Chef', 'Delicioso hamburguer artesanal com queijo prato, alface, tomate e maionese da casa no pão com gergelim.', 38.50, 1, 1);
 
 
 insert into pedido (id, codigo, restaurante_id, cliente_id, forma_pagamento_id, endereco_cidade_id, endereco_cep, 
