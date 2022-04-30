@@ -1,10 +1,12 @@
 ### CONECTAR
 1) Abrir o putty e fazer load key do arquivo pem gerado na aws
+[ https://acervolima.com/como-conectar-se-a-instancia-do-amazon-linux-a-partir-do-sistema-operacional-cliente-windows-usando-putty/ ]
 2) save private key .ppk
 3) clicar duas vezes no ppk , botão direito > new session
 4) no host, colocar o endereço do ec2 da aba "SSH" em conectar (ex: ec2-3-145-215-208.us-east-2.compute.amazonaws.com)
 5) user: ec2-user
 6) copiar jar para o ec2 (comandabaixo, considerando .pem e jar na mesma pasta)
+[ https://medium.com/mobicareofficial/deploy-de-aplica%C3%A7%C3%A3o-spring-boot-utilizando-amazon-ec2-6eb0517040e4 ]
 7) rodar jar com os comandos abaixo para prod ou dev
 8) autenticar com o auth2
 9) chamar endpoints
