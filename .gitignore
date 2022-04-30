@@ -49,3 +49,7 @@ application-test-local.properties
 
 ##classes
 teste.java
+
+
+## logs
+/logs/
