@@ -24,7 +24,7 @@ public class RootEntryPointController implements RootEntryPointControllerOpenApi
                 linkGenerator.linkToCidades().withRel("cidades"),
                 linkGenerator.linkToCozinhas().withRel("cozinhas"),
                 linkGenerator.linkToEstados().withRel("estados"),
-                linkGenerator.linkToFormasPagamento().withRel("formas-pagamenti"),
+                linkGenerator.linkToFormasPagamento().withRel("formas-pagamento"),
                 linkGenerator.linkToGrupos().withRel("grupos"),
                 linkGenerator.linkToPedidos().withRel("pedidos"),
                 linkGenerator.linkToPermissoes().withRel("permissoes"),
