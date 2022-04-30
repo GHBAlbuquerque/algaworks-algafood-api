@@ -1,9 +1,9 @@
-ALTER TABLE `algafood`.`produto`
-DROP FOREIGN KEY `fk_produto_foto`;
-ALTER TABLE `algafood`.`produto`
-DROP COLUMN `foto_id`,
-DROP INDEX `fk_produto_foto` ;
-;
+ALTER TABLE produto
+DROP FOREIGN KEY fk_produto_foto;
 
+ALTER TABLE produto
+DROP COLUMN foto_id,
 
-DROP TABLE `algafood`.`foto_produto`;
+DROP INDEX fk_produto_foto;
+
+DROP TABLE foto_produto;
