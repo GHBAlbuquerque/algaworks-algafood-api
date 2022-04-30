@@ -29,6 +29,7 @@
         <spring-security-oauth2.version>2.5.1.RELEASE</spring-security-oauth2.version>
         <spring-security-jwt.version>1.0.11.RELEASE</spring-security-jwt.version>
         <dockerfile-maven-version>1.4.13</dockerfile-maven-version>
+        <flyway-core.version>5.2.4</flyway-core.version>
     </properties>
 
     <dependencies>
@@ -77,6 +78,7 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
+            <version>${flyway-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
