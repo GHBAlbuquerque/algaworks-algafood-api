@@ -6,3 +6,6 @@ heroku restart
 
 ### LOGS
 heroku logs
+
+### CLEARDB VARIABLE
+echo $CLEARDB_DATABASE_URL
