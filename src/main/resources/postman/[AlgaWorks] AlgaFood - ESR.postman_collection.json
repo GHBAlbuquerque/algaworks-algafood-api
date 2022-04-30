@@ -11,51 +11,6 @@
 				{
 					"name": "cidades",
 					"request": {
-						"auth": {
-							"type": "oauth2",
-							"oauth2": [
-								{
-									"key": "password",
-									"value": "dfgff",
-									"type": "string"
-								},
-								{
-									"key": "accessTokenUrl",
-									"value": "{{url-token}}",
-									"type": "string"
-								},
-								{
-									"key": "tokenName",
-									"value": "Pedido Pesquisar - Algafood",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "fuvain@gmail.com",
-									"type": "string"
-								},
-								{
-									"key": "clientSecret",
-									"value": "password",
-									"type": "string"
-								},
-								{
-									"key": "clientId",
-									"value": "algafood-web",
-									"type": "string"
-								},
-								{
-									"key": "grant_type",
-									"value": "password_credentials",
-									"type": "string"
-								},
-								{
-									"key": "addTokenTo",
-									"value": "header",
-									"type": "string"
-								}
-							]
-						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -87,14 +42,11 @@
 				{
 					"name": "cidades",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"nome\": \"Uberlândia\",\r\n        \"estado\": 6\r\n    }",
+							"raw": "{\r\n    \"nome\": \"Uberlândia\",\r\n    \"estado\": 6\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1079,6 +1031,67 @@
 					]
 				},
 				{
+					"name": "responsaveis",
+					"item": [
+						{
+							"name": "/restaurantes/{id}/responsaveis",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/responsaveis",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"responsaveis"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/restaurantes/{id}/responsaveis/{id}",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/responsaveis/3",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"responsaveis",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/restaurantes/{id}/responsaveis/{id} Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url-v1}}restaurantes/1/responsaveis/2",
+									"host": [
+										"{{url-v1}}restaurantes"
+									],
+									"path": [
+										"1",
+										"responsaveis",
+										"2"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "produtos",
 					"item": [
 						{
@@ -1311,7 +1324,7 @@
 							"response": []
 						},
 						{
-							"name": "/restaurantes/{id}/produtos/{id} Copy",
+							"name": "/restaurantes/{id}/produtos/{id}",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -1358,7 +1371,7 @@
 							"response": []
 						},
 						{
-							"name": "/restaurantes/{id}/produtos/{id} Copy 2",
+							"name": "/restaurantes/{id}/produtos/{id}/ativo",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -1372,7 +1385,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{url-v1}}restaurantes/1/produtos/12/ativar",
+									"raw": "{{url-v1}}restaurantes/1/produtos/12/ativo",
 									"host": [
 										"{{url-v1}}restaurantes"
 									],
@@ -1380,88 +1393,27 @@
 										"1",
 										"produtos",
 										"12",
-										"ativar"
+										"ativo"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "/restaurantes/{id}/produtos/{id} Copy",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{url-v1}}restaurantes/1/produtos/12/desativar",
-									"host": [
-										"{{url-v1}}restaurantes"
-									],
-									"path": [
-										"1",
-										"produtos",
-										"12",
-										"desativar"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "responsaveis",
-					"item": [
-						{
-							"name": "/restaurantes/{id}/responsaveis",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{url-v1}}restaurantes/1/responsaveis",
-									"host": [
-										"{{url-v1}}restaurantes"
-									],
-									"path": [
-										"1",
-										"responsaveis"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "/restaurantes/{id}/responsaveis/{id}",
+							"name": "/restaurantes/{id}/produtos/{id}/inativo",
 							"request": {
 								"method": "PUT",
 								"header": [],
 								"url": {
-									"raw": "{{url-v1}}restaurantes/1/responsaveis/3",
+									"raw": "{{url-v1}}restaurantes/1/produtos/12/inativo",
 									"host": [
 										"{{url-v1}}restaurantes"
 									],
 									"path": [
 										"1",
-										"responsaveis",
-										"3"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "/restaurantes/{id}/responsaveis/{id} Copy",
-							"request": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{url-v1}}restaurantes/1/responsaveis/2",
-									"host": [
-										"{{url-v1}}restaurantes"
-									],
-									"path": [
-										"1",
-										"responsaveis",
-										"2"
+										"produtos",
+										"12",
+										"inativo"
 									]
 								}
 							},
@@ -2063,14 +2015,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/v3/api-docs",
-							"protocol": "http",
+							"raw": "{{url}}v3/api-docs",
 							"host": [
-								"localhost"
+								"{{url}}v3"
 							],
-							"port": "8080",
 							"path": [
-								"v3",
 								"api-docs"
 							]
 						}
@@ -2083,14 +2032,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/swagger-ui/index.html",
-							"protocol": "http",
+							"raw": "{{url}}swagger-ui/index.html",
 							"host": [
-								"localhost"
+								"{{url}}swagger-ui"
 							],
-							"port": "8080",
 							"path": [
-								"swagger-ui",
 								"index.html"
 							]
 						}
@@ -2143,13 +2089,11 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:8080/oauth/token",
+							"raw": "{{url}}oauth/token",
 							"host": [
-								"localhost"
+								"{{url}}oauth"
 							],
-							"port": "8080",
 							"path": [
-								"oauth",
 								"token"
 							]
 						}
@@ -2199,11 +2143,10 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:8080/oauth/check_token",
+							"raw": "{{url}}/oauth/check_token",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8080",
 							"path": [
 								"oauth",
 								"check_token"
@@ -2217,6 +2160,21 @@
 		{
 			"name": "(teste) github",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password_analytics",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "client_analytics",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -2318,6 +2276,11 @@
 	],
 	"variable": [
 		{
+			"key": "url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
 			"key": "url-v1",
 			"value": "http://localhost:8080/v1/",
 			"type": "string"
@@ -2326,12 +2289,6 @@
 			"key": "url-token",
 			"value": "http://localhost:8080/oauth/token",
 			"type": "string"
-		},
-		{
-			"key": "url-docker",
-			"value": "http://localhost/v1/",
-			"type": "string",
-			"disabled": true
 		}
 	]
 }

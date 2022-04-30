@@ -42,9 +42,6 @@
 				{
 					"name": "cidades",
 					"request": {
-						"auth": {
-							"type": "noauth"
-						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -1266,7 +1263,7 @@
 							"response": []
 						},
 						{
-							"name": "/restaurantes/{id}/produtos/{id} Copy",
+							"name": "/restaurantes/{id}/produtos/{id}",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -1313,7 +1310,7 @@
 							"response": []
 						},
 						{
-							"name": "/restaurantes/{id}/produtos/{id} Copy 2",
+							"name": "/restaurantes/{id}/produtos/{id}/ativo",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -1327,7 +1324,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{url-v1}}restaurantes/1/produtos/12/ativar",
+									"raw": "{{url-v1}}restaurantes/1/produtos/12/ativo",
 									"host": [
 										"{{url-v1}}restaurantes"
 									],
@@ -1335,19 +1332,19 @@
 										"1",
 										"produtos",
 										"12",
-										"ativar"
+										"ativo"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "/restaurantes/{id}/produtos/{id} Copy",
+							"name": "/restaurantes/{id}/produtos/{id}/inativo",
 							"request": {
-								"method": "DELETE",
+								"method": "PUT",
 								"header": [],
 								"url": {
-									"raw": "{{url-v1}}restaurantes/1/produtos/12/desativar",
+									"raw": "{{url-v1}}restaurantes/1/produtos/12/inativo",
 									"host": [
 										"{{url-v1}}restaurantes"
 									],
@@ -1355,7 +1352,7 @@
 										"1",
 										"produtos",
 										"12",
-										"desativar"
+										"inativo"
 									]
 								}
 							},
@@ -2018,14 +2015,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/v3/api-docs",
-							"protocol": "http",
+							"raw": "{{url}}v3/api-docs",
 							"host": [
-								"localhost"
+								"{{url}}v3"
 							],
-							"port": "8080",
 							"path": [
-								"v3",
 								"api-docs"
 							]
 						}
@@ -2038,14 +2032,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/swagger-ui/index.html",
-							"protocol": "http",
+							"raw": "{{url}}swagger-ui/index.html",
 							"host": [
-								"localhost"
+								"{{url}}swagger-ui"
 							],
-							"port": "8080",
 							"path": [
-								"swagger-ui",
 								"index.html"
 							]
 						}
@@ -2098,13 +2089,11 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:8080/oauth/token",
+							"raw": "{{url}}oauth/token",
 							"host": [
-								"localhost"
+								"{{url}}oauth"
 							],
-							"port": "8080",
 							"path": [
-								"oauth",
 								"token"
 							]
 						}
@@ -2154,11 +2143,10 @@
 							]
 						},
 						"url": {
-							"raw": "localhost:8080/oauth/check_token",
+							"raw": "{{url}}/oauth/check_token",
 							"host": [
-								"localhost"
+								"{{url}}"
 							],
-							"port": "8080",
 							"path": [
 								"oauth",
 								"check_token"
@@ -2168,28 +2156,6 @@
 					"response": []
 				}
 			]
-		},
-		{
-			"name": "(teste) github",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://api.github.com/users/GHBAlbuquerque/repos",
-					"protocol": "https",
-					"host": [
-						"api",
-						"github",
-						"com"
-					],
-					"path": [
-						"users",
-						"GHBAlbuquerque",
-						"repos"
-					]
-				}
-			},
-			"response": []
 		},
 		{
 			"name": "Root Entry Point",
@@ -2283,10 +2249,9 @@
 			"type": "string"
 		},
 		{
-			"key": "url-docker",
-			"value": "http://localhost/v1/",
-			"type": "string",
-			"disabled": true
+			"key": "url",
+			"value": "http://localhost:8080/",
+			"type": "string"
 		}
 	]
 }
