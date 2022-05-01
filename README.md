@@ -18,7 +18,7 @@ Here are the technologies used in this project.
 * Postman
 
 ## Class Diagram
-![Diagrama de Classes](https://github.com/GHBAlbuquerque/algaworks-algafood-api/blob/main/src/main/resources/auxiliar/diagrama-de-classes-de-dominio.jpg)
+![Diagrama de Classes](https://github.com/GHBAlbuquerque/algaworks-algafood-api/blob/src/main/resources/auxiliar/diagrama-de-classes-de-dominio.jpg)
 
 *property of Algaworks.
 
