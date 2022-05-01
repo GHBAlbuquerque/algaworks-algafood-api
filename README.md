@@ -17,6 +17,11 @@ Here are the technologies used in this project.
 * Heroku
 * Postman
 
+## Class Diagram
+![Diagrama de Classes](https://github.com/GHBAlbuquerque/algaworks-algafood-api/blob/main/src/main/resources/auxiliar/diagrama-de-classes-de-dominio.jpg)
+
+*property of Algaworks.
+
 ## How to use
 
 This application has been deployed and is available online at: 
@@ -53,10 +58,10 @@ Download or clone this project and run on an IDE (preferably IntelliJ).
 
 Running locally requires you to have JDK 11 or greater installed and a local MySQL Database on port 3306.
 
-- Prepare your IDE by setting up the JDK for the project (Java 11)
-- Wait for Maven to install all dependencies
-- Set the profile to 'dev' on the application.properties file
-- Click the run button on AlgaworksAlgafoodApiApplication
+1. Prepare your IDE by setting up the JDK for the project (Java 11)
+2. Wait for Maven to install all dependencies
+3. Set the profile to 'dev' on the application.properties file
+4. Click the run button on AlgaworksAlgafoodApiApplication
 
 The full Postman Collection is available in case you want to easily test the API:
 
@@ -66,21 +71,37 @@ The full Postman Collection is available in case you want to easily test the API
 
 To do this, you must have docker installed on your machine. If you don't, head over to https://docs.docker.com/desktop/windows/install/ and install the desktop application.
 
-- Set the profile to 'dev' on the application.properties file
-- 
+1. Pull the application image from [Docker Hub](https://hub.docker.com/layers/ghbalbuquerque/algafood-api-ghba/latest/images/sha256:d700da54759acd6a91e99899e8c76343d78bfa4a86dc4f4786b7baa67c5fb7c4)
+2. On the project root folder, use the terminal do run 'docker-compose up'
+3. Wait for the images to be built and the containers to run
+4. To stop the containers, use 'docker compose down'
 
+You can use the local Postman Collection to easily test the API. Just remove port (:8080) from the url variables :
+
+> [Postman Collection - local](https://github.com/GHBAlbuquerque/algaworks-algafood-api/blob/main/src/main/resources/postman/%5BAlgaWorks%5D%20AlgaFood%20-%20ESR.postman_collection.json)
+
+If you wish to generate a docker image of your own, this file might help you with some basic commands
+> [Docker Aux file](https://github.com/GHBAlbuquerque/algaworks-algafood-api/blob/main/src/main/resources/auxiliar/docker_commands.txt)
 
 
 ## Features
 
-- Responsive design with 2 breaks (min-width: 640px and 1024 px);
-- Classy, sober and minimalist design;
-- HTML manipulation with JQuery on Form validation, Content filter, responsive navbar and sliders.
+- Best Design Principles of Rest APIs
+- Hateoas
+- SOLID
+- DDD
+- Exception handling
+- File upload and download
+- Documentation (OpenApi)
+- Authentication and Security with OAuth 2.0
+- Use of Docker
 
 
 ## Links
 
-- Repository: https://github.com/GHBAlbuquerque/Website_SnowFree
+- Repository: https://github.com/GHBAlbuquerque/algaworks-algafood-api
+- Algaworks Website: https://www.algaworks.com/
+- Curso Especialista Spring Rest: https://cafe.algaworks.com/esr-lista-de-espera/
 - In case of sensitive bugs like security vulnerabilities, please contact
 ghb.albuquerque@gmail.com directly instead of using issue tracker. We value your effort
 to improve the security and privacy of this project!
