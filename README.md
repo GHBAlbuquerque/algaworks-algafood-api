@@ -16,6 +16,8 @@ Here are the technologies used in this project.
 * Github
 * Heroku
 * Postman
+* Amazon S3
+* SendGrid
 
 ## Class Diagram
 ![Diagrama de Classes](https://github.com/GHBAlbuquerque/algaworks-algafood-api/blob/main/src/main/resources/auxiliar/diagrama-de-classes-de-dominio.jpg)
@@ -94,7 +96,8 @@ If you wish to generate a docker image of your own, this file might help you wit
 - SOLID
 - DDD
 - Exception handling
-- File upload and download
+- File upload and download with AWS SDK and S3 Bucket
+- Automatic e-mail sending with Spring Email and SendGrid
 - Documentation (OpenApi)
 - Authentication and Security with OAuth 2.0
 - Use of Docker
