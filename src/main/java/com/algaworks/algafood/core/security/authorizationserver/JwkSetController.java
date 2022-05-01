@@ -15,7 +15,6 @@ public class JwkSetController {
 
     @GetMapping("/.well-known/jwks.json")
     public Map<String, Object> keys(){
-        System.out.printf("ENDPOINT CHAVE PUBLICA");
         return this.jwkSet.toJSONObject();
     }
 }

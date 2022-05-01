@@ -1,5 +1,6 @@
 package com.algaworks.algafood.core.autogeneratesql;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,7 @@ public class SchemaSupport {
     public static BeanFactoryPostProcessor limpadorSchemaDdlProcessor() {
         return beanFactory -> {
             try {
-                Files.deleteIfExists(Path.of("src/main/resources/ddl.sql"));
+                Files.deleteIfExists(Path.of("src/main/resources/db/scripts/ddl.sql"));
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }

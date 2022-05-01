@@ -49,3 +49,8 @@ application-test-local.properties
 
 ##classes
 teste.java
+
+
+## logs
+/logs/
+/src/main/resources/auxiliar/ec2_commands.txt
