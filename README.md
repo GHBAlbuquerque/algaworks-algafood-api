@@ -26,7 +26,7 @@ Here are the technologies used in this project.
 
 ## How to use
 
-This application has been deployed and requests can be made using the following link:
+This application has been deployed and requests can be made using the following url:
 > https://algaworks-algafood-api.herokuapp.com/
 
 You can find the full **OpenApi 3.0 documentation** on this link:
