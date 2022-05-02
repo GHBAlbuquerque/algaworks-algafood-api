@@ -106,6 +106,7 @@ If you wish to generate a docker image of your own, this file might help you wit
 ## Links
 
 - Repository: https://github.com/GHBAlbuquerque/algaworks-algafood-api
+- Algaworks repository: https://github.com/algaworks/curso-especialista-spring-rest
 - Algaworks Website: https://www.algaworks.com/
 - Curso Especialista Spring Rest: https://cafe.algaworks.com/esr-lista-de-espera/
 - In case of sensitive bugs like security vulnerabilities, please contact
