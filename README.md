@@ -2,6 +2,8 @@
 
 AlgaFood API is a project of an IFood inspired food delivery service designed by Algaworks. This API allows you to create and manage everything restaurant-related regarding the delivery business. Create a customer base, set and update products, payment methods, managers and keep track of orders - all this designed with the best practices for Rest APIs. 
 
+[Versão em Português](https://github.com/GHBAlbuquerque/algaworks-algafood-api/blob/main/README-PT.md)
+
 ## Technology
 
 Here are the technologies used in this project.
