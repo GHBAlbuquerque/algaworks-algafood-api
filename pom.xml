@@ -20,7 +20,7 @@
         <maven.compiler.target>11</maven.compiler.target>
         <modelmapper.version>3.0.0</modelmapper.version>
         <jasperreports.version>6.18.1</jasperreports.version>
-        <aws-java-sdk-s3.version>1.12.150</aws-java-sdk-s3.version>
+        <aws-java-sdk-s3.version>1.12.261</aws-java-sdk-s3.version>
         <spring-boot-starter-mail.version>2.5.6</spring-boot-starter-mail.version>
         <springfox.version>3.0.0</springfox.version>
         <loggly.version>0.1.5</loggly.version>
